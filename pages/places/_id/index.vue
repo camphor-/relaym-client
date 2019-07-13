@@ -14,8 +14,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import PlaceToolbar from '@/molecules/PlaceToolbar.vue'
-import TrackListContainer from '@/organisms/TrackListContainer.vue'
+import PlaceToolbar from '@/components/molecules/PlaceToolbar.vue'
+import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 
 @Component({
   components: { TrackListContainer, PlaceToolbar }

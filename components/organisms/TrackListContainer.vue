@@ -13,9 +13,9 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import TrackListPlaceHolder from '@/molecules/TrackListPlaceHolder.vue'
+import TrackListPlaceHolder from '@/components/molecules/TrackListPlaceHolder.vue'
 import Track from '@/models/Track'
-import TrackList from '@/molecules/TrackList.vue'
+import TrackList from '@/components/molecules/TrackList.vue'
 
 @Component({
   components: { TrackList, TrackListPlaceHolder }
