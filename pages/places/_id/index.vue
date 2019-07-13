@@ -1,8 +1,9 @@
 <template>
-  <div class="page-root">
+  <div class="page-root hide-overflow">
     <place-toolbar />
-    <div class="list-root">
-      <music-list-container />
+
+    <div class="list-container">
+      <track-list-container />
     </div>
 
     <v-btn fixed fab bottom right dark color="pink">
@@ -14,22 +15,17 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import PlaceToolbar from '@/molecules/PlaceToolbar.vue'
-import MusicListContainer from '@/organisms/MusicListContainer.vue'
+import TrackListContainer from '@/organisms/TrackListContainer.vue'
 
 @Component({
-  components: { MusicListContainer, PlaceToolbar }
+  components: { TrackListContainer, PlaceToolbar }
 })
 export default class extends Vue {}
 </script>
 
 <style lang="scss" scoped>
 .page-root {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.list-root {
-  flex-grow: 1;
+  position: relative;
+  height: calc(100vh - 56px);
 }
 </style>
