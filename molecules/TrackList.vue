@@ -21,7 +21,7 @@ import Track from '@/models/Track'
   components: {}
 })
 export default class extends Vue {
-  @Prop({ default: [] }) readonly items: Track[]
+  @Prop({ default: [] }) readonly items!: Track[]
 }
 </script>
 
