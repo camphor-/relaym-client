@@ -7,18 +7,7 @@
         </a>
       </div>
 
-      <v-card class="new_place">
-        <v-card-title>
-          <span class="card_title">新しい場所を追加する</span>
-        </v-card-title>
-        <v-form>
-          <v-text-field label="place id"></v-text-field>
-          <v-text-field label="Name"></v-text-field>
-          <div class="text-xs-right">
-            <v-btn round color="#0D47A1" class="white_text">追加</v-btn>
-          </div>
-        </v-form>
-      </v-card>
+      <add-place-card />
 
       <v-card class="places_list">
         <v-card-title>
@@ -41,13 +30,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import AddPlaceCard from '@/components/organisms/AddPlaceCard.vue'
 
 interface Place {
   name: string
 }
 
 @Component({
-  components: {},
+  components: { AddPlaceCard },
   layout: 'toppage'
 })
 export default class Index extends Vue {
@@ -68,10 +58,7 @@ export default class Index extends Vue {
   margin: 0 auto;
   min-height: 100vh;
   text-align: center;
-  .new_place {
-    margin-bottom: 20px;
-    padding: 1rem;
-  }
+
   .places_list {
     padding: 10px;
     .place_name {
@@ -79,10 +66,6 @@ export default class Index extends Vue {
       padding: 10px;
     }
   }
-}
-
-.card_title {
-  font-size: 1.5rem;
 }
 
 // Example of Media Query Mixin
