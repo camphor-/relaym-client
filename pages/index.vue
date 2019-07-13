@@ -1,41 +1,46 @@
 <template>
   <v-container>
-    <div class="logo">Here Songs</div>
-    <v-card class="new_place">
-      <v-card-title>
-        <span>新しい場所を追加する</span>
-      </v-card-title>
-      <v-form>
-        <v-text-field label="place id"></v-text-field>
-        <v-text-field label="Name"></v-text-field>
-      </v-form>
-    </v-card>
-    <div class="places_list">
-      <v-list>
-        <template v-for="place in places">
-          <v-list-title :key="place.name">
-            <v-list-tile-content>
-              <v-list-tile-title>{{ place.name }}</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-title>
-        </template>
-      </v-list>
-    </div>
+    <v-flex align-center>
+      <div class="logo">
+        <h1>Here Songs</h1>
+      </div>
+      <v-card class="new_place">
+        <v-card-title>
+          <span>新しい場所を追加する</span>
+        </v-card-title>
+        <v-form>
+          <v-text-field label="place id"></v-text-field>
+          <v-text-field label="Name"></v-text-field>
+        </v-form>
+      </v-card>
+      <v-card class="places_list">
+        <v-card-title>
+          <span>周りの場所</span>
+        </v-card-title>
+        <v-list>
+          <template v-for="place in places">
+            <v-list-title :key="place.name">
+              <v-list-tile-content>
+                <v-list-tile-title>{{ place.name }}</v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-title>
+          </template>
+        </v-list>
+      </v-card>
+    </v-flex>
   </v-container>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import Logo from '~/components/Logo.vue'
 
 interface Place {
   name: string
 }
 
 @Component({
-  components: {
-    Logo
-  }
+  components: {},
+  layout: 'toppage'
 })
 export default class Index extends Vue {
   places: Place[] = [{ name: 'CAMPHOR- HOUSE' }, { name: 'Kyoto University' }]
@@ -52,8 +57,11 @@ export default class Index extends Vue {
   min-height: 100vh;
   text-align: center;
   .new_place {
-    margin: 2rem;
-    max-width: 500px;
+    margin-bottom: 20px;
+    padding: 10px;
+  }
+  .places_list {
+    padding: 10px;
   }
 }
 
