@@ -1,17 +1,26 @@
 <template>
-  <v-container fill-height>
-    <v-layout justify-center align-center>
-      <v-flex shrink>
-        <v-tooltip right>
-          <v-btn slot="activator" icon large href="" target="_blank">
-            <v-icon large>
-              code
-            </v-icon>
-          </v-btn>
-          <span>Source</span>
-        </v-tooltip>
-      </v-flex>
-    </v-layout>
+  <v-container>
+    <div class="logo">Here Songs</div>
+    <v-card class="new_place">
+      <v-card-title>
+        <span>新しい場所を追加する</span>
+      </v-card-title>
+      <v-form>
+        <v-text-field label="place id"></v-text-field>
+        <v-text-field label="Name"></v-text-field>
+      </v-form>
+    </v-card>
+    <div class="places_list">
+      <v-list>
+        <template v-for="place in places">
+          <v-list-title :key="place.name">
+            <v-list-tile-content>
+              <v-list-tile-title>{{ place.name }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-title>
+        </template>
+      </v-list>
+    </div>
   </v-container>
 </template>
 
@@ -19,22 +28,33 @@
 import { Component, Vue } from 'vue-property-decorator'
 import Logo from '~/components/Logo.vue'
 
+interface Place {
+  name: string
+}
+
 @Component({
   components: {
     Logo
   }
 })
-export default class Index extends Vue {}
+export default class Index extends Vue {
+  places: Place[] = [{ name: 'CAMPHOR- HOUSE' }, { name: 'Kyoto University' }]
+}
 </script>
 
 <style lang="scss" scoped>
+.logo {
+  font-size: 3rem;
+}
+
 .container {
   margin: 0 auto;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   text-align: center;
+  .new_place {
+    margin: 2rem;
+    max-width: 500px;
+  }
 }
 
 // Example of Media Query Mixin
