@@ -1,7 +1,7 @@
 {
-  "name": "nuxt-ts-scaffold",
+  "name": "Here Songs",
   "version": "1.0.0",
-  "description": "Scaffold for a project using Nuxt.js with TypeScript",
+  "description": "CAMPHOR- 合宿 2019",
   "author": "dora1998",
   "private": true,
   "scripts": {
