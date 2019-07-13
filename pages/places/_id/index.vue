@@ -28,4 +28,9 @@ export default class extends Vue {}
   position: relative;
   height: calc(100vh - 56px);
 }
+
+.list-container {
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+}
 </style>
