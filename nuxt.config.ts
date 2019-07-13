@@ -37,7 +37,8 @@ const nuxtConfig: NuxtConfiguration = {
    */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    '@nuxtjs/style-resources'
   ],
   /*
    ** Axios module configuration
@@ -65,6 +66,10 @@ const nuxtConfig: NuxtConfiguration = {
         })
       }
     }
+  },
+
+  styleResources: {
+    scss: ['~/assets/scss/variables.scss', '~/assets/scss/mixins.scss']
   }
 }
 
