@@ -1,0 +1,45 @@
+{
+  "name": "nuxt-ts-scaffold",
+  "version": "1.0.0",
+  "description": "Scaffold for a project using Nuxt.js with TypeScript",
+  "author": "dora1998",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore .",
+    "precommit": "npm run lint"
+  },
+  "dependencies": {
+    "@nuxt/typescript": "^2.6.1",
+    "@nuxtjs/axios": "^5.4.1",
+    "cross-env": "^5.2.0",
+    "nuxt": "^2.6.1",
+    "ts-node": "^8.0.3",
+    "typescript": "^3.4.2",
+    "vue-property-decorator": "^8.1.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/eslint-config": "^0.0.1",
+    "@typescript-eslint/eslint-plugin": "^1.6.0",
+    "@typescript-eslint/parser": "^1.6.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-config-standard": ">=12.0.0",
+    "eslint-loader": "^2.1.2",
+    "eslint-plugin-import": ">=2.16.0",
+    "eslint-plugin-jest": ">=22.4.1",
+    "eslint-plugin-node": ">=8.0.1",
+    "eslint-plugin-nuxt": ">=0.4.3",
+    "eslint-plugin-prettier": "3.0.1",
+    "eslint-plugin-promise": ">=4.1.1",
+    "eslint-plugin-standard": ">=4.0.0",
+    "eslint-plugin-vue": "^5.2.2",
+    "nodemon": "^1.18.10",
+    "prettier": "1.16.4",
+    "typesync": "^0.5.1"
+  }
+}
