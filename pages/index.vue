@@ -2,7 +2,9 @@
   <v-container>
     <v-flex align-center>
       <div class="logo">
-        <h1>Here Songs</h1>
+        <a href="/">
+          <img src="~assets/images/logo_toppage.svg" />
+        </a>
       </div>
 
       <v-card class="new_place">
