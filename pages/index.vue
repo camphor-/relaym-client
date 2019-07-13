@@ -1,27 +1,18 @@
 <template>
-  <section class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        nuxt-ts-scaffold
-      </h1>
-      <h2 class="subtitle">
-        Scaffold for a project using Nuxt.js with TypeScript
-      </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
-      </div>
-    </div>
-  </section>
+  <v-container fill-height>
+    <v-layout justify-center align-center>
+      <v-flex shrink>
+        <v-tooltip right>
+          <v-btn slot="activator" icon large href="" target="_blank">
+            <v-icon large>
+              code
+            </v-icon>
+          </v-btn>
+          <span>Source</span>
+        </v-tooltip>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script lang="ts">
