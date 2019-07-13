@@ -16,6 +16,7 @@
     "@nuxt/typescript": "^2.8.1",
     "@nuxtjs/axios": "^5.5.4",
     "@nuxtjs/style-resources": "^0.1.2",
+    "@nuxtjs/vuetify": "^0.5.6",
     "cross-env": "^5.2.0",
     "nuxt": "^2.8.1",
     "ts-node": "^8.3.0",

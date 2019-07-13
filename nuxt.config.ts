@@ -38,7 +38,8 @@ const nuxtConfig: NuxtConfiguration = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    '@nuxtjs/style-resources'
+    '@nuxtjs/style-resources',
+    '@nuxtjs/vuetify'
   ],
   /*
    ** Axios module configuration
@@ -70,6 +71,16 @@ const nuxtConfig: NuxtConfiguration = {
 
   styleResources: {
     scss: ['~/assets/scss/variables.scss', '~/assets/scss/mixins.scss']
+  },
+
+  vuetify: {
+    // Vuetify の設定はここに書く
+    theme: {
+      primary: '#3f51b5',
+      secondary: '#b0bec5',
+      accent: '#8c9eff',
+      error: '#b71c1c'
+    }
   }
 }
 
