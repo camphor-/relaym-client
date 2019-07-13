@@ -30,4 +30,8 @@ export default class extends Vue {}
   margin-bottom: 20px;
   padding: 1rem;
 }
+
+.white_text {
+  color: white;
+}
 </style>

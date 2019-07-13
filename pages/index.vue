@@ -8,22 +8,7 @@
       </div>
 
       <add-place-card />
-
-      <v-card class="places_list">
-        <v-card-title>
-          <span class="card_title">周りの場所</span>
-        </v-card-title>
-        <v-list>
-          <template v-for="(place, index) in places">
-            <v-list-title :key="place.name">
-              <v-list-tile-content class="place_name">
-                <v-list-tile-title>{{ place.name }}</v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-title>
-            <v-divider :key="index"></v-divider>
-          </template>
-        </v-list>
-      </v-card>
+      <places-list :places="places" />
     </v-flex>
   </v-container>
 </template>
@@ -31,13 +16,14 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import AddPlaceCard from '@/components/organisms/AddPlaceCard.vue'
+import PlacesList from '@/components/organisms/PlacesList.vue'
 
 interface Place {
   name: string
 }
 
 @Component({
-  components: { AddPlaceCard },
+  components: { AddPlaceCard, PlacesList },
   layout: 'toppage'
 })
 export default class Index extends Vue {
@@ -50,22 +36,10 @@ export default class Index extends Vue {
   font-size: 3rem;
 }
 
-.white_text {
-  color: white;
-}
-
 .container {
   margin: 0 auto;
   min-height: 100vh;
   text-align: center;
-
-  .places_list {
-    padding: 10px;
-    .place_name {
-      font-size: 1.2rem;
-      padding: 10px;
-    }
-  }
 }
 
 // Example of Media Query Mixin
