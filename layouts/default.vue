@@ -1,14 +1,22 @@
 <template>
   <v-app>
-    <v-navigation-drawer app></v-navigation-drawer>
-    <v-toolbar app></v-toolbar>
     <v-content>
+      <header-logo />
       <nuxt />
     </v-content>
   </v-app>
 </template>
 
-<style>
+<script>
+import { Component, Vue } from 'vue-property-decorator'
+import HeaderLogo from '@/components/molecules/HeaderLogo'
+@Component({
+  components: { HeaderLogo }
+})
+export default class extends Vue {}
+</script>
+
+<style lang="scss">
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;

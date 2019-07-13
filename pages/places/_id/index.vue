@@ -1,6 +1,6 @@
 <template>
   <div class="page-root hide-overflow">
-    <place-toolbar />
+    <place-toolbar class="toolbar" />
 
     <div class="list-container">
       <track-list-container />
@@ -26,11 +26,20 @@ export default class extends Vue {}
 <style lang="scss" scoped>
 .page-root {
   position: relative;
-  height: calc(100vh - 56px);
-}
+  height: calc(100vh - #{$header-logo-height});
+  display: grid;
+  grid-template:
+    'toolbar' auto
+    'list' 1fr
+    / 1fr;
 
-.list-container {
-  height: calc(100vh - 56px);
-  overflow-y: auto;
+  > .toolbar {
+    grid-area: toolbar;
+  }
+
+  > .list-container {
+    grid-area: list;
+    overflow-y: auto;
+  }
 }
 </style>
