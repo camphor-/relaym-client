@@ -4,14 +4,16 @@
       <span class="card_title">周りの場所</span>
     </v-card-title>
     <v-list>
-      <template v-for="(place, index) in places">
-        <v-list-title :key="place.name">
-          <v-list-tile-content class="place_name">
-            <v-list-tile-title>{{ place.name }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-title>
-        <v-divider :key="index"></v-divider>
-      </template>
+      <v-list-tile
+        v-for="(place, index) in places"
+        :key="place.name"
+        @click="1"
+      >
+        <v-list-tile-content>
+          <v-list-tile-title v-text="place.name"></v-list-tile-title>
+          <v-divider :key="index"></v-divider>
+        </v-list-tile-content>
+      </v-list-tile>
     </v-list>
   </v-card>
 </template>
