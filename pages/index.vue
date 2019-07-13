@@ -14,6 +14,9 @@
         <v-form>
           <v-text-field label="place id"></v-text-field>
           <v-text-field label="Name"></v-text-field>
+          <div class="text-xs-right">
+            <v-btn round color="#0D47A1" class="white_text">追加</v-btn>
+          </div>
         </v-form>
       </v-card>
 
@@ -55,6 +58,10 @@ export default class Index extends Vue {
 <style lang="scss" scoped>
 .logo {
   font-size: 3rem;
+}
+
+.white_text {
+  color: white;
 }
 
 .container {
