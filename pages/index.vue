@@ -4,26 +4,29 @@
       <div class="logo">
         <h1>Here Songs</h1>
       </div>
+
       <v-card class="new_place">
         <v-card-title>
-          <span>新しい場所を追加する</span>
+          <span class="card_title">新しい場所を追加する</span>
         </v-card-title>
         <v-form>
           <v-text-field label="place id"></v-text-field>
           <v-text-field label="Name"></v-text-field>
         </v-form>
       </v-card>
+
       <v-card class="places_list">
         <v-card-title>
-          <span>周りの場所</span>
+          <span class="card_title">周りの場所</span>
         </v-card-title>
         <v-list>
-          <template v-for="place in places">
+          <template v-for="(place, index) in places">
             <v-list-title :key="place.name">
-              <v-list-tile-content>
+              <v-list-tile-content class="place_name">
                 <v-list-tile-title>{{ place.name }}</v-list-tile-title>
               </v-list-tile-content>
             </v-list-title>
+            <v-divider :key="index"></v-divider>
           </template>
         </v-list>
       </v-card>
@@ -58,11 +61,19 @@ export default class Index extends Vue {
   text-align: center;
   .new_place {
     margin-bottom: 20px;
-    padding: 10px;
+    padding: 1rem;
   }
   .places_list {
     padding: 10px;
+    .place_name {
+      font-size: 1.2rem;
+      padding: 10px;
+    }
   }
+}
+
+.card_title {
+  font-size: 1.5rem;
 }
 
 // Example of Media Query Mixin
