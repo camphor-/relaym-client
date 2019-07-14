@@ -7,6 +7,9 @@
         :href="trackHref + item.id"
         target="_blank"
       >
+        <v-list-tile-avatar tile>
+          <img :src="item.album.images[1].url" />
+        </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title>{{ item.name }}</v-list-tile-title>
           <v-list-tile-sub-title
@@ -20,6 +23,9 @@
       <div v-if="playingTrack" class="playing">
         <v-subheader id="playingSubHeader">再生中</v-subheader>
         <v-list-tile :href="trackHref + playingTrack.id" target="_blank">
+          <v-list-tile-avatar tile>
+            <img :src="playingTrack.album.images[1].url" />
+          </v-list-tile-avatar>
           <v-list-tile-content v-if="playingTrack">
             <v-list-tile-title>{{ playingTrack.name }}</v-list-tile-title>
             <v-list-tile-sub-title
@@ -38,6 +44,9 @@
             :href="trackHref + item.id"
             target="_blank"
           >
+            <v-list-tile-avatar tile>
+              <img :src="item.album.images[1].url" />
+            </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title
                 >{{ index }}. {{ item.name }}</v-list-tile-title
