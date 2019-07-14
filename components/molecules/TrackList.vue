@@ -1,15 +1,41 @@
 <template>
   <v-list two-line>
-    <template v-for="(item, index) in items">
+    <v-subheader v-if="playedTracks.length > 0">再生済み</v-subheader>
+    <template v-for="item in playedTracks">
       <v-list-tile :key="item.title">
         <v-list-tile-content>
-          <v-list-tile-title>{{ index }}. {{ item.name }}</v-list-tile-title>
+          <v-list-tile-title>{{ item.name }}</v-list-tile-title>
           <v-list-tile-sub-title
             >{{ item.album.name }} - {{ item.artists[0].name }}
           </v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
     </template>
+    <div v-if="playingTrack">
+      <v-subheader>再生中</v-subheader>
+      <v-list-tile>
+        <v-list-tile-content v-if="playingTrack">
+          <v-list-tile-title>{{ playingTrack.name }}</v-list-tile-title>
+          <v-list-tile-sub-title
+            >{{ playingTrack.album.name }} -
+            {{ playingTrack.artists[0].name }}
+          </v-list-tile-sub-title>
+        </v-list-tile-content>
+      </v-list-tile>
+    </div>
+    <div v-if="waitingTracks.length > 0">
+      <v-subheader>再生待ち</v-subheader>
+      <template v-for="(item, index) in waitingTracks">
+        <v-list-tile :key="item.title">
+          <v-list-tile-content>
+            <v-list-tile-title>{{ index }}. {{ item.name }}</v-list-tile-title>
+            <v-list-tile-sub-title
+              >{{ item.album.name }} - {{ item.artists[0].name }}
+            </v-list-tile-sub-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </template>
+    </div>
   </v-list>
 </template>
 
@@ -21,7 +47,9 @@ import Track from '@/models/Track'
   components: {}
 })
 export default class extends Vue {
-  @Prop({ default: [] }) readonly items!: Track[]
+  @Prop({ default: [] }) readonly playedTracks!: Track[]
+  @Prop({ default: null }) readonly playingTrack!: Track | null
+  @Prop({ default: [] }) readonly waitingTracks!: Track[]
 }
 </script>
 

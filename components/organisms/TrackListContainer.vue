@@ -2,7 +2,11 @@
   <div class="container-root">
     <template v-if="trackList">
       <div class="list-root">
-        <track-list :items="trackList" />
+        <track-list
+          :played-tracks="getPlayedTracks"
+          :playing-track="getPlayingTrack"
+          :waiting-tracks="getWaitingTracks"
+        />
       </div>
     </template>
     <template v-else>
@@ -13,9 +17,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import TrackListPlaceHolder from '@/components/molecules/TrackListPlaceHolder.vue'
 import TrackList from '@/components/molecules/TrackList.vue'
+import Track from '@/models/Track'
 
 @Component({
   components: { TrackList, TrackListPlaceHolder },
@@ -23,14 +28,25 @@ import TrackList from '@/components/molecules/TrackList.vue'
     ...mapActions('tracklist', ['fetchTrackList'])
   },
   computed: {
-    ...mapState('tracklist', ['trackList'])
+    ...mapState('tracklist', ['trackList']),
+    ...mapGetters('tracklist', [
+      'getPlayedTracks',
+      'getPlayingTrack',
+      'getWaitingTracks'
+    ])
   }
 })
 export default class extends Vue {
   private fetchTrackList!: (payload: {}) => void
+  private getPlayedTracks!: (payload: {}) => Track[]
+  private getPlayingTrack!: (payload: {}) => Track
+  private getWaitingTracks!: (payload: {}) => Track[]
   mounted() {
     this.fetchTrackList({})
   }
+  // playedTracks = this.getPlayedTracks({})
+  // playingTrack = this.getPlayingTrack({})
+  // waitingTracks = this.getWaitingTracks({})
 }
 </script>
 

@@ -12,6 +12,18 @@ export const state = () => ({
   playing: false
 })
 
+export const getters = {
+  getPlayedTracks(state: State): Track[] {
+    return state.trackList.slice(0, state.playingTrackId)
+  },
+  getPlayingTrack(state: State): Track {
+    return state.trackList[state.playingTrackId]
+  },
+  getWaitingTracks(state: State): Track[] {
+    return state.trackList.slice(state.playingTrackId + 1)
+  }
+}
+
 export const mutations = {
   setTrackList: (state: State, trackList: Track[]) => {
     state.trackList = trackList
