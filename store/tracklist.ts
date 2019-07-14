@@ -22,7 +22,7 @@ export const mutations = {
   setPlayback: (state: State, playing: boolean) => {
     state.playing = playing
   },
-  nextSong: (state: State, newTrackId: number) => {
+  nextTrack: (state: State, newTrackId: number) => {
     state.playingTrackId = newTrackId
   }
 }
