@@ -11,6 +11,7 @@
     "target": "es5",
     "strict": true,
     "module": "es2015",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "noImplicitAny": false
   },
 }
