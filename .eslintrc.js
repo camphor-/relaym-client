@@ -22,6 +22,7 @@ module.exports = {
   rules: {
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
+    'no-undef': 'off',
     'no-console': 'warn',
     // cf) http://fpg.hateblo.jp/entry/2019/04/14/155041
     'no-restricted-globals': [

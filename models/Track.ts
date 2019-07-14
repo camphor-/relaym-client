@@ -1,7 +1,7 @@
 import Artist from '@/models/Artist'
 import Album from '@/models/Album'
 
-export default interface {
+interface Track {
   album: Album
   artists: Artist[]
   duration_ms: number
@@ -10,3 +10,4 @@ export default interface {
   name: string
   preview_url: string
 }
+export default Track
