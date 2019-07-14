@@ -17,6 +17,7 @@ export default class extends Vue {}
 </script>
 
 <style lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Pacifico&display=swap');
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;
