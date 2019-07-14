@@ -7,7 +7,7 @@
     </div>
 
     <nuxt-link :to="{ path: '/search', query: { redirect_to: $route.path } }">
-      <v-btn fixed fab bottom right dark color="pink">
+      <v-btn fixed fab bottom right dark color="accent">
         <v-icon>add</v-icon>
       </v-btn>
     </nuxt-link>
