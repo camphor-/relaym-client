@@ -457,10 +457,9 @@ export const actions: any = {
     commit('setTrackList', trackList)
   },
   async addTrack({ commit }, trackId: string) {
-    const newTrack: any = await this.$axios.$put('/add_track', {
-      uri: 'spotify:track:1queJZlgboTAvm5wYc2RTK'
-    })
-    // commit('addTrack', newTrack)
+    // const newTrack: any = await this.$axios.$put('/add_track', {
+    //   uri: 'spotify:track:1queJZlgboTAvm5wYc2RTK'
+    // })
   },
   togglePlayback({ commit, state }) {
     commit('setPlayback', !state.playing)

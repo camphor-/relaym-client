@@ -7,19 +7,19 @@ const WebSocketPlugin = (store: any) => {
   const socket = new WebSocket(SOCKET_URL)
   socket.onmessage = (e: MessageEvent) => {
     console.log(e.data)
-    const message = e.data as SocketMessage
-    switch (message.cmd) {
-      case 'addTrack':
-        store.commit('addTrack', message.track)
+    const message = JSON.parse(e.data) as SocketMessage
+    switch (message.type) {
+      case 'ADDTRACK':
+        store.commit('tracklist/addTrack', message.track)
         break
-      case 'nextTrack':
-        store.commit('nextTrack', message.head)
+      case 'NEXTTRACK':
+        store.commit('tracklist/nextTrack', message.head)
         break
-      case 'pause':
-        store.commit('setPlayback', false)
+      case 'PAUSE':
+        store.commit('tracklist/setPlayback', false)
         break
-      case 'resume':
-        store.commit('setPlayback', true)
+      case 'RESUME':
+        store.commit('tracklist/setPlayback', true)
         break
       default:
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

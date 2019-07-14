@@ -1,21 +1,21 @@
 import Track from '@/models/Track'
 
 export interface AddTrackMessage {
-  cmd: 'addTrack'
+  type: 'ADDTRACK'
   track: Track
 }
 
 export interface NextTrackMessage {
-  cmd: 'nextTrack'
+  type: 'NEXTTRACK'
   head: number
 }
 
 export interface PauseMessage {
-  cmd: 'pause'
+  type: 'PAUSE'
 }
 
 export interface ResumeMessage {
-  cmd: 'resume'
+  type: 'RESUME'
 }
 
 export type SocketMessage =
