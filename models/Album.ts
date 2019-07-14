@@ -1,10 +1,11 @@
 import Artist from '@/models/Artist'
 import Image from '@/models/Image'
 
-export default interface {
+interface Album {
   artists: Artist[]
   href: string
   id: string
-  images:Image[]
+  images: Image[]
   name: string
 }
+export default Album
