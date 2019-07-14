@@ -2,10 +2,14 @@ import Track from '@/models/Track'
 
 interface State {
   trackList: Track[]
+  playingTrackId: number
+  playing: boolean
 }
 
 export const state = () => ({
-  trackList: []
+  trackList: [],
+  playingTrackId: 0,
+  playing: false
 })
 
 export const mutations = {
@@ -14,6 +18,12 @@ export const mutations = {
   },
   addTrack: (state: State, newTrack: Track) => {
     state.trackList.push(newTrack)
+  },
+  setPlayback: (state: State, playing: boolean) => {
+    state.playing = playing
+  },
+  nextSong: (state: State, newTrackId: number) => {
+    state.playingTrackId = newTrackId
   }
 }
 
@@ -449,6 +459,12 @@ export const actions = {
   addTrack({ commit }, trackId: string) {
     const newTrack = getNewTrack(trackId)
     commit('addTrack', newTrack)
+  },
+  togglePlayback({ commit, state }) {
+    commit('setPlayback', !state.playing)
+  },
+  nextSong({ commit }, newTrackId: number) {
+    commit('nextSong', newTrackId)
   }
 }
 
