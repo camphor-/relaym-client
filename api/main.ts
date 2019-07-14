@@ -10,9 +10,9 @@ export default {
     const res = await instance.get('/queue')
     return res.data as Track[]
   },
-  addTrack: async (trackId: string) => {
+  addTrack: async (trackURI: string) => {
     const res = await instance.post('/add_track', {
-      uri: `spotify:track:${trackId}`
+      uri: trackURI
     })
     return res.data
   }
