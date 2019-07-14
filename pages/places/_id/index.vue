@@ -6,9 +6,11 @@
       <track-list-container />
     </div>
 
-    <v-btn fixed fab bottom right dark color="pink">
-      <v-icon>add</v-icon>
-    </v-btn>
+    <nuxt-link :to="{ path: '/search', query: { redirect_to: $route.path } }">
+      <v-btn fixed fab bottom right dark color="accent">
+        <v-icon>add</v-icon>
+      </v-btn>
+    </nuxt-link>
   </div>
 </template>
 
@@ -20,7 +22,13 @@ import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 @Component({
   components: { TrackListContainer, PlaceToolbar }
 })
-export default class extends Vue {}
+export default class extends Vue {
+  mounted() {
+    if ('add_track' in this.$route.query) {
+      console.log(`add track ${this.$route.query.add_track}`)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

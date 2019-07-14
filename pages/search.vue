@@ -7,7 +7,7 @@
       single-line
       placeholder="曲名, アルバム名, アーティスト名"
     />
-    <search-result-list :items="items" />
+    <search-result-list :items="items" @click-item="finish" />
   </v-container>
 </template>
 
@@ -445,6 +445,16 @@ export default class extends Vue {
         'https://p.scdn.co/mp3-preview/2b0662a46dd466f818babe695b9f77f457dee734?cid=774b29d4f13844c495f206cafdad9c86'
     }
   ]
+
+  finish(id: string) {
+    const redirectPath: string | null = <string | null>(
+      this.$route.query.redirect_to
+    )
+    this.$router.push({
+      path: redirectPath || '/',
+      query: { add_track: id }
+    })
+  }
 }
 </script>
 

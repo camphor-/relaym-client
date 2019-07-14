@@ -1,7 +1,7 @@
 <template>
   <v-list two-line class="result-list">
     <template v-for="item in items">
-      <v-list-tile :key="item.title" avatar>
+      <v-list-tile :key="item.title" avatar @click="clickItem(item.id)">
         <v-list-tile-avatar tile>
           <img
             :src="item.album.images[2].url"
@@ -21,7 +21,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 import Track from '@/models/Track'
 
 @Component({
@@ -29,6 +29,11 @@ import Track from '@/models/Track'
 })
 export default class extends Vue {
   @Prop({ default: [] }) readonly items!: Track[]
+
+  @Emit()
+  clickItem(id: string) {
+    return id
+  }
 }
 </script>
 
