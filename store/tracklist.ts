@@ -19,8 +19,8 @@ export const mutations = {
   addTrack: (state: State, newTrack: Track) => {
     state.trackList.push(newTrack)
   },
-  togglePlayback: (state: State) => {
-    state.playing = !state.playing
+  setPlayback: (state: State, playing: boolean) => {
+    state.playing = playing
   },
   nextSong: (state: State, newTrackId: number) => {
     state.playingTrackId = newTrackId
@@ -460,8 +460,8 @@ export const actions = {
     const newTrack = getNewTrack(trackId)
     commit('addTrack', newTrack)
   },
-  togglePlayback({ commit }) {
-    commit('togglePlayback')
+  togglePlayback({ commit, state }) {
+    commit('setPlayback', !state.playing)
   },
   nextSong({ commit }, newTrackId: number) {
     commit('nextSong', newTrackId)
