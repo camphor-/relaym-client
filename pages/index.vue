@@ -8,7 +8,7 @@
       </div>
 
       <add-place-card />
-      <places-list :places="places" />
+      <places-list :places="places" @click="goPlacePage" />
     </v-flex>
   </v-container>
 </template>
@@ -27,7 +27,16 @@ interface Place {
   layout: 'toppage'
 })
 export default class Index extends Vue {
-  places: Place[] = [{ name: 'CAMPHOR- HOUSE' }, { name: 'Kyoto University' }]
+  places: Place[] = [
+    { id: 'camphor-', name: 'CAMPHOR- HOUSE' },
+    { id: 'ku', name: 'Kyoto University' }
+  ]
+
+  goPlacePage(id: string) {
+    this.$router.push({
+      path: `/places/${id}`
+    })
+  }
 }
 </script>
 
