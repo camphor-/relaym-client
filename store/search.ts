@@ -53,6 +53,9 @@ export const actions = {
           }
         ],
         duration_ms: 328786,
+        external_urls: {
+          spotify: 'https://open.spotify.com/track/6PAVYkfGLNidSQRDZOANCI'
+        },
         href: 'https://api.spotify.com/v1/tracks/6PAVYkfGLNidSQRDZOANCI',
         id: '6PAVYkfGLNidSQRDZOANCI',
         name: 'StarRingChild',
@@ -100,6 +103,9 @@ export const actions = {
           }
         ],
         duration_ms: 231506,
+        external_urls: {
+          spotify: 'https://open.spotify.com/track/6PAVYkfGLNidSQRDZOANCI'
+        },
         href: 'https://api.spotify.com/v1/tracks/6z80TolVbWQb87u4Se77ec',
         id: '6z80TolVbWQb87u4Se77ec',
         name: 'Brave Shine',
@@ -147,6 +153,9 @@ export const actions = {
           }
         ],
         duration_ms: 252973,
+        external_urls: {
+          spotify: 'https://open.spotify.com/track/6PAVYkfGLNidSQRDZOANCI'
+        },
         href: 'https://api.spotify.com/v1/tracks/67z29VfVjdmjjNx5hRCXFv',
         id: '67z29VfVjdmjjNx5hRCXFv',
         name: 'insane dream',
@@ -194,6 +203,9 @@ export const actions = {
           }
         ],
         duration_ms: 274493,
+        external_urls: {
+          spotify: 'https://open.spotify.com/track/6PAVYkfGLNidSQRDZOANCI'
+        },
         href: 'https://api.spotify.com/v1/tracks/6dlqtdwF2mVWcN9WdtnsTh',
         id: '6dlqtdwF2mVWcN9WdtnsTh',
         name: '眠りの森',
@@ -241,6 +253,9 @@ export const actions = {
           }
         ],
         duration_ms: 318480,
+        external_urls: {
+          spotify: 'https://open.spotify.com/track/6PAVYkfGLNidSQRDZOANCI'
+        },
         href: 'https://api.spotify.com/v1/tracks/5uxHqiXHmCv4CGxHiqqSfE',
         id: '5uxHqiXHmCv4CGxHiqqSfE',
         name: 'LAST STARDUST',
@@ -288,6 +303,9 @@ export const actions = {
           }
         ],
         duration_ms: 226360,
+        external_urls: {
+          spotify: 'https://open.spotify.com/track/6PAVYkfGLNidSQRDZOANCI'
+        },
         href: 'https://api.spotify.com/v1/tracks/72U5Pm8g86Mxl73eCtFh62',
         id: '72U5Pm8g86Mxl73eCtFh62',
         name: '凍えそうな季節から -extended ver.-',
@@ -335,6 +353,9 @@ export const actions = {
           }
         ],
         duration_ms: 294160,
+        external_urls: {
+          spotify: 'https://open.spotify.com/track/6PAVYkfGLNidSQRDZOANCI'
+        },
         href: 'https://api.spotify.com/v1/tracks/6lYJi0WfmdfHbRnl3CsBl0',
         id: '6lYJi0WfmdfHbRnl3CsBl0',
         name: '誰か、海を。',
@@ -382,6 +403,9 @@ export const actions = {
           }
         ],
         duration_ms: 260773,
+        external_urls: {
+          spotify: 'https://open.spotify.com/track/6PAVYkfGLNidSQRDZOANCI'
+        },
         href: 'https://api.spotify.com/v1/tracks/4BN18XBNMkS1Sol9iaZWJP',
         id: '4BN18XBNMkS1Sol9iaZWJP',
         name: 'ninelie',
@@ -429,6 +453,9 @@ export const actions = {
           }
         ],
         duration_ms: 275306,
+        external_urls: {
+          spotify: 'https://open.spotify.com/track/6PAVYkfGLNidSQRDZOANCI'
+        },
         href: 'https://api.spotify.com/v1/tracks/1queJZlgboTAvm5wYc2RTK',
         id: '1queJZlgboTAvm5wYc2RTK',
         name: 'holLow wORlD',

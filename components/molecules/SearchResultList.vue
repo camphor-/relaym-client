@@ -1,7 +1,7 @@
 <template>
   <v-list two-line class="result-list">
     <template v-for="item in items">
-      <v-list-tile :key="item.title" avatar @click="clickItem(item.id)">
+      <v-list-tile :key="item.title" :href="trackHref + item.id">
         <v-list-tile-avatar tile>
           <img
             :src="item.album.images[2].url"
@@ -15,6 +15,11 @@
             {{ item.album.name }} - {{ item.artists[0].name }}
           </v-list-tile-sub-title>
         </v-list-tile-content>
+        <v-list-tile-action>
+          <v-btn icon @click="clickItem(item.id)">
+            <v-icon color="primary">add_circle</v-icon>
+          </v-btn>
+        </v-list-tile-action>
       </v-list-tile>
     </template>
   </v-list>
