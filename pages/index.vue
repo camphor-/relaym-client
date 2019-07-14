@@ -18,16 +18,12 @@ import { Component, Vue } from 'vue-property-decorator'
 import AddPlaceCard from '@/components/organisms/AddPlaceCard.vue'
 import PlacesList from '@/components/organisms/PlacesList.vue'
 
-interface Place {
-  name: string
-}
-
 @Component({
   components: { AddPlaceCard, PlacesList },
   layout: 'toppage'
 })
 export default class Index extends Vue {
-  places: Place[] = [
+  places = [
     { id: 'camphor-', name: 'CAMPHOR- HOUSE' },
     { id: 'ku', name: 'Kyoto University' }
   ]

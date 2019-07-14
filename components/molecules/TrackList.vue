@@ -4,7 +4,7 @@
     <template v-for="item in playedTracks">
       <v-list-tile
         :key="item.title"
-        :href="trackHref + item.id"
+        :href="item.external_urls.spotify"
         target="_blank"
       >
         <v-list-tile-avatar tile>
@@ -22,7 +22,7 @@
     <div id="windowWrapper">
       <div v-if="playingTrack" class="playing">
         <v-subheader id="playingSubHeader">Now Playing ...</v-subheader>
-        <v-list-tile :href="trackHref + playingTrack.id" target="_blank">
+        <v-list-tile :href="playingTrack.external_urls.spotify" target="_blank">
           <v-list-tile-avatar tile>
             <img :src="playingTrack.album.images[1].url" />
           </v-list-tile-avatar>
@@ -41,7 +41,7 @@
         <template v-for="(item, index) in waitingTracks">
           <v-list-tile
             :key="item.title"
-            :href="trackHref + item.id"
+            :href="item.external_urls.spotify"
             target="_blank"
           >
             <v-list-tile-avatar tile>
@@ -74,8 +74,6 @@ export default class extends Vue {
   @Prop({ default: [] }) readonly playedTracks!: Track[]
   @Prop({ default: null }) readonly playingTrack!: Track | null
   @Prop({ default: [] }) readonly waitingTracks!: Track[]
-
-  trackHref = 'https://open.spotify.com/track/'
 
   updated() {
     this.$el.getElementsByClassName('playing')[0].scrollIntoView()
