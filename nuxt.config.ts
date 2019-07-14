@@ -94,13 +94,6 @@ const nuxtConfig: NuxtConfiguration = {
     '@nuxtjs/vuetify',
     '@nuxtjs/pwa'
   ],
-  /*
-   ** Axios module configuration
-   */
-  axios: {
-    baseURL: 'http://localhost:8080/api/v1',
-    debug: true
-  },
 
   /*
    ** Build configuration
