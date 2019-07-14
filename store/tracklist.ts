@@ -8,7 +8,7 @@ interface State {
 
 export const state = () => ({
   trackList: [],
-  playingTrackId: 0,
+  playingTrackId: 4,
   playing: false
 })
 
