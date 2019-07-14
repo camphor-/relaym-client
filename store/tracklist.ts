@@ -21,6 +21,9 @@ export const mutations = {
   },
   togglePlayback: (state: State) => {
     state.playing = !state.playing
+  },
+  nextSong: (state: State, newTrackId: number) => {
+    state.playingTrackId = newTrackId
   }
 }
 
@@ -459,6 +462,9 @@ export const actions = {
   },
   togglePlayback({ commit }) {
     commit('togglePlayback')
+  },
+  nextSong({ commit }, newTrackId: number) {
+    commit('nextSong', newTrackId)
   }
 }
 
