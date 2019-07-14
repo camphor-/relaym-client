@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar color="elevation-0" dark>
+  <v-toolbar color="elevation-0 primary" dark>
     <v-toolbar-title>CAMPHOR- HOUSE</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-btn icon>

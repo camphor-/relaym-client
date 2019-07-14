@@ -6,11 +6,16 @@
       <track-list-container />
     </div>
 
-    <nuxt-link :to="{ path: '/search', query: { redirect_to: $route.path } }">
-      <v-btn fixed fab bottom right dark color="accent">
-        <v-icon>add</v-icon>
+    <div class="fabs">
+      <v-btn fab dark color="primary">
+        <v-icon>play_arrow</v-icon>
       </v-btn>
-    </nuxt-link>
+      <nuxt-link :to="{ path: '/search', query: { redirect_to: $route.path } }">
+        <v-btn fab dark color="accent">
+          <v-icon>add</v-icon>
+        </v-btn>
+      </nuxt-link>
+    </div>
   </div>
 </template>
 
@@ -48,6 +53,16 @@ export default class extends Vue {
   > .list-container {
     grid-area: list;
     overflow-y: auto;
+  }
+
+  > .fabs {
+    position: absolute;
+    right: 32px;
+    bottom: 32px;
+
+    a {
+      text-decoration: none;
+    }
   }
 }
 </style>
