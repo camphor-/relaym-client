@@ -94,12 +94,6 @@ const nuxtConfig: NuxtConfiguration = {
     '@nuxtjs/vuetify',
     '@nuxtjs/pwa'
   ],
-  /*
-   ** Axios module configuration
-   */
-  axios: {
-    // See https://github.com/nuxt-community/axios-module#options
-  },
 
   /*
    ** Build configuration

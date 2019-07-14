@@ -34,12 +34,12 @@ export const mutations = {
   setPlayback: (state: State, playing: boolean) => {
     state.playing = playing
   },
-  nextSong: (state: State, newTrackId: number) => {
+  nextTrack: (state: State, newTrackId: number) => {
     state.playingTrackId = newTrackId
   }
 }
 
-export const actions = {
+export const actions: any = {
   fetchTrackList({ commit }) {
     const trackList: Track[] = [
       {
@@ -495,9 +495,10 @@ export const actions = {
     ]
     commit('setTrackList', trackList)
   },
-  addTrack({ commit }, trackId: string) {
-    const newTrack = getNewTrack(trackId)
-    commit('addTrack', newTrack)
+  async addTrack({ commit }, trackId: string) {
+    // const newTrack: any = await this.$axios.$put('/add_track', {
+    //   uri: 'spotify:track:1queJZlgboTAvm5wYc2RTK'
+    // })
   },
   togglePlayback({ commit, state }) {
     commit('setPlayback', !state.playing)
