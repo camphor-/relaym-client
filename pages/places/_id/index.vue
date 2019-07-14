@@ -29,7 +29,7 @@ import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 @Component({
   components: { TrackListContainer, PlaceToolbar },
   methods: {
-    ...mapActions('tracklist', ['togglePlayback'])
+    ...mapActions('tracklist', ['togglePlayback', 'addTrack'])
   },
   computed: {
     ...mapState('tracklist', ['playing'])
@@ -37,9 +37,11 @@ import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 })
 export default class extends Vue {
   private togglePlayback!: (payload: {}) => void
+  private addTrack!: (payload: string) => void
   mounted() {
     if ('add_track' in this.$route.query) {
       console.log(`add track ${this.$route.query.add_track}`)
+      // this.addTrack('aaa')
     }
   }
 }

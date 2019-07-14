@@ -98,7 +98,8 @@ const nuxtConfig: NuxtConfiguration = {
    ** Axios module configuration
    */
   axios: {
-    // See https://github.com/nuxt-community/axios-module#options
+    baseURL: 'http://localhost:8080/api/v1',
+    debug: true
   },
 
   /*
