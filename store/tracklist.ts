@@ -1,4 +1,5 @@
 import Track from '@/models/Track'
+import Api from '@/api/main'
 
 interface State {
   trackList: Track[]
@@ -496,7 +497,7 @@ export const actions = {
     commit('setTrackList', trackList)
   },
   addTrack({ commit }, trackId: string) {
-    const newTrack = getNewTrack(trackId)
+    const newTrack = Api.addTrack(trackId)
     commit('addTrack', newTrack)
   },
   togglePlayback({ commit, state }) {
@@ -504,58 +505,5 @@ export const actions = {
   },
   nextSong({ commit }, newTrackId: number) {
     commit('nextSong', newTrackId)
-  }
-}
-
-const getNewTrack = (trackId: string): Track => {
-  return {
-    album: {
-      artists: [
-        {
-          href: 'https://api.spotify.com/v1/artists/0bAsR2unSRpn6BQPEnNlZm',
-          id: '0bAsR2unSRpn6BQPEnNlZm',
-          name: 'Aimer'
-        }
-      ],
-      href: 'https://api.spotify.com/v1/albums/4KiW4nVZ5bUJk2Q8LyXCzs',
-      id: '4KiW4nVZ5bUJk2Q8LyXCzs',
-      images: [
-        {
-          height: 640,
-          url:
-            'https://i.scdn.co/image/c0f3fdc9512e35ee56189b4a3a9a23c7c212c353',
-          width: 640
-        },
-        {
-          height: 300,
-          url:
-            'https://i.scdn.co/image/087fe586ca295b1ec8dfa81cd21cff056245458b',
-          width: 300
-        },
-        {
-          height: 64,
-          url:
-            'https://i.scdn.co/image/994b94c07eb6b5d475482ebfc16342c539bc80cb',
-          width: 64
-        }
-      ],
-      name: 'BEST SELECTION "noir"'
-    },
-    artists: [
-      {
-        href: 'https://api.spotify.com/v1/artists/0bAsR2unSRpn6BQPEnNlZm',
-        id: '0bAsR2unSRpn6BQPEnNlZm',
-        name: 'Aimer'
-      }
-    ],
-    duration_ms: 328786,
-    external_urls: {
-      spotify: 'https://open.spotify.com/track/6PAVYkfGLNidSQRDZOANCI'
-    },
-    href: 'https://api.spotify.com/v1/tracks/6PAVYkfGLNidSQRDZOANCI',
-    id: trackId,
-    name: 'StarRingChild',
-    preview_url:
-      'https://p.scdn.co/mp3-preview/d825a50e933b79a528b8801a82e0ddbc3045bade?cid=774b29d4f13844c495f206cafdad9c86'
   }
 }
