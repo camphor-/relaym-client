@@ -1,13 +1,15 @@
 <template>
   <v-list two-line class="result-list">
     <template v-for="item in items">
-      <v-list-tile :key="item.title" :href="trackHref + item.id">
+      <v-list-tile :key="item.title">
         <v-list-tile-avatar tile>
-          <img
-            :src="item.album.images[2].url"
-            :width="item.album.images[2].width"
-            :height="item.album.images[2].height"
-          />
+          <a :href="item.external_urls.spotify">
+            <img
+              :src="item.album.images[2].url"
+              :width="item.album.images[2].width"
+              :height="item.album.images[2].height"
+            />
+          </a>
         </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title>{{ item.name }}</v-list-tile-title>
@@ -42,4 +44,9 @@ export default class extends Vue {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.v-avatar img {
+  height: 100%;
+  width: 100%;
+}
+</style>

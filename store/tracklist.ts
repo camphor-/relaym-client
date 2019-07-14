@@ -549,6 +549,9 @@ const getNewTrack = (trackId: string): Track => {
       }
     ],
     duration_ms: 328786,
+    external_urls: {
+      spotify: 'https://open.spotify.com/track/6PAVYkfGLNidSQRDZOANCI'
+    },
     href: 'https://api.spotify.com/v1/tracks/6PAVYkfGLNidSQRDZOANCI',
     id: trackId,
     name: 'StarRingChild',
