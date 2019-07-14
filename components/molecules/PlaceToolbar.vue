@@ -2,9 +2,6 @@
   <v-toolbar color="elevation-0 primary" dark>
     <v-toolbar-title>CAMPHOR- HOUSE</v-toolbar-title>
     <v-spacer></v-spacer>
-    <v-btn icon>
-      <v-icon>more_vert</v-icon>
-    </v-btn>
   </v-toolbar>
 </template>
 

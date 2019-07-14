@@ -1,6 +1,6 @@
 <template>
   <v-list two-line>
-    <v-subheader v-if="playedTracks.length > 0">再生済み</v-subheader>
+    <v-subheader v-if="playedTracks.length > 0">Played</v-subheader>
     <template v-for="item in playedTracks">
       <v-list-tile
         :key="item.title"
@@ -21,7 +21,7 @@
     </template>
     <div id="windowWrapper">
       <div v-if="playingTrack" class="playing">
-        <v-subheader id="playingSubHeader">再生中</v-subheader>
+        <v-subheader id="playingSubHeader">Now Playing ...</v-subheader>
         <v-list-tile :href="playingTrack.external_urls.spotify" target="_blank">
           <v-list-tile-avatar tile>
             <img :src="playingTrack.album.images[1].url" />
@@ -37,7 +37,7 @@
       </div>
       <v-divider></v-divider>
       <div v-if="waitingTracks.length > 0">
-        <v-subheader>再生待ち</v-subheader>
+        <v-subheader>Next Tracks</v-subheader>
         <template v-for="(item, index) in waitingTracks">
           <v-list-tile
             :key="item.title"
@@ -88,10 +88,15 @@ export default class extends Vue {
 
 .playing {
   padding-top: 1rem;
-  background-color: #bdcce5;
+  background-color: #f8dce3;
+  .v-subheader {
+    color: #da4167;
+  }
 }
 
 .v-subheader {
   font-size: 1.5rem;
+  font-family: 'Pacifico';
+  color: #0d47a1;
 }
 </style>
