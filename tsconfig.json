@@ -4,7 +4,8 @@
     "experimentalDecorators": true,
     "types": [
       "@types/node",
-      "@nuxt/vue-app"
+      "@nuxt/vue-app",
+      "@nuxtjs/axios"
     ],
     "paths": { "@/*": [ "./*" ], "~/*": [ "./*" ] },
     "target": "es5",
