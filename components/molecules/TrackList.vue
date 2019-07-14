@@ -76,10 +76,15 @@ export default class extends Vue {
 
 <style lang="scss" scoped>
 #windowWrapper {
-  min-height: calc(100vh - 160px);
+  min-height: calc(100vh - 150px);
 }
 
-#playingSubHeader {
-  font-weight: bold;
+.playing {
+  padding-top: 1rem;
+  background-color: #bdcce5;
+}
+
+.v-subheader {
+  font-size: 1.5rem;
 }
 </style>
