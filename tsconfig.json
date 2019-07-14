@@ -2,15 +2,12 @@
   "compilerOptions": {
     "baseUrl": ".",
     "experimentalDecorators": true,
-    "types": [
-      "@types/node",
-      "@nuxt/vue-app",
-      "@nuxtjs/axios"
-    ],
-    "paths": { "@/*": [ "./*" ], "~/*": [ "./*" ] },
+    "types": ["@types/node", "@nuxt/vue-app", "@nuxtjs/axios"],
+    "paths": { "@/*": ["./*"], "~/*": ["./*"] },
     "target": "es5",
     "strict": true,
     "module": "es2015",
-    "moduleResolution": "node"
-  },
+    "moduleResolution": "node",
+    "noImplicitAny": false
+  }
 }
