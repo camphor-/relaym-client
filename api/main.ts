@@ -1,5 +1,4 @@
 import axios from 'axios'
-import Track from '@/models/Track'
 import { GetQueueResponse } from '@/api/interfaces'
 
 const instance = axios.create({
@@ -28,6 +27,16 @@ export default {
       },
       withCredentials: true
     })
+    return res.data
+  },
+  play: async (device: string) => {
+    const res = await instance.post(
+      '/play',
+      {
+        device_id: device
+      },
+      { withCredentials: true }
+    )
     return res.data
   }
 }
