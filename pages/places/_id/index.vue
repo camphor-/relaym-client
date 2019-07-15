@@ -7,7 +7,7 @@
     </div>
 
     <div class="fabs">
-      <v-btn fab dark color="primary" @click="togglePlayback()">
+      <v-btn fab dark color="primary" @click="chooseDevice">
         <v-icon v-if="playing">pause</v-icon>
         <v-icon v-else>play_arrow</v-icon>
       </v-btn>
@@ -17,6 +17,11 @@
         </v-btn>
       </nuxt-link>
     </div>
+
+    <device-choose-dialog
+      v-model="isDialogOpen"
+      @select-device="onSelectDevice"
+    />
   </div>
 </template>
 
@@ -25,11 +30,13 @@ import { Component, Vue } from 'vue-property-decorator'
 import { mapState, mapActions } from 'vuex'
 import PlaceToolbar from '@/components/molecules/PlaceToolbar.vue'
 import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
+import DeviceChooseDialog from '@/components/organisms/DeviceChooseDialog.vue'
+import Device from '@/models/Device'
 
 @Component({
-  components: { TrackListContainer, PlaceToolbar },
+  components: { DeviceChooseDialog, TrackListContainer, PlaceToolbar },
   methods: {
-    ...mapActions('tracklist', ['togglePlayback', 'addTrack'])
+    ...mapActions('tracklist', ['play', 'addTrack'])
   },
   computed: {
     ...mapState('tracklist', ['playing'])
@@ -38,12 +45,24 @@ import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 export default class extends Vue {
   private togglePlayback!: (payload: {}) => void
   private addTrack!: (payload: string) => void
+  private play!: (payload: Device) => void
+  private isDialogOpen: boolean = false
+
   mounted() {
     if ('add_track' in this.$route.query) {
       const trackURI: string = this.$route.query.add_track as string
       console.log(`add track ${trackURI}`)
       this.addTrack(trackURI)
     }
+  }
+
+  chooseDevice() {
+    this.isDialogOpen = true
+  }
+
+  onSelectDevice(device: Device) {
+    console.log(device)
+    this.play(device)
   }
 }
 </script>

@@ -1,5 +1,6 @@
 import Track from '@/models/Track'
 import Api from '@/api/main'
+import Device from '@/models/Device'
 
 interface State {
   trackList: Track[]
@@ -49,8 +50,11 @@ export const actions = {
   async addTrack({}, trackURI: string) {
     await Api.addTrack(trackURI)
   },
-  togglePlayback({ commit, state }) {
-    commit('setPlayback', !state.playing)
+  async play({ commit, state }, device: Device) {
+    // TODO: 一時停止にサーバーが対応次第対応する
+    if (state.playing) return
+    await Api.play(device.id)
+    commit('setPlayback', true)
   },
   nextSong({ commit }, newTrackId: number) {
     commit('nextSong', newTrackId)
