@@ -16,5 +16,13 @@ export default {
       uri: trackURI
     })
     return res.data
+  },
+  searchTracks: async (keyword: string) => {
+    const res = await instance.get('/search', {
+      params: {
+        keyword: keyword
+      }
+    })
+    return res.data
   }
 }
