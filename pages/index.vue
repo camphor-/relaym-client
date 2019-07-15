@@ -8,7 +8,7 @@
       </div>
 
       <add-place-card />
-      <places-list :places="places" @click="goPlacePage" />
+      <places-list :places="places" />
     </v-flex>
   </v-container>
 </template>
@@ -24,12 +24,6 @@ import PlacesList from '@/components/organisms/PlacesList.vue'
 })
 export default class Index extends Vue {
   places = [{ id: 'camphor-', name: 'CAMPHOR-' }]
-
-  goPlacePage(id: string) {
-    this.$router.push({
-      path: `/places/${id}`
-    })
-  }
 }
 </script>
 
