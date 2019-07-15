@@ -2,7 +2,8 @@ import axios from 'axios'
 import { GetAvailableDevicesResponse, GetQueueResponse } from '@/api/interfaces'
 
 const instance = axios.create({
-  baseURL: process.env.BASE_URL
+  baseURL: process.env.BASE_URL,
+  baseWebSocketURL: process.env.BASE_WEBSOCKET_URL
 })
 
 export default {
