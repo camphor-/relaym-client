@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { GetQueueResponse } from '@/api/interfaces'
+import { GetAvailableDevicesResponse, GetQueueResponse } from '@/api/interfaces'
 
 const instance = axios.create({
   baseURL: 'http://localhost:8080/api/v1'
@@ -38,5 +38,9 @@ export default {
       { withCredentials: true }
     )
     return res.data
+  },
+  getAvailableDevices: async () => {
+    const res = await instance.get('/devices', { withCredentials: true })
+    return res.data as GetAvailableDevicesResponse
   }
 }
