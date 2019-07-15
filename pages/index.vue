@@ -39,6 +39,9 @@ export default class Index extends Vue {
 <style lang="scss" scoped>
 .logo {
   font-size: 3rem;
+  a img {
+    max-width: 500px;
+  }
 }
 
 .container {
