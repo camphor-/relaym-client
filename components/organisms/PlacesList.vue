@@ -7,7 +7,7 @@
       <v-list-tile
         v-for="place in places"
         :key="place.id"
-        @click="click(place.id)"
+        href="https://accounts.spotify.com/authorize?client_id=2d41ee0f36664938a4669dcf5e81a43f&response_type=code&redirect_uri=https%3A%2F%2Fhere-songs.tomoyat1.com%2Fcallback&scope=user-read-playback-state,user-read-currently-playing,user-modify-playback-state,playlist-read-private,playlist-modify-private"
       >
         <v-list-tile-content>
           <v-list-tile-title v-text="place.name"></v-list-tile-title>
