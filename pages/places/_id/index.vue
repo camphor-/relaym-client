@@ -41,7 +41,6 @@ export default class extends Vue {
   mounted() {
     if ('add_track' in this.$route.query) {
       const trackURI: string = this.$route.query.add_track as string
-      console.log(`add track ${trackURI}`)
       this.addTrack(trackURI)
     }
   }

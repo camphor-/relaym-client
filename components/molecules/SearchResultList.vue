@@ -1,5 +1,5 @@
 <template>
-  <v-list two-line class="result-list" v-if="items">
+  <v-list v-if="items" two-line class="result-list">
     <template v-for="item in items">
       <v-list-tile :key="item.title">
         <v-list-tile-avatar tile>

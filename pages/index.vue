@@ -23,10 +23,7 @@ import PlacesList from '@/components/organisms/PlacesList.vue'
   layout: 'toppage'
 })
 export default class Index extends Vue {
-  places = [
-    { id: 'camphor-', name: 'CAMPHOR- HOUSE' },
-    { id: 'ku', name: 'Kyoto University' }
-  ]
+  places = [{ id: 'camphor-', name: 'CAMPHOR-' }]
 
   goPlacePage(id: string) {
     this.$router.push({
