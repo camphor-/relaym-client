@@ -110,7 +110,8 @@ export const actions = {
         id: '6z80TolVbWQb87u4Se77ec',
         name: 'Brave Shine',
         preview_url:
-          'https://p.scdn.co/mp3-preview/cd570c4512c1f134264b9f3709f77858e346e373?cid=774b29d4f13844c495f206cafdad9c86'
+          'https://p.scdn.co/mp3-preview/cd570c4512c1f134264b9f3709f77858e346e373?cid=774b29d4f13844c495f206cafdad9c86',
+        uri: 'spotify:track:6z80TolVbWQb87u4Se77ec'
       },
       {
         album: {
@@ -160,7 +161,8 @@ export const actions = {
         id: '67z29VfVjdmjjNx5hRCXFv',
         name: 'insane dream',
         preview_url:
-          'https://p.scdn.co/mp3-preview/84b0d87a1ef8b4cce2b40c42d530238bdc1ebdac?cid=774b29d4f13844c495f206cafdad9c86'
+          'https://p.scdn.co/mp3-preview/84b0d87a1ef8b4cce2b40c42d530238bdc1ebdac?cid=774b29d4f13844c495f206cafdad9c86',
+        uri: 'spotify:track:67z29VfVjdmjjNx5hRCXFv'
       },
       {
         album: {
@@ -210,7 +212,8 @@ export const actions = {
         id: '6dlqtdwF2mVWcN9WdtnsTh',
         name: '眠りの森',
         preview_url:
-          'https://p.scdn.co/mp3-preview/232f966dcb88050557ca4e4dc863806c37fd7243?cid=774b29d4f13844c495f206cafdad9c86'
+          'https://p.scdn.co/mp3-preview/232f966dcb88050557ca4e4dc863806c37fd7243?cid=774b29d4f13844c495f206cafdad9c86',
+        uri: 'spotify:track:6dlqtdwF2mVWcN9WdtnsTh'
       },
       {
         album: {
@@ -260,7 +263,8 @@ export const actions = {
         id: '5uxHqiXHmCv4CGxHiqqSfE',
         name: 'LAST STARDUST',
         preview_url:
-          'https://p.scdn.co/mp3-preview/d8dd219f95dcf2c1570dcd2054ed4b9a8b23f81a?cid=774b29d4f13844c495f206cafdad9c86'
+          'https://p.scdn.co/mp3-preview/d8dd219f95dcf2c1570dcd2054ed4b9a8b23f81a?cid=774b29d4f13844c495f206cafdad9c86',
+        uri: 'spotify:track:5uxHqiXHmCv4CGxHiqqSfE'
       },
       {
         album: {
@@ -310,7 +314,8 @@ export const actions = {
         id: '72U5Pm8g86Mxl73eCtFh62',
         name: '凍えそうな季節から -extended ver.-',
         preview_url:
-          'https://p.scdn.co/mp3-preview/b57c9ae89293c46f20bdb7d91346daf4a5ec62b9?cid=774b29d4f13844c495f206cafdad9c86'
+          'https://p.scdn.co/mp3-preview/b57c9ae89293c46f20bdb7d91346daf4a5ec62b9?cid=774b29d4f13844c495f206cafdad9c86',
+        uri: 'spotify:track:72U5Pm8g86Mxl73eCtFh62'
       },
       {
         album: {
@@ -360,7 +365,8 @@ export const actions = {
         id: '6lYJi0WfmdfHbRnl3CsBl0',
         name: '誰か、海を。',
         preview_url:
-          'https://p.scdn.co/mp3-preview/8923a3f84c35a564c068dbfd9a04b58e85b8ac34?cid=774b29d4f13844c495f206cafdad9c86'
+          'https://p.scdn.co/mp3-preview/8923a3f84c35a564c068dbfd9a04b58e85b8ac34?cid=774b29d4f13844c495f206cafdad9c86',
+        uri: 'spotify:track:6lYJi0WfmdfHbRnl3CsBl0'
       },
       {
         album: {
@@ -410,7 +416,8 @@ export const actions = {
         id: '4BN18XBNMkS1Sol9iaZWJP',
         name: 'ninelie',
         preview_url:
-          'https://p.scdn.co/mp3-preview/d78e091bb92ab0d7b01962ed1b9c7c5164b16baf?cid=774b29d4f13844c495f206cafdad9c86'
+          'https://p.scdn.co/mp3-preview/d78e091bb92ab0d7b01962ed1b9c7c5164b16baf?cid=774b29d4f13844c495f206cafdad9c86',
+        uri: 'spotify:track:4BN18XBNMkS1Sol9iaZWJP'
       },
       {
         album: {
@@ -460,7 +467,8 @@ export const actions = {
         id: '1queJZlgboTAvm5wYc2RTK',
         name: 'holLow wORlD',
         preview_url:
-          'https://p.scdn.co/mp3-preview/2b0662a46dd466f818babe695b9f77f457dee734?cid=774b29d4f13844c495f206cafdad9c86'
+          'https://p.scdn.co/mp3-preview/2b0662a46dd466f818babe695b9f77f457dee734?cid=774b29d4f13844c495f206cafdad9c86',
+        uri: 'spotify:track:1queJZlgboTAvm5wYc2RTK'
       }
     ])
   }
