@@ -1,5 +1,5 @@
 <template>
-  <v-list two-line class="result-list">
+  <v-list two-line class="result-list" v-if="items">
     <template v-for="item in items">
       <v-list-tile :key="item.title">
         <v-list-tile-avatar tile>
@@ -35,7 +35,7 @@ import Track from '@/models/Track'
   components: {}
 })
 export default class extends Vue {
-  @Prop({ default: [] }) readonly items!: Track[]
+  @Prop({ default: null }) readonly items!: Track[] | null
 
   @Emit()
   clickItem(uri: string) {

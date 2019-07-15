@@ -12,16 +12,21 @@ export default {
     return res.data as GetQueueResponse
   },
   addTrack: async (trackURI: string) => {
-    const res = await instance.post('/add_track', {
-      uri: trackURI
-    })
+    const res = await instance.post(
+      '/add_track',
+      {
+        uri: trackURI
+      },
+      { withCredentials: true }
+    )
     return res.data
   },
   searchTracks: async (keyword: string) => {
     const res = await instance.get('/search', {
       params: {
         keyword: keyword
-      }
+      },
+      withCredentials: true
     })
     return res.data
   }

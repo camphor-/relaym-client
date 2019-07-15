@@ -10,7 +10,7 @@
       placeholder="曲名, アルバム名, アーティスト名"
       @keydown.enter="search"
     />
-    <search-result-list :items="result" @click-item="finish" />
+    <search-result-list :items="result.items" @click-item="finish" />
   </v-container>
 </template>
 
@@ -25,11 +25,13 @@ import SearchResultList from '@/components/molecules/SearchResultList.vue'
     ...mapState('search', ['result'])
   },
   methods: {
-    ...mapActions('search', ['fetchSearchResult'])
+    ...mapActions('search', ['fetchSearchResult']),
+    ...mapActions('tracklist', ['addTrack'])
   }
 })
 export default class extends Vue {
   private fetchSearchResult!: (payload: string) => void
+  private addTrack!: (payload: string) => void
   q: string = ''
 
   search() {
@@ -37,12 +39,13 @@ export default class extends Vue {
   }
 
   finish(id: string) {
+    console.log(id)
+    this.addTrack(id)
     const redirectPath: string | null = <string | null>(
       this.$route.query.redirect_to
     )
     this.$router.push({
-      path: redirectPath || '/',
-      query: { add_track: id }
+      path: redirectPath || '/'
     })
   }
 }

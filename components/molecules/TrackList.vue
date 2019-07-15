@@ -1,9 +1,9 @@
 <template>
   <v-list two-line>
     <v-subheader v-if="playedTracks.length > 0">Played</v-subheader>
-    <template v-for="item in playedTracks">
+    <template v-for="(item, index) in playedTracks">
       <v-list-tile
-        :key="item.title"
+        :key="`first-${index}`"
         :href="item.external_urls.spotify"
         target="_blank"
       >
@@ -17,7 +17,7 @@
           </v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
-      <v-divider :key="item"></v-divider>
+      <v-divider :key="`second-${index}`"></v-divider>
     </template>
     <div id="windowWrapper">
       <div v-if="playingTrack" class="playing">
@@ -40,7 +40,7 @@
         <v-subheader>Next Tracks</v-subheader>
         <template v-for="(item, index) in waitingTracks">
           <v-list-tile
-            :key="item.title"
+            :key="`third-${index}`"
             :href="item.external_urls.spotify"
             target="_blank"
           >
@@ -56,7 +56,7 @@
               </v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
-          <v-divider :key="item"></v-divider>
+          <v-divider :key="`fourth-${index}`"></v-divider>
         </template>
       </div>
     </div>
