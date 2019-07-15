@@ -10,6 +10,7 @@ interface Track {
   href: string
   id: string
   name: string
+  uri: string
   preview_url: string
 }
 export default Track
