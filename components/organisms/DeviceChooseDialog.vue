@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="isOpen" width="500">
+  <v-dialog :value="value" width="500" @input="input">
     <v-card>
       <v-card-title class="headline grey lighten-2" primary-title>
         再生デバイスの選択
@@ -30,18 +30,7 @@ import Device from '@/models/Device'
 @Component({
   components: { DeviceList },
   computed: {
-    ...mapGetters('devices', ['getPlayableDevices']),
-    isOpen: {
-      // getter 関数
-      get: function() {
-        // eslint-disable-next-line
-        return this.value
-      },
-      // setter 関数
-      set: function(newValue) {
-        this.input(newValue)
-      }
-    }
+    ...mapGetters('devices', ['getPlayableDevices'])
   },
   methods: {
     ...mapActions('devices', ['fetchAvailableDevices'])
@@ -49,7 +38,7 @@ import Device from '@/models/Device'
 })
 export default class extends Vue {
   @Prop({ default: false }) readonly value!: boolean
-  private fetchAvailableDevices: () => void
+  private fetchAvailableDevices!: () => void
 
   @Emit()
   input(isOpen: boolean) {
