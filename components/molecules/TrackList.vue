@@ -49,7 +49,7 @@
             </v-list-tile-avatar>
             <v-list-tile-content>
               <v-list-tile-title
-                >{{ index }}. {{ item.name }}</v-list-tile-title
+                >{{ item.name }}</v-list-tile-title
               >
               <v-list-tile-sub-title
                 >{{ item.album.name }} - {{ item.artists[0].name }}
