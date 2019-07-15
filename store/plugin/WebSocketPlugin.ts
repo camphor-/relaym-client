@@ -1,7 +1,7 @@
 import { SocketMessage } from '@/models/SocketMessage'
 
 // TODO: SOCKET_URLの設定
-const SOCKET_URL = 'ws://localhost:8080/api/v1/ws'
+const SOCKET_URL = `ws://${process.env.BASE_URL}/ws`
 
 const WebSocketPlugin = (store: any) => {
   const socket = new WebSocket(SOCKET_URL)
