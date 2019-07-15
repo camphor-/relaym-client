@@ -26,7 +26,7 @@
           <v-list-tile-avatar tile>
             <img :src="playingTrack.album.images[1].url" />
           </v-list-tile-avatar>
-          <v-list-tile-content v-if="playingTrack">
+          <v-list-tile-content>
             <v-list-tile-title>{{ playingTrack.name }}</v-list-tile-title>
             <v-list-tile-sub-title
               >{{ playingTrack.album.name }} -
@@ -76,7 +76,9 @@ export default class extends Vue {
   @Prop({ default: [] }) readonly waitingTracks!: Track[]
 
   updated() {
-    this.$el.getElementsByClassName('playing')[0].scrollIntoView()
+    if (this.playingTrack) {
+      this.$el.getElementsByClassName('playing')[0].scrollIntoView()
+    }
   }
 }
 </script>

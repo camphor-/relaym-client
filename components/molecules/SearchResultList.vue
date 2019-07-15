@@ -18,7 +18,7 @@
           </v-list-tile-sub-title>
         </v-list-tile-content>
         <v-list-tile-action>
-          <v-btn icon @click="clickItem(item.id)">
+          <v-btn icon @click="clickItem(item.uri)">
             <v-icon color="primary">add_circle</v-icon>
           </v-btn>
         </v-list-tile-action>
@@ -38,8 +38,8 @@ export default class extends Vue {
   @Prop({ default: [] }) readonly items!: Track[]
 
   @Emit()
-  clickItem(id: string) {
-    return id
+  clickItem(uri: string) {
+    return uri
   }
 }
 </script>

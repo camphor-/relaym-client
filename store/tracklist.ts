@@ -42,8 +42,9 @@ export const mutations = {
 
 export const actions = {
   async fetchTrackList({ commit }) {
-    const trackList: Track[] = await Api.getQueue()
-    commit('setTrackList', trackList)
+    const res = await Api.getQueue()
+    commit('setTrackList', res.items)
+    commit('nextTrack', res.head)
   },
   async addTrack({ commit }, trackURI: string) {
     const newTrack = await Api.addTrack(trackURI)
