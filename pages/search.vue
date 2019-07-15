@@ -1,13 +1,13 @@
 <template>
   <v-container class="page-root">
     <v-text-field
+      v-model="q"
       class="searchbox"
       hide-details
       prepend-icon="search"
       single-line
       clearable
       placeholder="曲名, アルバム名, アーティスト名"
-      :value="q"
       @keydown.enter="search"
     />
     <search-result-list :items="result" @click-item="finish" />
