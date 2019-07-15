@@ -1,13 +1,13 @@
 <template>
   <v-card class="new_place">
     <v-card-title>
-      <span class="card_title">新しい場所を追加する</span>
+      <span class="card_title">Add Place</span>
     </v-card-title>
     <v-form>
-      <v-text-field label="place id"></v-text-field>
+      <v-text-field label="Place id"></v-text-field>
       <v-text-field label="Name"></v-text-field>
       <div class="text-xs-right">
-        <v-btn round color="#0D47A1" class="white_text">追加</v-btn>
+        <v-btn round color="#0D47A1" class="white_text">Add</v-btn>
       </div>
     </v-form>
   </v-card>
@@ -24,11 +24,16 @@ export default class extends Vue {}
 <style lang="scss" scoped>
 .card_title {
   font-size: 1.5rem;
+  font-family: 'Pacifico';
+  color: #0d47a1;
 }
 
 .new_place {
   margin-bottom: 20px;
   padding: 1rem;
+  .v-card_title {
+    padding-left: 10px;
+  }
 }
 
 .white_text {

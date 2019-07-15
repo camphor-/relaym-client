@@ -1,7 +1,7 @@
 <template>
   <v-card class="places_list">
     <v-card-title>
-      <span class="card_title">周りの場所</span>
+      <span class="card_title">Places near You</span>
     </v-card-title>
     <v-list>
       <v-list-tile
@@ -36,7 +36,10 @@ export default class extends Vue {
 <style lang="scss" scoped>
 .card_title {
   font-size: 1.5rem;
+  font-family: 'Pacifico';
+  color: #0d47a1;
 }
+
 .places_list {
   padding: 10px;
   .place_name {
