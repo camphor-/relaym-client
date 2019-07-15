@@ -46,9 +46,8 @@ export const actions = {
     commit('setTrackList', res.items)
     commit('nextTrack', res.head)
   },
-  async addTrack({ commit }, trackURI: string) {
-    const newTrack = await Api.addTrack(trackURI)
-    commit('addTrack', newTrack)
+  async addTrack({}, trackURI: string) {
+    await Api.addTrack(trackURI)
   },
   togglePlayback({ commit, state }) {
     commit('setPlayback', !state.playing)
