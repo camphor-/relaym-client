@@ -39,7 +39,6 @@ export default class extends Vue {
   }
 
   finish(id: string) {
-    console.log(id)
     this.addTrack(id)
     const redirectPath: string | null = <string | null>(
       this.$route.query.redirect_to

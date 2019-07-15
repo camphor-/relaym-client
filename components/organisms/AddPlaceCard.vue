@@ -29,6 +29,7 @@ export default class extends Vue {}
 }
 
 .new_place {
+  display: none;
   margin-bottom: 20px;
   padding: 1rem;
   .v-card_title {
