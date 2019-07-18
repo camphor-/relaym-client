@@ -2,8 +2,8 @@
   <v-container class="page-root">
     <v-layout row wrap>
       <v-flex xs1>
-        <v-btn flat icon>
-          <v-icon large>chevron_left</v-icon>
+        <v-btn flat icon class="page-back-btn" @click="backToTrackList">
+          <v-icon large color="primary">chevron_left</v-icon>
         </v-btn>
       </v-flex>
       <v-flex>
@@ -19,7 +19,8 @@
         />
       </v-flex>
     </v-layout>
-    <search-result-list :items="result.items" @click-item="finish" />
+    <search-result-list :items="result.items" @click-item="selectTrack" />
+    <snackbar :text="snackbarText" :show-snackbar="showSnackbar"></snackbar>
   </v-container>
 </template>
 
@@ -27,9 +28,11 @@
 import { Component, Vue } from 'vue-property-decorator'
 import { mapState, mapActions } from 'vuex'
 import SearchResultList from '@/components/molecules/SearchResultList.vue'
+import Snackbar from '@/components/molecules/Snackbar.vue'
+import Track from '@/models/Track'
 
 @Component({
-  components: { SearchResultList },
+  components: { SearchResultList, Snackbar },
   computed: {
     ...mapState('search', ['result'])
   },
@@ -42,13 +45,20 @@ export default class extends Vue {
   private fetchSearchResult!: (payload: string) => void
   private addTrack!: (payload: string) => void
   q: string = ''
+  snackbarText = ''
+  showSnackbar = false
 
   search() {
     this.fetchSearchResult(this.q)
   }
 
-  finish(id: string) {
-    this.addTrack(id)
+  selectTrack(track: Track) {
+    this.addTrack(track.uri)
+    this.snackbarText = `${track.name} を追加しました`
+    this.showSnackbar = true
+  }
+
+  backToTrackList() {
     const redirectPath: string | null = <string | null>(
       this.$route.query.redirect_to
     )
@@ -64,7 +74,10 @@ export default class extends Vue {
   padding: 0;
 }
 
+.page-back-btn {
+}
+
 .searchbox {
-  padding: 0 16px;
+  padding: 5px 16px 0 0;
 }
 </style>
