@@ -22,12 +22,24 @@ import Place from '@/models/Place'
 })
 export default class extends Vue {
   @Prop({ default: [] }) readonly places!: Place[]
+  private loginUrl: string = ''
 
-  clientId = process.env.CLIENT_ID
-  responseType = 'code'
-  redirectUri = encodeURIComponent(process.env.BASE_URL + '/callback' || '')
-  scope = process.env.AUTH_SCOPE
-  loginUrl = `https://accounts.spotify.com/authorize?client_id=${this.clientId}&response_type=${this.responseType}&redirect_uri=${this.redirectUri}&scope=${this.scope}`
+  mounted(): void {
+    // create login URL
+    const authScopes = [
+      'user-read-playback-state',
+      'user-read-currently-playing',
+      'user-modify-playback-state',
+      'playlist-read-private',
+      'playlist-modify-private'
+    ]
+    const loginUrl = `https://accounts.spotify.com/authorize?client_id=${
+      process.env.CLIENT_ID
+    }&response_type=code&redirect_uri=${encodeURIComponent(
+      process.env.BASE_URL + '/callback'
+    )}&scope=${authScopes.join(',')}`
+    this.loginUrl = loginUrl
+  }
 
   @Emit()
   click(id: string) {
