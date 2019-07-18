@@ -199,7 +199,7 @@ const nuxtConfig: NuxtConfiguration = {
   },
 
   env: {
-    BASE_URL: process.env.BASE_URL || 'http://localhost:8080/api/v1',
+    BASE_URL: process.env.BASE_URL || 'http://localhost:8080',
     BASE_WEBSOCKET_URL:
       process.env.BASE_WEBSOCKET_URL || 'ws://localhost:8080/api/v1'
   }
