@@ -201,7 +201,15 @@ const nuxtConfig: NuxtConfiguration = {
   env: {
     BASE_URL: process.env.BASE_URL || 'http://localhost:8080',
     BASE_WEBSOCKET_URL:
-      process.env.BASE_WEBSOCKET_URL || 'ws://localhost:8080/api/v1'
+      process.env.BASE_WEBSOCKET_URL || 'ws://localhost:8080/api/v1',
+    CLIENT_ID: '2d41ee0f36664938a4669dcf5e81a43f',
+    AUTH_SCOPE: [
+      'user-read-playback-state',
+      'user-read-currently-playing',
+      'user-modify-playback-state',
+      'playlist-read-private',
+      'playlist-modify-private'
+    ].join(',')
   }
 }
 
