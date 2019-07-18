@@ -1,15 +1,24 @@
 <template>
   <v-container class="page-root">
-    <v-text-field
-      v-model="q"
-      class="searchbox"
-      hide-details
-      prepend-icon="search"
-      single-line
-      clearable
-      placeholder="曲名, アルバム名, アーティスト名"
-      @keydown.enter="search"
-    />
+    <v-layout row wrap>
+      <v-flex xs1>
+        <v-btn flat icon>
+          <v-icon large>chevron_left</v-icon>
+        </v-btn>
+      </v-flex>
+      <v-flex>
+        <v-text-field
+          v-model="q"
+          class="searchbox"
+          hide-details
+          prepend-icon="search"
+          single-line
+          clearable
+          placeholder="曲名, アルバム名, アーティスト名"
+          @keydown.enter="search"
+        />
+      </v-flex>
+    </v-layout>
     <search-result-list :items="result.items" @click-item="finish" />
   </v-container>
 </template>
@@ -57,6 +66,5 @@ export default class extends Vue {
 
 .searchbox {
   padding: 0 16px;
-  margin-bottom: 16px;
 }
 </style>
