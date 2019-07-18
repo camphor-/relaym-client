@@ -23,16 +23,10 @@ import Place from '@/models/Place'
 export default class extends Vue {
   @Prop({ default: [] }) readonly places!: Place[]
 
-  clientId = '2d41ee0f36664938a4669dcf5e81a43f'
+  clientId = process.env.CLIENT_ID
   responseType = 'code'
   redirectUri = encodeURIComponent(process.env.BASE_URL + '/callback' || '')
-  scope = [
-    'user-read-playback-state',
-    'user-read-currently-playing',
-    'user-modify-playback-state',
-    'playlist-read-private',
-    'playlist-modify-private'
-  ].join(',')
+  scope = process.env.AUTH_SCOPE
   loginUrl = `https://accounts.spotify.com/authorize?client_id=${this.clientId}&response_type=${this.responseType}&redirect_uri=${this.redirectUri}&scope=${this.scope}`
 
   @Emit()
