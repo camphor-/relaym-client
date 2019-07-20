@@ -37,7 +37,7 @@
       </div>
       <v-divider></v-divider>
       <div v-if="waitingTracks.length > 0">
-        <v-subheader>Next Tracks</v-subheader>
+        <v-subheader>Up Next</v-subheader>
         <template v-for="(item, index) in waitingTracks">
           <v-list-tile
             :key="`third-${index}`"
