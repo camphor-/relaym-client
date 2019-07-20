@@ -68,7 +68,6 @@ export default class extends Vue {
   }
 
   onSelectDevice(device: Device) {
-    console.log(device)
     this.play(device)
   }
 }
