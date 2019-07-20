@@ -55,20 +55,21 @@ export const actions = {
   async addTrack({}, trackURI: string) {
     await Api.addTrack(trackURI)
   },
-  async play({ state }, device: Device) {
+  play({ state, commit }, device: Device) {
     if (!state.paused) return
-    await Api.play(device.id)
+    Api.play(device.id)
+    commit('setPaused', false)
   },
-  async pause({ state }) {
+  pause({ state, commit }) {
     if (state.paused) return
-    await Api.pause()
+    Api.pause()
+    commit('setPaused', true)
   },
   nextSong({ commit }, newTrackId: number) {
     commit('nextSong', newTrackId)
   },
   async getStatus({ commit }) {
     const res = await Api.getStatus()
-    console.log(res)
     commit('setDevice', res.device)
     commit('setPaused', res.paused)
   }

@@ -8,7 +8,7 @@
 
     <div class="fabs">
       <v-btn fab dark color="primary" @click="togglePlayback">
-        <v-icon v-if="pause">play_arrow</v-icon>
+        <v-icon v-if="paused">play_arrow</v-icon>
         <v-icon v-else>pause</v-icon>
       </v-btn>
       <nuxt-link :to="{ path: '/search', query: { redirect_to: $route.path } }">
@@ -47,9 +47,11 @@ export default class extends Vue {
   private play!: (payload: Device) => void
   private pause!: () => void
   private getStatus!: () => void
+
   private isDialogOpen: boolean = false
 
   mounted() {
+    this.getStatus()
     if ('add_track' in this.$route.query) {
       const trackURI: string = this.$route.query.add_track as string
       this.addTrack(trackURI)
@@ -58,10 +60,11 @@ export default class extends Vue {
 
   async togglePlayback() {
     await this.getStatus()
-  }
-
-  chooseDevice() {
-    this.isDialogOpen = true
+    if (this.$store.state.tracklist.paused) {
+      this.isDialogOpen = true
+    } else {
+      this.pause()
+    }
   }
 
   onSelectDevice(device: Device) {
