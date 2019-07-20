@@ -1,6 +1,6 @@
 <template>
   <v-list v-if="items" two-line class="result-list">
-    <template v-for="item in items">
+    <template v-for="(item, index) in items">
       <v-list-tile :key="item.title">
         <v-list-tile-avatar tile>
           <a :href="item.external_urls.spotify">
@@ -23,6 +23,7 @@
           </v-btn>
         </v-list-tile-action>
       </v-list-tile>
+      <v-divider v-if="index + 1 < items.length" :key="index"></v-divider>
     </template>
   </v-list>
 </template>
