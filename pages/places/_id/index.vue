@@ -7,9 +7,9 @@
     </div>
 
     <div class="fabs">
-      <v-btn fab dark color="primary" @click="chooseDevice">
-        <v-icon v-if="playing">pause</v-icon>
-        <v-icon v-else>play_arrow</v-icon>
+      <v-btn fab dark color="primary" @click="togglePlayback">
+        <v-icon v-if="pause">play_arrow</v-icon>
+        <v-icon v-else>pause</v-icon>
       </v-btn>
       <nuxt-link :to="{ path: '/search', query: { redirect_to: $route.path } }">
         <v-btn fab dark color="accent">
@@ -36,16 +36,17 @@ import Device from '@/models/Device'
 @Component({
   components: { DeviceChooseDialog, TrackListContainer, PlaceToolbar },
   methods: {
-    ...mapActions('tracklist', ['play', 'addTrack'])
+    ...mapActions('tracklist', ['play', 'pause', 'addTrack', 'getStatus'])
   },
   computed: {
-    ...mapState('tracklist', ['playing'])
+    ...mapState('tracklist', ['paused'])
   }
 })
 export default class extends Vue {
-  private togglePlayback!: (payload: {}) => void
   private addTrack!: (payload: string) => void
   private play!: (payload: Device) => void
+  private pause!: () => void
+  private getStatus!: () => void
   private isDialogOpen: boolean = false
 
   mounted() {
@@ -53,6 +54,10 @@ export default class extends Vue {
       const trackURI: string = this.$route.query.add_track as string
       this.addTrack(trackURI)
     }
+  }
+
+  async togglePlayback() {
+    await this.getStatus()
   }
 
   chooseDevice() {

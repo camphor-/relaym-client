@@ -5,13 +5,15 @@ import Device from '@/models/Device'
 interface State {
   trackList: Track[]
   playingTrackId: number
-  pause: boolean
+  paused: boolean
+  device: Device
 }
 
 export const state = () => ({
   trackList: [],
   playingTrackId: 4,
-  pause: true
+  paused: true,
+  device: {}
 })
 
 export const getters = {
@@ -33,11 +35,14 @@ export const mutations = {
   addTrack: (state: State, newTrack: Track) => {
     state.trackList.push(newTrack)
   },
-  setPause: (state: State, pause: boolean) => {
-    state.pause = pause
+  setPaused: (state: State, paused: boolean) => {
+    state.paused = paused
   },
   nextTrack: (state: State, newTrackId: number) => {
     state.playingTrackId = newTrackId
+  },
+  setDevice: (state: State, device: Device) => {
+    state.device = device
   }
 }
 
@@ -51,11 +56,20 @@ export const actions = {
     await Api.addTrack(trackURI)
   },
   async play({ state }, device: Device) {
-    // TODO: 一時停止にサーバーが対応次第対応する
-    if (!state.pause) return
+    if (!state.paused) return
     await Api.play(device.id)
+  },
+  async pause({ state }) {
+    if (state.paused) return
+    await Api.pause()
   },
   nextSong({ commit }, newTrackId: number) {
     commit('nextSong', newTrackId)
+  },
+  async getStatus({ commit }) {
+    const res = await Api.getStatus()
+    console.log(res)
+    commit('setDevice', res.device)
+    commit('setPaused', res.paused)
   }
 }
