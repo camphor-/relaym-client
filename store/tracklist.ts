@@ -5,13 +5,15 @@ import Device from '@/models/Device'
 interface State {
   trackList: Track[]
   playingTrackId: number
-  playing: boolean
+  paused: boolean
+  device: Device
 }
 
 export const state = () => ({
   trackList: [],
   playingTrackId: 4,
-  playing: false
+  paused: true,
+  device: {}
 })
 
 export const getters = {
@@ -23,6 +25,9 @@ export const getters = {
   },
   getWaitingTracks(state: State): Track[] {
     return state.trackList.slice(state.playingTrackId + 1)
+  },
+  playable(state: State): boolean {
+    return state.trackList.slice(state.playingTrackId).length > 0
   }
 }
 
@@ -33,11 +38,14 @@ export const mutations = {
   addTrack: (state: State, newTrack: Track) => {
     state.trackList.push(newTrack)
   },
-  setPlayback: (state: State, playing: boolean) => {
-    state.playing = playing
+  setPaused: (state: State, paused: boolean) => {
+    state.paused = paused
   },
   nextTrack: (state: State, newTrackId: number) => {
     state.playingTrackId = newTrackId
+  },
+  setDevice: (state: State, device: Device) => {
+    state.device = device
   }
 }
 
@@ -50,13 +58,27 @@ export const actions = {
   async addTrack({}, trackURI: string) {
     await Api.addTrack(trackURI)
   },
-  async play({ commit, state }, device: Device) {
-    // TODO: 一時停止にサーバーが対応次第対応する
-    if (state.playing) return
-    await Api.play(device.id)
-    commit('setPlayback', true)
+  play({ state, commit }, device: Device) {
+    if (!state.paused) return
+    Api.play(device.id)
+    commit('setPaused', false)
+  },
+  pause({ state, commit }) {
+    if (state.paused) return
+    Api.pause()
+    commit('setPaused', true)
+  },
+  resume({ state, commit }) {
+    if (!state.paused) return
+    Api.resume()
+    commit('setPaused', false)
   },
   nextSong({ commit }, newTrackId: number) {
     commit('nextSong', newTrackId)
+  },
+  async getStatus({ commit }) {
+    const res = await Api.getStatus()
+    commit('setDevice', res.device)
+    commit('setPaused', res.paused)
   }
 }
