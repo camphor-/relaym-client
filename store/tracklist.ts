@@ -65,6 +65,11 @@ export const actions = {
     Api.pause()
     commit('setPaused', true)
   },
+  resume({ state, commit }) {
+    if (!state.paused) return
+    Api.resume()
+    commit('setPaused', false)
+  },
   nextSong({ commit }, newTrackId: number) {
     commit('nextSong', newTrackId)
   },

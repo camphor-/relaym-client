@@ -36,7 +36,13 @@ import Device from '@/models/Device'
 @Component({
   components: { DeviceChooseDialog, TrackListContainer, PlaceToolbar },
   methods: {
-    ...mapActions('tracklist', ['play', 'pause', 'addTrack', 'getStatus'])
+    ...mapActions('tracklist', [
+      'play',
+      'pause',
+      'resume',
+      'addTrack',
+      'getStatus'
+    ])
   },
   computed: {
     ...mapState('tracklist', ['paused'])
@@ -46,12 +52,14 @@ export default class extends Vue {
   private addTrack!: (payload: string) => void
   private play!: (payload: Device) => void
   private pause!: () => void
+  private resume!: () => void
   private getStatus!: () => void
 
   private isDialogOpen: boolean = false
 
   mounted() {
     this.getStatus()
+    console.log(this.$store.state.tracklist)
     if ('add_track' in this.$route.query) {
       const trackURI: string = this.$route.query.add_track as string
       this.addTrack(trackURI)
@@ -60,11 +68,19 @@ export default class extends Vue {
 
   async togglePlayback() {
     await this.getStatus()
-    if (this.$store.state.tracklist.paused) {
-      this.isDialogOpen = true
-    } else {
+    console.log(this.$store.state.tracklist)
+    // pause
+    if (!this.$store.state.tracklist.paused) {
       this.pause()
+      return
     }
+    // resume
+    if (this.$store.state.tracklist.device) {
+      this.resume()
+      return
+    }
+    // play
+    this.isDialogOpen = true
   }
 
   onSelectDevice(device: Device) {
