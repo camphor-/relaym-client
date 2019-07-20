@@ -41,10 +41,14 @@ export default {
   },
   pause: async () => {
     const res = await instance.get('/pause', { withCredentials: true })
-    return res
+    return res.data
   },
   getAvailableDevices: async () => {
     const res = await instance.get('/devices', { withCredentials: true })
     return res.data as GetAvailableDevicesResponse
+  },
+  getStatus: async () => {
+    const res = await instance.get('/status', { withCredentials: true })
+    return res.data
   }
 }
