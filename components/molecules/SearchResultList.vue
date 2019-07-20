@@ -2,11 +2,8 @@
   <v-list v-if="items" two-line class="result-list">
     <template v-for="(item, index) in items">
       <v-list-tile :key="index">
-        <v-list-tile-avatar tile>
-          <a
-            v-if="item.external_urls.spotify"
-            :href="item.external_urls.spotify"
-          >
+        <v-btn flat :href="item.external_urls.spotify" target="_blank">
+          <v-list-tile-avatar tile>
             <img
               v-if="item.album.images[2]"
               :src="item.album.images[2].url"
@@ -14,8 +11,8 @@
               :height="item.album.images[2].height"
             />
             <v-icon v-else>album</v-icon>
-          </a>
-        </v-list-tile-avatar>
+          </v-list-tile-avatar>
+        </v-btn>
         <v-list-tile-content>
           <v-list-tile-title>{{ item.name }}</v-list-tile-title>
           <v-list-tile-sub-title>
@@ -60,5 +57,12 @@ export default class extends Vue {
 }
 .v-list {
   border-bottom: solid 1px #fafafa;
+}
+.v-list__tile__avatar {
+  min-width: 40px;
+}
+.v-btn {
+  height: 46px;
+  min-width: 46px;
 }
 </style>
