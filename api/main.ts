@@ -7,7 +7,7 @@ const instance = axios.create({
 
 export default {
   getQueue: async () => {
-    const res = await instance.get('/queue')
+    const res = await instance.get('/queue', { withCredentials: true })
     return res.data as GetQueueResponse
   },
   addTrack: async (trackURI: string) => {
