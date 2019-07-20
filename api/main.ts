@@ -2,7 +2,7 @@ import axios from 'axios'
 import {
   GetAvailableDevicesResponse,
   GetQueueResponse,
-  GetStatus
+  GetStatusResponse
 } from '@/api/interfaces'
 
 const instance = axios.create({
@@ -57,6 +57,6 @@ export default {
   },
   getStatus: async () => {
     const res = await instance.get('/status', { withCredentials: true })
-    return res.data as GetStatus
+    return res.data as GetStatusResponse
   }
 }

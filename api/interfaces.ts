@@ -11,7 +11,7 @@ export interface GetAvailableDevicesResponse {
   devices: Device[]
 }
 
-export interface GetStatus {
+export interface GetStatusResponse {
   device: Device
   user: User
   track: Track
