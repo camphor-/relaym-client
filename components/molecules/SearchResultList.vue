@@ -1,14 +1,19 @@
 <template>
   <v-list v-if="items" two-line class="result-list">
     <template v-for="(item, index) in items">
-      <v-list-tile :key="item.title">
+      <v-list-tile :key="index">
         <v-list-tile-avatar tile>
-          <a :href="item.external_urls.spotify">
+          <a
+            v-if="item.external_urls.spotify"
+            :href="item.external_urls.spotify"
+          >
             <img
+              v-if="item.album.images[2]"
               :src="item.album.images[2].url"
               :width="item.album.images[2].width"
               :height="item.album.images[2].height"
             />
+            <v-icon v-else>album</v-icon>
           </a>
         </v-list-tile-avatar>
         <v-list-tile-content>
