@@ -49,7 +49,7 @@ import Device from '@/models/Device'
     ])
   },
   computed: {
-    ...mapState('tracklist', ['paused']),
+    ...mapState('tracklist', ['paused', 'device']),
     ...mapGetters('tracklist', ['playable'])
   }
 })
@@ -59,6 +59,9 @@ export default class extends Vue {
   private pause!: () => void
   private resume!: () => void
   private getStatus!: () => void
+  private paused!: () => boolean
+  private playable!: () => boolean
+  private device!: () => Device
 
   private isDialogOpen: boolean = false
 
@@ -73,15 +76,15 @@ export default class extends Vue {
   async togglePlayback() {
     await this.getStatus()
     // pause
-    if (!this.$store.state.tracklist.paused) {
+    if (!this.paused) {
       this.pause()
       return
     }
-    if (!this.$store.getters['tracklist/playable']) {
+    if (!this.playable) {
       return
     }
     // resume
-    if (this.$store.state.tracklist.device) {
+    if (this.device) {
       this.resume()
       return
     }
