@@ -7,7 +7,7 @@
     </div>
 
     <div class="fabs">
-      <v-btn fab dark color="primary" @click="togglePlayback">
+      <v-btn v-if="playable" fab dark color="primary" @click="togglePlayback">
         <v-icon v-if="paused">play_arrow</v-icon>
         <v-icon v-else>pause</v-icon>
       </v-btn>
@@ -27,14 +27,18 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import PlaceToolbar from '@/components/molecules/PlaceToolbar.vue'
 import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 import DeviceChooseDialog from '@/components/organisms/DeviceChooseDialog.vue'
 import Device from '@/models/Device'
 
 @Component({
-  components: { DeviceChooseDialog, TrackListContainer, PlaceToolbar },
+  components: {
+    DeviceChooseDialog,
+    TrackListContainer,
+    PlaceToolbar
+  },
   methods: {
     ...mapActions('tracklist', [
       'play',
@@ -45,7 +49,8 @@ import Device from '@/models/Device'
     ])
   },
   computed: {
-    ...mapState('tracklist', ['paused'])
+    ...mapState('tracklist', ['paused']),
+    ...mapGetters('tracklist', ['playable'])
   }
 })
 export default class extends Vue {
