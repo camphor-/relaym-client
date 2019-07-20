@@ -1,5 +1,6 @@
 import Track from '@/models/Track'
 import Device from '@/models/Device'
+import User from '@/models/User'
 
 export interface GetQueueResponse {
   head: number
