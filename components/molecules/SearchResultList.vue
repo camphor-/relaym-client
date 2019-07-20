@@ -25,10 +25,7 @@
           </v-btn>
         </v-list-tile-action>
       </v-list-tile>
-      <v-divider
-        v-if="index + 1 < items.length"
-        :key="`divider-${index}`"
-      ></v-divider>
+      <v-divider v-if="index + 1 < items.length" :key="index"></v-divider>
     </template>
   </v-list>
 </template>
@@ -54,9 +51,6 @@ export default class extends Vue {
 .v-avatar img {
   height: 100%;
   width: 100%;
-}
-.v-list {
-  border-bottom: solid 1px #fafafa;
 }
 .v-list__tile__avatar {
   min-width: 40px;
