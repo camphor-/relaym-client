@@ -1,6 +1,6 @@
 <template>
   <v-list v-if="items" two-line class="result-list">
-    <template v-for="item in items">
+    <template v-for="(item, index) in items">
       <v-list-tile :key="item.title">
         <v-list-tile-avatar tile>
           <a :href="item.external_urls.spotify">
@@ -23,6 +23,10 @@
           </v-btn>
         </v-list-tile-action>
       </v-list-tile>
+      <v-divider
+        v-if="index + 1 < items.length"
+        :key="`divider-${index}`"
+      ></v-divider>
     </template>
   </v-list>
 </template>
@@ -48,5 +52,8 @@ export default class extends Vue {
 .v-avatar img {
   height: 100%;
   width: 100%;
+}
+.v-list {
+  border-bottom: solid 1px #fafafa;
 }
 </style>
