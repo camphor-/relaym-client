@@ -25,6 +25,9 @@ export const getters = {
   },
   getWaitingTracks(state: State): Track[] {
     return state.trackList.slice(state.playingTrackId + 1)
+  },
+  playable(state: State): boolean {
+    return state.trackList.slice(state.playingTrackId).length > 0
   }
 }
 

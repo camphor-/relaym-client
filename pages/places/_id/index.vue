@@ -59,7 +59,7 @@ export default class extends Vue {
 
   mounted() {
     this.getStatus()
-    console.log(this.$store.state.tracklist)
+    console.log(this.$store)
     if ('add_track' in this.$route.query) {
       const trackURI: string = this.$route.query.add_track as string
       this.addTrack(trackURI)
@@ -68,10 +68,12 @@ export default class extends Vue {
 
   async togglePlayback() {
     await this.getStatus()
-    console.log(this.$store.state.tracklist)
     // pause
     if (!this.$store.state.tracklist.paused) {
       this.pause()
+      return
+    }
+    if (!this.$store.getters['tracklist/playable']) {
       return
     }
     // resume
