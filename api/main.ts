@@ -1,5 +1,9 @@
 import axios from 'axios'
-import { GetAvailableDevicesResponse, GetQueueResponse } from '@/api/interfaces'
+import {
+  GetAvailableDevicesResponse,
+  GetQueueResponse,
+  GetStatusResponse
+} from '@/api/interfaces'
 
 const instance = axios.create({
   baseURL: process.env.BASE_URL + '/api/v1'
@@ -7,7 +11,7 @@ const instance = axios.create({
 
 export default {
   getQueue: async () => {
-    const res = await instance.get('/queue')
+    const res = await instance.get('/queue', { withCredentials: true })
     return res.data as GetQueueResponse
   },
   addTrack: async (trackURI: string) => {
@@ -39,8 +43,20 @@ export default {
     )
     return res.data
   },
+  pause: async () => {
+    const res = await instance.get('/pause', { withCredentials: true })
+    return res.data
+  },
+  resume: async () => {
+    const res = await instance.get('/resume', { withCredentials: true })
+    return res.data
+  },
   getAvailableDevices: async () => {
     const res = await instance.get('/devices', { withCredentials: true })
     return res.data as GetAvailableDevicesResponse
+  },
+  getStatus: async () => {
+    const res = await instance.get('/status', { withCredentials: true })
+    return res.data as GetStatusResponse
   }
 }
