@@ -8,7 +8,8 @@
       </div>
 
       <add-place-card />
-      <places-list :places="places" />
+      <!-- TODO: セッションリストを作る -->
+      <places-list :places="places" @click="goSession" />
     </v-flex>
   </v-container>
 </template>
@@ -17,6 +18,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import AddPlaceCard from '@/components/organisms/AddPlaceCard.vue'
 import PlacesList from '@/components/organisms/PlacesList.vue'
+import auth from '@/api/auth'
 
 @Component({
   components: { AddPlaceCard, PlacesList },
@@ -24,6 +26,11 @@ import PlacesList from '@/components/organisms/PlacesList.vue'
 })
 export default class Index extends Vue {
   places = [{ id: 'camphor-', name: 'CAMPHOR-' }]
+
+  goSession() {
+    // this.$router.push({ path: `/sessions/${id}` })
+    location.href = auth.getLoginUrl()
+  }
 }
 </script>
 
