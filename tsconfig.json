@@ -11,6 +11,12 @@
     "noImplicitAny": false
   },
   "include": [
-    "components/**/*.vue"
+    "api/*.ts",
+    "layouts/*.vue",
+    "components/**/*.vue",
+    "pages/*.vue",
+    "pages/**/**/*.vue",
+    "store/*.ts",
+    "store/**/*.ts"
   ]
 }
