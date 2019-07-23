@@ -9,5 +9,14 @@
     "module": "es2015",
     "moduleResolution": "node",
     "noImplicitAny": false
-  }
+  },
+  "include": [
+    "api/*.ts",
+    "layouts/*.vue",
+    "components/**/*.vue",
+    "pages/*.vue",
+    "pages/**/**/*.vue",
+    "store/*.ts",
+    "store/**/*.ts"
+  ]
 }
