@@ -1,35 +1,40 @@
 <template>
-  <v-dialog v-model="dialog" v-slot:activator="on" width="800" @input="input">
+  <v-dialog :value="value" width="600">
     <v-card>
-      <v-card-title primary-title>
-        Need Spotify Premium to Start/Pause Playback!
-      </v-card-title>
-
       <v-card-text>
+        <img src="@/assets/images/banfreelogo.svg" />
         <p>
-          Oops! Spotify Free Plan can not start/resume playback. Upgrade Spotify
-          Premium.
+          Spotify Free Plan can not start/resume playback. Need to upgrade
+          Spotify Premium to start/pause playtrack.
+          <a href="#">Any other problem?</a>
         </p>
         <v-card-actions>
-          <v-btn color="primary" @click="dialog = false"
+          <v-spacer></v-spacer>
+          <v-btn color="primary" @click="value = false"
             >Upgrade Spotify Premium</v-btn
           >
-          <v-btn color="primary" @click="closeDialog">Dismiss now</v-btn>
+          <v-btn color="primary" @click="value = false">Dismiss now</v-btn>
         </v-card-actions>
-        <p><a href="#">Any other problem?</a></p>
       </v-card-text>
     </v-card>
   </v-dialog>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 // import User from '@/models/User'
 
 @Component({
   components: {}
 })
-export default class extends Vue {}
+export default class extends Vue {
+  @Prop() readonly value!: boolean
+}
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+img {
+  width: 100%;
+  text-align: center;
+}
+</style>
