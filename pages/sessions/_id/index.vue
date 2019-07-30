@@ -6,17 +6,29 @@
       <track-list-container />
     </div>
 
-    <div class="fabs">
-      <v-btn v-if="playable" fab dark color="primary" @click="togglePlayback">
-        <v-icon v-if="paused">play_arrow</v-icon>
-        <v-icon v-else>pause</v-icon>
-      </v-btn>
-      <nuxt-link :to="{ path: '/search', query: { redirect_to: $route.path } }">
-        <v-btn fab dark color="accent">
-          <v-icon>add</v-icon>
-        </v-btn>
-      </nuxt-link>
-    </div>
+    <v-container>
+      <div class="bottom-controller elevation-5">
+        <v-layout justify-space-around>
+          <v-btn
+            v-if="playable"
+            fab
+            dark
+            color="primary"
+            @click="togglePlayback"
+          >
+            <v-icon v-if="paused">play_arrow</v-icon>
+            <v-icon v-else>pause</v-icon>
+          </v-btn>
+          <nuxt-link
+            :to="{ path: '/search', query: { redirect_to: $route.path } }"
+          >
+            <v-btn fab dark color="accent">
+              <v-icon>add</v-icon>
+            </v-btn>
+          </nuxt-link>
+        </v-layout>
+      </div>
+    </v-container>
 
     <device-choose-dialog
       v-model="isDialogOpen"
@@ -27,7 +39,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 import PlaceToolbar from '@/components/molecules/PlaceToolbar.vue'
 import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 import DeviceChooseDialog from '@/components/organisms/DeviceChooseDialog.vue'
@@ -104,8 +116,7 @@ export default class extends Vue {
   height: calc(100vh - #{$header-logo-height});
   display: grid;
   grid-template:
-    'toolbar' auto
-    'list' 1fr
+    'toolbar' auto 'list' 1fr
     / 1fr;
 
   > .toolbar {
@@ -126,5 +137,9 @@ export default class extends Vue {
       text-decoration: none;
     }
   }
+}
+
+.bottom-controller {
+  border-radius: 10px;
 }
 </style>
