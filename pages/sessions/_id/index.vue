@@ -6,29 +6,23 @@
       <track-list-container />
     </div>
 
-    <v-container>
+    <div class="bottom-controller-wrapper">
       <div class="bottom-controller elevation-5">
         <v-layout justify-space-around>
-          <v-btn
-            v-if="playable"
-            fab
-            dark
-            color="primary"
-            @click="togglePlayback"
-          >
+          <v-btn v-if="playable" icon color="primary" @click="togglePlayback">
             <v-icon v-if="paused">play_arrow</v-icon>
             <v-icon v-else>pause</v-icon>
           </v-btn>
           <nuxt-link
             :to="{ path: '/search', query: { redirect_to: $route.path } }"
           >
-            <v-btn fab dark color="accent">
+            <v-btn icon color="accent">
               <v-icon>add</v-icon>
             </v-btn>
           </nuxt-link>
         </v-layout>
       </div>
-    </v-container>
+    </div>
 
     <device-choose-dialog
       v-model="isDialogOpen"
@@ -111,6 +105,10 @@ export default class extends Vue {
 </script>
 
 <style lang="scss" scoped>
+a {
+  text-decoration: none;
+}
+
 .page-root {
   position: relative;
   height: calc(100vh - #{$header-logo-height});
@@ -139,7 +137,14 @@ export default class extends Vue {
   }
 }
 
-.bottom-controller {
-  border-radius: 10px;
+.bottom-controller-wrapper {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  .bottom-controller {
+    margin: 2rem;
+    border-radius: 10px;
+    background: #fff;
+  }
 }
 </style>
