@@ -6,7 +6,6 @@
         <p>
           Spotify Free Plan can not start/resume playback. Need to upgrade
           Spotify Premium to start/pause playtrack.
-          <!-- <a href="#">Any other problem?</a> -->
         </p>
         <v-card-actions>
           <v-spacer></v-spacer>
