@@ -8,16 +8,19 @@
 
     <div class="bottom-controller-wrapper">
       <div class="bottom-controller elevation-5">
-        <v-layout justify-space-around>
-          <v-btn v-if="playable" icon color="primary" @click="togglePlayback">
+        <v-layout align-center justify-space-around>
+          <v-btn icon large>
+            <v-icon>devices</v-icon>
+          </v-btn>
+          <v-btn v-if="playable" icon large @click="togglePlayback">
             <v-icon v-if="paused">play_arrow</v-icon>
             <v-icon v-else>pause</v-icon>
           </v-btn>
           <nuxt-link
             :to="{ path: '/search', query: { redirect_to: $route.path } }"
           >
-            <v-btn icon color="accent">
-              <v-icon>add</v-icon>
+            <v-btn icon large>
+              <v-icon>playlist_add</v-icon>
             </v-btn>
           </nuxt-link>
         </v-layout>
@@ -25,7 +28,7 @@
     </div>
 
     <device-choose-dialog
-      v-model="isDialogOpen"
+      v-model="isDeviceSelectDialogOpen"
       @select-device="onSelectDevice"
     />
   </div>
@@ -69,7 +72,7 @@ export default class extends Vue {
   private playable!: () => boolean
   private device!: () => Device
 
-  private isDialogOpen: boolean = false
+  private isDeviceSelectDialogOpen: boolean = false
 
   mounted() {
     this.getStatus()
@@ -95,7 +98,7 @@ export default class extends Vue {
       return
     }
     // play
-    this.isDialogOpen = true
+    this.isDeviceSelectDialogOpen = true
   }
 
   onSelectDevice(device: Device) {
@@ -142,9 +145,11 @@ a {
   position: fixed;
   bottom: 0;
   .bottom-controller {
-    margin: 2rem;
+    margin: 3vmin auto;
     border-radius: 10px;
     background: #fff;
+    width: 94vw;
+    max-width: 800px;
   }
 }
 </style>
