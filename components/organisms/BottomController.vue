@@ -2,12 +2,12 @@
   <div class="bottom-controller-wrapper">
     <div class="bottom-controller elevation-5">
       <v-layout align-center justify-space-around>
-        <v-btn icon large @click="selectDevice">
+        <v-btn icon large @click="openDeviceSelectDialog">
           <v-icon>devices</v-icon>
         </v-btn>
-        <v-btn v-if="playable" icon large @click="togglePlayback">
-          <v-icon v-if="paused">play_arrow</v-icon>
-          <v-icon v-else>pause</v-icon>
+        <v-btn v-if="playable" icon @click="togglePlayback">
+          <v-icon v-if="paused" color="accent" x-large>play_arrow</v-icon>
+          <v-icon v-else color="accent" x-large>pause</v-icon>
         </v-btn>
         <nuxt-link
           :to="{ path: '/search', query: { redirect_to: $route.path } }"
@@ -68,10 +68,10 @@ export default class extends Vue {
       return
     }
     // play
-    this.selectDevice()
+    this.openDeviceSelectDialog()
   }
 
-  selectDevice() {
+  openDeviceSelectDialog() {
     this.input(true)
   }
 }
