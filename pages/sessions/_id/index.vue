@@ -74,15 +74,5 @@ export default class extends Vue {
     grid-area: list;
     overflow-y: auto;
   }
-
-  > .fabs {
-    position: absolute;
-    right: 32px;
-    bottom: 32px;
-
-    a {
-      text-decoration: none;
-    }
-  }
 }
 </style>
