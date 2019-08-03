@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
+import { Component, Emit, Vue } from 'vue-property-decorator'
 import { mapActions, mapGetters, mapState } from 'vuex'
 import Device from '@/models/Device'
 
@@ -36,8 +36,6 @@ import Device from '@/models/Device'
   }
 })
 export default class extends Vue {
-  @Prop({ default: false }) readonly value!: boolean
-
   private pause!: () => void
   private resume!: () => void
   private getStatus!: () => void
@@ -48,9 +46,7 @@ export default class extends Vue {
   private playable!: () => boolean
 
   @Emit()
-  input(isOpen: boolean) {
-    return isOpen
-  }
+  openDeviceSelectDialog() {}
 
   async togglePlayback() {
     await this.getStatus()
@@ -69,10 +65,6 @@ export default class extends Vue {
     }
     // play
     this.openDeviceSelectDialog()
-  }
-
-  openDeviceSelectDialog() {
-    this.input(true)
   }
 }
 </script>

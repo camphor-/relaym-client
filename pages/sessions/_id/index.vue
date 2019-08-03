@@ -6,7 +6,9 @@
       <track-list-container />
     </div>
 
-    <bottom-controller v-model="isDeviceSelectDialogOpen" />
+    <bottom-controller
+      v-on:open-device-select-dialog="openDeviceSelectDialog"
+    />
 
     <device-select-dialog
       v-model="isDeviceSelectDialogOpen"
@@ -52,6 +54,10 @@ export default class extends Vue {
 
   onSelectDevice(device: Device) {
     this.play(device)
+  }
+
+  openDeviceSelectDialog() {
+    this.isDeviceSelectDialogOpen = true
   }
 }
 </script>
