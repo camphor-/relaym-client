@@ -41,7 +41,6 @@ export default class extends Vue {
   private play!: (payload: Device) => void
 
   private isDeviceSelectDialogOpen: boolean = false
-  private $route: any
 
   mounted() {
     this.getStatus()
