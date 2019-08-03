@@ -12,7 +12,7 @@
           <v-btn color="primary" flat @click="closeDialog"
             >Upgrade Spotify Premium</v-btn
           >
-          <v-btn color="primary" flat @click="value = false">Dismiss now</v-btn>
+          <v-btn color="primary" flat @click="closeDialog">Dismiss now</v-btn>
         </v-card-actions>
       </v-card-text>
     </v-card>
@@ -20,19 +20,21 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 
 @Component({
   components: {}
 })
 export default class extends Vue {
-  @Prop({ default: false })
+  @Prop({ default: false }) readonly value!: boolean
+
+  @Emit()
   input(newValue) {
-    this.$emit('input', newValue)
+    this.input = newValue
   }
 
   closeDialog() {
-    this.$emit('input', false)
+    this.input(false)
   }
 }
 </script>
