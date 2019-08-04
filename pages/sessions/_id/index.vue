@@ -1,34 +1,38 @@
 <template>
-  <div class="page-root hide-overflow">
-    <place-toolbar class="toolbar" />
+  <div>
+    <div class="page-root hide-overflow">
+      <session-toolbar class="toolbar" />
 
-    <div class="list-container">
-      <track-list-container />
-    </div>
+      <div class="list-container">
+        <track-list-container />
+      </div>
 
-    <div class="fabs">
-      <v-btn v-if="playable" fab dark color="primary" @click="togglePlayback">
-        <v-icon v-if="paused">play_arrow</v-icon>
-        <v-icon v-else>pause</v-icon>
-      </v-btn>
-      <nuxt-link :to="{ path: '/search', query: { redirect_to: $route.path } }">
-        <v-btn fab dark color="accent">
-          <v-icon>add</v-icon>
+      <div class="fabs">
+        <v-btn v-if="playable" fab dark color="primary" @click="togglePlayback">
+          <v-icon v-if="paused">play_arrow</v-icon>
+          <v-icon v-else>pause</v-icon>
         </v-btn>
-      </nuxt-link>
-    </div>
+        <nuxt-link
+          :to="{ path: '/search', query: { redirect_to: $route.path } }"
+        >
+          <v-btn fab dark color="accent">
+            <v-icon>add</v-icon>
+          </v-btn>
+        </nuxt-link>
+      </div>
 
-    <device-choose-dialog
-      v-model="isDialogOpen"
-      @select-device="onSelectDevice"
-    />
+      <device-choose-dialog
+        v-model="isDialogOpen"
+        @select-device="onSelectDevice"
+      />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { mapState, mapActions, mapGetters } from 'vuex'
-import PlaceToolbar from '@/components/molecules/PlaceToolbar.vue'
+import SessionToolbar from '@/components/molecules/SessionToolbar.vue'
 import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 import DeviceChooseDialog from '@/components/organisms/DeviceChooseDialog.vue'
 import Device from '@/models/Device'
@@ -37,7 +41,7 @@ import Device from '@/models/Device'
   components: {
     DeviceChooseDialog,
     TrackListContainer,
-    PlaceToolbar
+    SessionToolbar
   },
   methods: {
     ...mapActions('tracklist', [
