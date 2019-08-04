@@ -1,8 +1,10 @@
 <template>
-  <v-toolbar color="elevation-0 primary" dark>
-    <v-toolbar-title>CAMPHOR- HOUSE</v-toolbar-title>
-    <v-spacer></v-spacer>
-  </v-toolbar>
+  <div class="toolbar">
+    <v-btn icon>
+      <v-icon>menu</v-icon>
+    </v-btn>
+    <span class="title">CAMPHOR- HOUSE</span>
+  </div>
 </template>
 
 <script lang="ts">
@@ -15,8 +17,13 @@ export default class extends Vue {}
 </script>
 
 <style lang="scss" scoped>
-h1 {
-  margin-bottom: 8px;
-  border-bottom: 1px solid #ccc;
+.toolbar {
+  display: flex;
+  justify-content: space-around;
+  height: 56px;
+  background: $primary-color;
+  .title {
+    color: white;
+  }
 }
 </style>
