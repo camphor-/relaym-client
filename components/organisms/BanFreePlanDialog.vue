@@ -30,7 +30,7 @@ export default class extends Vue {
 
   @Emit()
   input(newValue) {
-    this.input = newValue
+    return newValue
   }
 
   closeDialog() {
