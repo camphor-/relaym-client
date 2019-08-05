@@ -1,9 +1,10 @@
 <template>
-  <div class="toolbar">
+  <div class="session-toolbar">
     <v-btn icon>
-      <v-icon>menu</v-icon>
+      <v-icon color="white">menu</v-icon>
     </v-btn>
-    <span class="title">CAMPHOR- HOUSE</span>
+    <span class="session-name">CAMPHOR- HOUSE</span>
+    <span class="toolbar-spacer"></span>
   </div>
 </template>
 
@@ -17,13 +18,21 @@ export default class extends Vue {}
 </script>
 
 <style lang="scss" scoped>
-.toolbar {
+.session-toolbar {
+  z-index: 1;
+  position: fixed;
+  width: 100vw;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
+  align-items: center;
   height: 56px;
   background: $primary-color;
-  .title {
+  .session-name {
     color: white;
+    font-size: 1.5rem;
+  }
+  .toolbar-spacer {
+    width: 36px;
   }
 }
 </style>
