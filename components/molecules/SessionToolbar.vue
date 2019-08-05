@@ -4,7 +4,6 @@
       <v-icon color="white">menu</v-icon>
     </v-btn>
     <span class="session-name">CAMPHOR- HOUSE</span>
-    <span class="toolbar-spacer"></span>
   </div>
 </template>
 
@@ -23,16 +22,14 @@ export default class extends Vue {}
   position: fixed;
   width: 100vw;
   display: flex;
-  justify-content: space-between;
   align-items: center;
   height: 56px;
   background: $primary-color;
+  padding-right: 44px;
   .session-name {
+    margin: 0 auto;
     color: white;
     font-size: 1.5rem;
-  }
-  .toolbar-spacer {
-    width: 36px;
   }
 }
 </style>
