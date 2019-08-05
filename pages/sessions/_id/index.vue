@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <div id="page-container">
+    <slide-menu v-model="isShowSlideMenu" />
     <div class="page-root hide-overflow">
-      <session-toolbar v-on:open-slider-menu="showSliderMenu" />
+      <session-toolbar @open-slider-menu="showSliderMenu" />
 
       <div class="list-container">
         <track-list-container />
@@ -36,12 +37,14 @@ import SessionToolbar from '@/components/molecules/SessionToolbar.vue'
 import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 import DeviceChooseDialog from '@/components/organisms/DeviceChooseDialog.vue'
 import Device from '@/models/Device'
+import SlideMenu from '@/components/molecules/SlideMenu.vue'
 
 @Component({
   components: {
     DeviceChooseDialog,
     TrackListContainer,
-    SessionToolbar
+    SessionToolbar,
+    SlideMenu
   },
   methods: {
     ...mapActions('tracklist', [
@@ -68,6 +71,7 @@ export default class extends Vue {
   private device!: () => Device
 
   private isDialogOpen: boolean = false
+  private isShowSlideMenu: boolean = false
 
   mounted() {
     this.getStatus()
@@ -101,8 +105,9 @@ export default class extends Vue {
   }
 
   showSliderMenu() {
+    this.isShowSlideMenu = true
     const pageRoot = document.getElementsByClassName('page-root')[0]
-    pageRoot.style.transform = 'translateX(400px)'
+    pageRoot.style.transform = 'translateX(300px)'
     pageRoot.style.transition = 'all .5s ease-in-out'
   }
 }
