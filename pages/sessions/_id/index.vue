@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import SessionToolbar from '@/components/molecules/SessionToolbar.vue'
 import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
@@ -72,6 +72,8 @@ export default class extends Vue {
 
   private isDialogOpen: boolean = false
   private isShowSlideMenu: boolean = false
+  private positionXOfPageRoot: number = 0
+  private pageRoot: any
 
   mounted() {
     this.getStatus()
@@ -79,6 +81,8 @@ export default class extends Vue {
       const trackURI: string = this.$route.query.add_track as string
       this.addTrack(trackURI)
     }
+    this.pageRoot = document.getElementsByClassName('page-root')[0]
+    this.pageRoot.style.transition = '0.2s cubic-bezier(0.4, 0, 0.2, 1)'
   }
 
   async togglePlayback() {
@@ -106,9 +110,15 @@ export default class extends Vue {
 
   showSliderMenu() {
     this.isShowSlideMenu = true
-    const pageRoot = document.getElementsByClassName('page-root')[0]
-    pageRoot.style.transform = 'translateX(300px)'
-    pageRoot.style.transition = 'all .5s ease-in-out'
+  }
+
+  @Watch('isShowSlideMenu')
+  onIsShowSliderMenuChanged(newValue: boolean) {
+    if (newValue) {
+      this.pageRoot.style.transform = 'translateX(300px)'
+    } else {
+      this.pageRoot.style.transform = 'translateX(0)'
+    }
   }
 }
 </script>
