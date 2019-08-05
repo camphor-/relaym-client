@@ -105,7 +105,7 @@ export default class extends Vue {
 <style lang="scss" scoped>
 .page-root {
   > .fabs {
-    position: absolute;
+    position: fixed;
     right: 32px;
     bottom: 32px;
 
