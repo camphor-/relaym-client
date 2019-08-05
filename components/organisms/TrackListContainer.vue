@@ -50,6 +50,6 @@ export default class extends Vue {
 
 <style lang="scss" scoped>
 #track-list-container-root {
-  margin-top: 56px;
+  padding-top: 56px;
 }
 </style>

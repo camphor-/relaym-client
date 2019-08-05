@@ -1,5 +1,5 @@
-<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
-  <v-navigation-drawer :value="value" @input="input" absolute temporary>
+<template>
+  <v-navigation-drawer :value="value" @input="input" fixed temporary>
     <div id="logo">
       <nuxt-link to="/">Relaym</nuxt-link>
     </div>
@@ -52,6 +52,9 @@ export default class extends Vue {
 </script>
 
 <style lang="scss" scoped>
+.v-navigation-drawer {
+  max-height: 100vh;
+}
 a {
   text-decoration: none;
   color: $primary-color;

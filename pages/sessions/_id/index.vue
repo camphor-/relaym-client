@@ -117,13 +117,16 @@ export default class extends Vue {
     if (newValue) {
       this.pageRoot.style.transform = 'translateX(300px)'
     } else {
-      this.pageRoot.style.transform = 'translateX(0)'
+      this.pageRoot.style.transform = ''
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+#page-container {
+  overflow: hidden;
+}
 .page-root {
   > .fabs {
     position: fixed;

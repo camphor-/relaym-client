@@ -86,7 +86,7 @@ export default class extends Vue {
   padding: 0;
 }
 #windowWrapper {
-  min-height: calc(100vh - 150px);
+  min-height: calc(100vh - 56px);
 }
 
 .playing {
