@@ -1,5 +1,5 @@
 <template>
-  <v-list two-line>
+  <v-list id="track-list-root" two-line>
     <v-subheader v-if="playedTracks.length > 0">Played</v-subheader>
     <template v-for="(item, index) in playedTracks">
       <v-list-tile
@@ -82,12 +82,14 @@ export default class extends Vue {
 </script>
 
 <style lang="scss" scoped>
+#track-list-root {
+  padding: 0;
+}
 #windowWrapper {
   min-height: calc(100vh - 150px);
 }
 
 .playing {
-  padding-top: 1rem;
   background-color: #f8dce3;
   .v-subheader {
     color: #da4167;

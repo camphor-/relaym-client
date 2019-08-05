@@ -1,13 +1,11 @@
 <template>
-  <div class="container-root">
+  <div id="track-list-container-root">
     <template v-if="trackList">
-      <div class="list-root">
-        <track-list
-          :played-tracks="getPlayedTracks"
-          :playing-track="getPlayingTrack"
-          :waiting-tracks="getWaitingTracks"
-        />
-      </div>
+      <track-list
+        :played-tracks="getPlayedTracks"
+        :playing-track="getPlayingTrack"
+        :waiting-tracks="getWaitingTracks"
+      />
     </template>
     <template v-else>
       <track-list-place-holder />
@@ -51,11 +49,7 @@ export default class extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.container-root {
-  height: 100%;
-}
-.list-root {
-  max-height: 100%;
-  overflow-y: auto;
+#track-list-container-root {
+  margin-top: 56px;
 }
 </style>
