@@ -1,6 +1,6 @@
 <template>
   <div class="session-toolbar">
-    <v-btn icon>
+    <v-btn icon @click="openSliderMenu">
       <v-icon color="white">menu</v-icon>
     </v-btn>
     <span class="session-name">CAMPHOR- HOUSE</span>
@@ -8,12 +8,15 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Emit, Vue } from 'vue-property-decorator'
 
 @Component({
   components: {}
 })
-export default class extends Vue {}
+export default class extends Vue {
+  @Emit()
+  openSliderMenu() {}
+}
 </script>
 
 <style lang="scss" scoped>

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="page-root hide-overflow">
-      <session-toolbar />
+      <session-toolbar v-on:open-slider-menu="showSliderMenu" />
 
       <div class="list-container">
         <track-list-container />
@@ -98,6 +98,12 @@ export default class extends Vue {
 
   onSelectDevice(device: Device) {
     this.play(device)
+  }
+
+  showSliderMenu() {
+    const pageRoot = document.getElementsByClassName('page-root')[0]
+    pageRoot.style.transform = 'translateX(400px)'
+    pageRoot.style.transition = 'all .5s ease-in-out'
   }
 }
 </script>
