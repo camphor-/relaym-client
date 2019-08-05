@@ -1,10 +1,28 @@
-<template>
+<template xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
   <v-navigation-drawer :value="value" @input="input" absolute temporary>
-    <v-list-item>
-      <v-list-item-avatar>
-        <v-img src="https://randomuser.me/api/portraits/men/78.jpg"></v-img>
-      </v-list-item-avatar>
-    </v-list-item>
+    <div id="logo">
+      <nuxt-link to="/">Relaym</nuxt-link>
+    </div>
+    <v-list>
+      <v-list-tile v-for="item in items" :key="item.title" :to="item.to" nuxt>
+        <v-list-tile-avatar>
+          <v-icon>{{ item.icon }}</v-icon>
+        </v-list-tile-avatar>
+
+        <v-list-tile-content>
+          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+
+      <v-list-tile class="bottom-btn" @click="terminateSession">
+        <v-list-tile-avatar>
+          <v-icon>archive</v-icon>
+        </v-list-tile-avatar>
+        <v-list-tile-content>
+          <v-list-tile-title>Terminate and Archive</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+    </v-list>
   </v-navigation-drawer>
 </template>
 
@@ -15,13 +33,37 @@ import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
   components: {}
 })
 export default class extends Vue {
+  private items = [
+    { title: 'Home', icon: 'home', to: '/' },
+    { title: 'Exit', icon: 'exit_to_app', to: '/' }
+  ]
+
   @Prop({ default: false }) readonly value!: boolean
 
   @Emit()
   input(isOpen: boolean) {
     return isOpen
   }
+
+  terminateSession() {
+    // セッションを終了させる処理
+  }
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+a {
+  text-decoration: none;
+  color: $primary-color;
+}
+#logo {
+  text-align: center;
+  margin: 1rem 0;
+  font-size: 2rem;
+}
+.bottom-btn {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+</style>
