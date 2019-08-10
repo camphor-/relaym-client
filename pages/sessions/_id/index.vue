@@ -7,9 +7,9 @@
     </div>
 
     <div class="fabs">
-      <v-btn fab dark color="primary" @click="chooseDevice">
-        <v-icon v-if="playing">pause</v-icon>
-        <v-icon v-else>play_arrow</v-icon>
+      <v-btn v-if="playable" fab dark color="primary" @click="togglePlayback">
+        <v-icon v-if="paused">play_arrow</v-icon>
+        <v-icon v-else>pause</v-icon>
       </v-btn>
       <nuxt-link :to="{ path: '/search', query: { redirect_to: $route.path } }">
         <v-btn fab dark color="accent">
@@ -29,7 +29,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { mapState, mapActions } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import PlaceToolbar from '@/components/molecules/PlaceToolbar.vue'
 import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 import DeviceChooseDialog from '@/components/organisms/DeviceChooseDialog.vue'
@@ -44,20 +44,34 @@ import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
     BanFreePlanDialog
   },
   methods: {
-    ...mapActions('tracklist', ['play', 'addTrack'])
+    ...mapActions('tracklist', [
+      'play',
+      'pause',
+      'resume',
+      'addTrack',
+      'getStatus'
+    ])
   },
   computed: {
-    ...mapState('tracklist', ['playing'])
+    ...mapState('tracklist', ['paused', 'device']),
+    ...mapGetters('tracklist', ['playable'])
   }
 })
 export default class extends Vue {
-  private togglePlayback!: (payload: {}) => void
   private addTrack!: (payload: string) => void
   private play!: (payload: Device) => void
+  private pause!: () => void
+  private resume!: () => void
+  private getStatus!: () => void
+  private paused!: () => boolean
+  private playable!: () => boolean
+  private device!: () => Device
+
   private isDialogOpen: boolean = false
   private isBanDialogOpen: boolean = false
 
   mounted() {
+    this.getStatus()
     if ('add_track' in this.$route.query) {
       const trackURI: string = this.$route.query.add_track as string
       this.addTrack(trackURI)
@@ -65,12 +79,26 @@ export default class extends Vue {
     this.isBanDialogOpen = true
   }
 
-  chooseDevice() {
+  async togglePlayback() {
+    await this.getStatus()
+    // pause
+    if (!this.paused) {
+      this.pause()
+      return
+    }
+    if (!this.playable) {
+      return
+    }
+    // resume
+    if (this.device) {
+      this.resume()
+      return
+    }
+    // play
     this.isDialogOpen = true
   }
 
   onSelectDevice(device: Device) {
-    console.log(device)
     this.play(device)
   }
 }

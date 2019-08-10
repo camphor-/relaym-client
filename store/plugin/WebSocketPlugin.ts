@@ -16,10 +16,10 @@ const WebSocketPlugin = (store: any) => {
         store.commit('tracklist/nextTrack', message.head)
         break
       case 'PAUSE':
-        store.commit('tracklist/setPlayback', false)
+        store.commit('tracklist/setPaused', true)
         break
       case 'RESUME':
-        store.commit('tracklist/setPlayback', true)
+        store.commit('tracklist/setPaused', false)
         break
       default:
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
