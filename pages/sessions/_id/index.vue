@@ -22,6 +22,8 @@
       v-model="isDialogOpen"
       @select-device="onSelectDevice"
     />
+
+    <ban-free-plan-dialog v-model="isBanDialogOpen" @ />
   </div>
 </template>
 
@@ -32,12 +34,14 @@ import PlaceToolbar from '@/components/molecules/PlaceToolbar.vue'
 import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 import DeviceChooseDialog from '@/components/organisms/DeviceChooseDialog.vue'
 import Device from '@/models/Device'
+import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
 
 @Component({
   components: {
     DeviceChooseDialog,
     TrackListContainer,
-    PlaceToolbar
+    PlaceToolbar,
+    BanFreePlanDialog
   },
   methods: {
     ...mapActions('tracklist', [
@@ -64,6 +68,7 @@ export default class extends Vue {
   private device!: () => Device
 
   private isDialogOpen: boolean = false
+  private isBanDialogOpen: boolean = false
 
   mounted() {
     this.getStatus()
@@ -71,6 +76,7 @@ export default class extends Vue {
       const trackURI: string = this.$route.query.add_track as string
       this.addTrack(trackURI)
     }
+    this.isBanDialogOpen = true
   }
 
   async togglePlayback() {
