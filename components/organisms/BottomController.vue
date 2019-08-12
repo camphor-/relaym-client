@@ -6,7 +6,9 @@
           <v-icon>devices</v-icon>
         </v-btn>
         <v-btn v-if="playable" icon @click="togglePlayback">
-          <v-icon v-if="paused" color="accent" x-large>play_arrow</v-icon>
+          <v-icon v-if="paused" color="accent" x-large class="play-icon"
+            >play_arrow</v-icon
+          >
           <v-icon v-else color="accent" x-large>pause</v-icon>
         </v-btn>
         <nuxt-link
@@ -84,6 +86,9 @@ a {
     background: #fff;
     width: 94vw;
     max-width: 800px;
+    .play-icon {
+      position: absolute;
+    }
   }
 }
 </style>
