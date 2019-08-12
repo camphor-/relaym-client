@@ -22,11 +22,12 @@
         </nuxt-link>
       </div>
 
-      <device-choose-dialog
-        v-model="isDialogOpen"
-        @select-device="onSelectDevice"
-      />
-    </div>
+    <device-choose-dialog
+      v-model="isDialogOpen"
+      @select-device="onSelectDevice"
+    />
+
+    <ban-free-plan-dialog v-model="isBanDialogOpen" @ />
   </div>
 </template>
 
@@ -38,13 +39,16 @@ import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 import DeviceChooseDialog from '@/components/organisms/DeviceChooseDialog.vue'
 import Device from '@/models/Device'
 import SlideMenu from '@/components/molecules/SlideMenu.vue'
+import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
 
 @Component({
   components: {
     DeviceChooseDialog,
     TrackListContainer,
     SessionToolbar,
-    SlideMenu
+    SlideMenu,
+    PlaceToolbar,
+    BanFreePlanDialog
   },
   methods: {
     ...mapActions('tracklist', [
@@ -74,6 +78,7 @@ export default class extends Vue {
   private isShowSlideMenu: boolean = false
   private positionXOfPageRoot: number = 0
   private pageRoot: any
+  private isBanDialogOpen: boolean = false
 
   mounted() {
     this.getStatus()
@@ -83,6 +88,7 @@ export default class extends Vue {
     }
     this.pageRoot = document.getElementsByClassName('page-root')[0]
     this.pageRoot.style.transition = '0.2s cubic-bezier(0.4, 0, 0.2, 1)'
+    this.isBanDialogOpen = true
   }
 
   async togglePlayback() {
