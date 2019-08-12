@@ -22,12 +22,13 @@
         </nuxt-link>
       </div>
 
-    <device-choose-dialog
-      v-model="isDialogOpen"
-      @select-device="onSelectDevice"
-    />
+      <device-choose-dialog
+        v-model="isDialogOpen"
+        @select-device="onSelectDevice"
+      />
 
-    <ban-free-plan-dialog v-model="isBanDialogOpen" @ />
+      <ban-free-plan-dialog v-model="isBanDialogOpen" @ />
+    </div>
   </div>
 </template>
 
@@ -47,7 +48,6 @@ import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
     TrackListContainer,
     SessionToolbar,
     SlideMenu,
-    PlaceToolbar,
     BanFreePlanDialog
   },
   methods: {
