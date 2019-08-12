@@ -1,46 +1,53 @@
 <template>
-  <div class="page-root hide-overflow">
-    <place-toolbar class="toolbar" />
+  <div id="page-container">
+    <slide-menu v-model="isShowSlideMenu" />
+    <div class="page-root hide-overflow">
+      <session-toolbar @open-slider-menu="showSliderMenu" />
 
-    <div class="list-container">
-      <track-list-container />
-    </div>
+      <div class="list-container">
+        <track-list-container />
+      </div>
 
-    <div class="fabs">
-      <v-btn v-if="playable" fab dark color="primary" @click="togglePlayback">
-        <v-icon v-if="paused">play_arrow</v-icon>
-        <v-icon v-else>pause</v-icon>
-      </v-btn>
-      <nuxt-link :to="{ path: '/search', query: { redirect_to: $route.path } }">
-        <v-btn fab dark color="accent">
-          <v-icon>add</v-icon>
+      <div class="fabs">
+        <v-btn v-if="playable" fab dark color="primary" @click="togglePlayback">
+          <v-icon v-if="paused">play_arrow</v-icon>
+          <v-icon v-else>pause</v-icon>
         </v-btn>
-      </nuxt-link>
+        <nuxt-link
+          :to="{ path: '/search', query: { redirect_to: $route.path } }"
+        >
+          <v-btn fab dark color="accent">
+            <v-icon>add</v-icon>
+          </v-btn>
+        </nuxt-link>
+      </div>
+
+      <device-choose-dialog
+        v-model="isDialogOpen"
+        @select-device="onSelectDevice"
+      />
+
+      <ban-free-plan-dialog v-model="isBanDialogOpen" @ />
     </div>
-
-    <device-choose-dialog
-      v-model="isDialogOpen"
-      @select-device="onSelectDevice"
-    />
-
-    <ban-free-plan-dialog v-model="isBanDialogOpen" @ />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import { mapState, mapActions, mapGetters } from 'vuex'
-import PlaceToolbar from '@/components/molecules/PlaceToolbar.vue'
+import SessionToolbar from '@/components/molecules/SessionToolbar.vue'
 import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 import DeviceChooseDialog from '@/components/organisms/DeviceChooseDialog.vue'
 import Device from '@/models/Device'
+import SlideMenu from '@/components/molecules/SlideMenu.vue'
 import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
 
 @Component({
   components: {
     DeviceChooseDialog,
     TrackListContainer,
-    PlaceToolbar,
+    SessionToolbar,
+    SlideMenu,
     BanFreePlanDialog
   },
   methods: {
@@ -68,6 +75,9 @@ export default class extends Vue {
   private device!: () => Device
 
   private isDialogOpen: boolean = false
+  private isShowSlideMenu: boolean = false
+  private positionXOfPageRoot: number = 0
+  private pageRoot: any
   private isBanDialogOpen: boolean = false
 
   mounted() {
@@ -76,6 +86,8 @@ export default class extends Vue {
       const trackURI: string = this.$route.query.add_track as string
       this.addTrack(trackURI)
     }
+    this.pageRoot = document.getElementsByClassName('page-root')[0]
+    this.pageRoot.style.transition = '0.2s cubic-bezier(0.4, 0, 0.2, 1)'
     this.isBanDialogOpen = true
   }
 
@@ -101,30 +113,29 @@ export default class extends Vue {
   onSelectDevice(device: Device) {
     this.play(device)
   }
+
+  showSliderMenu() {
+    this.isShowSlideMenu = true
+  }
+
+  @Watch('isShowSlideMenu')
+  onIsShowSliderMenuChanged(newValue: boolean) {
+    if (newValue) {
+      this.pageRoot.style.transform = 'translateX(300px)'
+    } else {
+      this.pageRoot.style.transform = ''
+    }
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+#page-container {
+  overflow: hidden;
+}
 .page-root {
-  position: relative;
-  height: calc(100vh - #{$header-logo-height});
-  display: grid;
-  grid-template:
-    'toolbar' auto
-    'list' 1fr
-    / 1fr;
-
-  > .toolbar {
-    grid-area: toolbar;
-  }
-
-  > .list-container {
-    grid-area: list;
-    overflow-y: auto;
-  }
-
   > .fabs {
-    position: absolute;
+    position: fixed;
     right: 32px;
     bottom: 32px;
 
