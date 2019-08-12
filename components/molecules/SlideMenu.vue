@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer :value="value" @input="input" fixed temporary>
+  <v-navigation-drawer :value="value" fixed temporary @input="input">
     <div id="logo">
       <nuxt-link to="/">Relaym</nuxt-link>
     </div>
@@ -46,7 +46,7 @@ export default class extends Vue {
   }
 
   terminateSession() {
-    // セッションを終了させる処理
+    // TODO(@aratasato): セッションを終了させる処理
   }
 }
 </script>
