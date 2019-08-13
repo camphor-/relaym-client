@@ -1,5 +1,5 @@
 <template>
-  <div id="page-container">
+  <div class="hide-overflow">
     <slide-menu v-model="isShowSlideMenu" />
     <div class="page-root hide-overflow">
       <session-toolbar @open-slider-menu="showSliderMenu" />
@@ -8,22 +8,12 @@
         <track-list-container />
       </div>
 
-      <div class="fabs">
-        <v-btn v-if="playable" fab dark color="primary" @click="togglePlayback">
-          <v-icon v-if="paused">play_arrow</v-icon>
-          <v-icon v-else>pause</v-icon>
-        </v-btn>
-        <nuxt-link
-          :to="{ path: '/search', query: { redirect_to: $route.path } }"
-        >
-          <v-btn fab dark color="accent">
-            <v-icon>add</v-icon>
-          </v-btn>
-        </nuxt-link>
-      </div>
+      <bottom-controller
+        v-on:open-device-select-dialog="openDeviceSelectDialog"
+      />
 
-      <device-choose-dialog
-        v-model="isDialogOpen"
+      <device-select-dialog
+        v-model="isDeviceSelectDialogOpen"
         @select-device="onSelectDevice"
       />
 
@@ -34,51 +24,36 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import { mapState, mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 import SessionToolbar from '@/components/molecules/SessionToolbar.vue'
 import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
-import DeviceChooseDialog from '@/components/organisms/DeviceChooseDialog.vue'
+import DeviceSelectDialog from '@/components/organisms/DeviceSelectDialog.vue'
+import BottomController from '@/components/organisms/BottomController.vue'
 import Device from '@/models/Device'
 import SlideMenu from '@/components/molecules/SlideMenu.vue'
 import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
 
 @Component({
   components: {
-    DeviceChooseDialog,
+    DeviceSelectDialog,
     TrackListContainer,
+    BottomController,
     SessionToolbar,
     SlideMenu,
     BanFreePlanDialog
   },
   methods: {
-    ...mapActions('tracklist', [
-      'play',
-      'pause',
-      'resume',
-      'addTrack',
-      'getStatus'
-    ])
-  },
-  computed: {
-    ...mapState('tracklist', ['paused', 'device']),
-    ...mapGetters('tracklist', ['playable'])
+    ...mapActions('tracklist', ['play', 'addTrack', 'getStatus'])
   }
 })
 export default class extends Vue {
   private addTrack!: (payload: string) => void
-  private play!: (payload: Device) => void
-  private pause!: () => void
-  private resume!: () => void
   private getStatus!: () => void
-  private paused!: () => boolean
-  private playable!: () => boolean
-  private device!: () => Device
-
-  private isDialogOpen: boolean = false
-  private isShowSlideMenu: boolean = false
-  private positionXOfPageRoot: number = 0
+  private play!: (payload: Device) => void
+  private isDeviceSelectDialogOpen: boolean = false
   private pageRoot: any
   private isBanDialogOpen: boolean = false
+  private isShowSlideMenu: boolean = false
 
   mounted() {
     this.getStatus()
@@ -91,27 +66,12 @@ export default class extends Vue {
     this.isBanDialogOpen = true
   }
 
-  async togglePlayback() {
-    await this.getStatus()
-    // pause
-    if (!this.paused) {
-      this.pause()
-      return
-    }
-    if (!this.playable) {
-      return
-    }
-    // resume
-    if (this.device) {
-      this.resume()
-      return
-    }
-    // play
-    this.isDialogOpen = true
-  }
-
   onSelectDevice(device: Device) {
     this.play(device)
+  }
+
+  openDeviceSelectDialog() {
+    this.isDeviceSelectDialogOpen = true
   }
 
   showSliderMenu() {
@@ -129,19 +89,4 @@ export default class extends Vue {
 }
 </script>
 
-<style lang="scss" scoped>
-#page-container {
-  overflow: hidden;
-}
-.page-root {
-  > .fabs {
-    position: fixed;
-    right: 32px;
-    bottom: 32px;
-
-    a {
-      text-decoration: none;
-    }
-  }
-}
-</style>
+<style lang="scss" scoped></style>
