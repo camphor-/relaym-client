@@ -4,11 +4,24 @@
       <toppage-logo />
 
       <h1 class="top-page-title">Relaym</h1>
-      <v-btn round outline small color="primary" class="about-relaym-btn"
+      <v-btn
+        round
+        outline
+        small
+        color="primary"
+        class="about-relaym-btn"
+        href="#"
         >About Relaym</v-btn
       >
-      <v-btn round color="secondary" class="new-session-btn">New Session</v-btn>
+      <v-btn
+        round
+        color="secondary"
+        class="new-session-btn"
+        @click="openNewSessionDialog"
+        >New Session</v-btn
+      >
     </v-flex>
+    <new-session-dialog v-model="isNewSessionDialogOpen" />
   </v-container>
 </template>
 
@@ -16,18 +29,25 @@
 import { Component, Vue } from 'vue-property-decorator'
 import PlacesList from '@/components/organisms/PlacesList.vue'
 import ToppageLogo from '@/components/molecules/ToppageLogo'
+import NewSessionDialog from '@/components/organisms/NewSessionDialog.vue'
 import auth from '@/api/auth'
 
 @Component({
-  components: { PlacesList, ToppageLogo },
+  components: { PlacesList, ToppageLogo, NewSessionDialog },
   layout: 'toppage'
 })
 export default class Index extends Vue {
+  private isNewSessionDialogOpen: boolean = false
+
   places = [{ id: 'camphor-', name: 'CAMPHOR-' }]
 
   goSession() {
     // this.$router.push({ path: `/sessions/${id}` })
     location.href = auth.getLoginUrl()
+  }
+
+  openNewSessionDialog() {
+    this.isNewSessionDialogOpen = true
   }
 }
 </script>
