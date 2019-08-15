@@ -3,7 +3,7 @@
     <v-flex align-center>
       <toppage-logo />
 
-      <add-place-card />
+      <h1 class="top-page-title">Relaym</h1>
       <!-- TODO: セッションリストを作る -->
       <places-list :places="places" @click="goSession" />
     </v-flex>
@@ -38,18 +38,12 @@ export default class Index extends Vue {
   text-align: center;
 }
 
-// Example of Media Query Mixin
-@include mq(md) {
-  .title {
-    font-family: 'Quicksand', 'Source Sans Pro', -apple-system,
-      BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-      sans-serif;
-    display: block;
-    font-weight: 300;
-    font-size: 100px;
-    color: #35495e;
-    letter-spacing: 1px;
-  }
+.top-page-title {
+  font-family: Roboto, 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 48px;
+  color: $primary-color;
+  font-weight: normal;
 }
 
 .subtitle {
