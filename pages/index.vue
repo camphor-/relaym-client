@@ -1,11 +1,7 @@
 <template>
   <v-container>
     <v-flex align-center>
-      <div class="logo">
-        <a href="/">
-          <img src="~assets/images/logo_toppage.svg" />
-        </a>
-      </div>
+      <toppage-logo />
 
       <add-place-card />
       <!-- TODO: セッションリストを作る -->
@@ -18,10 +14,11 @@
 import { Component, Vue } from 'vue-property-decorator'
 import AddPlaceCard from '@/components/organisms/AddPlaceCard.vue'
 import PlacesList from '@/components/organisms/PlacesList.vue'
+import ToppageLogo from '@/components/molecules/ToppageLogo'
 import auth from '@/api/auth'
 
 @Component({
-  components: { AddPlaceCard, PlacesList },
+  components: { AddPlaceCard, PlacesList, ToppageLogo },
   layout: 'toppage'
 })
 export default class Index extends Vue {
@@ -35,13 +32,6 @@ export default class Index extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.logo {
-  font-size: 3rem;
-  a img {
-    max-width: 500px;
-  }
-}
-
 .container {
   margin: 0 auto;
   min-height: 100vh;
