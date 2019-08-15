@@ -104,7 +104,7 @@
   max-width: 500px;
 }
 .cls-1 {
-  fill: #dc4a5e;
+  fill: $primary-color;
 }
 
 .cls-1,
