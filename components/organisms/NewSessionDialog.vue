@@ -3,11 +3,17 @@
     <v-card>
       <v-card-title>New Session</v-card-title>
       <v-card-text>
-        <v-checkbox label="public" color="primary"></v-checkbox>
+        <v-checkbox
+          v-model="isPublic"
+          label="public"
+          color="primary"
+        ></v-checkbox>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" depressed>作成</v-btn>
+        <v-btn color="primary" depressed @click="createNewSession()"
+          >作成</v-btn
+        >
         <v-btn color="primary" flat @click="closeDialog()">
           キャンセル
         </v-btn>
@@ -23,6 +29,8 @@ import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 export default class extends Vue {
   @Prop({ default: false }) readonly value!: boolean
 
+  private isPublic: boolean = false
+
   @Emit()
   input(isOpen: boolean) {
     return isOpen
@@ -30,6 +38,10 @@ export default class extends Vue {
 
   closeDialog() {
     this.input(false)
+  }
+
+  createNewSession(): void {
+    //  TODO: セッションを作成するAPIを呼ぶ
   }
 }
 </script>
