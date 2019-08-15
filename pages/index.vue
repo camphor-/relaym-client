@@ -4,7 +4,7 @@
       <toppage-logo />
 
       <h1 class="top-page-title">Relaym</h1>
-      <!-- TODO: セッションリストを作る -->
+      <v-btn round outline small color="primary">About Relaym</v-btn>
       <places-list :places="places" @click="goSession" />
     </v-flex>
   </v-container>
