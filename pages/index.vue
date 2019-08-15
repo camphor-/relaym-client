@@ -1,11 +1,13 @@
 <template>
   <v-container>
-    <v-flex align-center>
+    <v-flex align-center column>
       <toppage-logo />
 
       <h1 class="top-page-title">Relaym</h1>
-      <v-btn round outline small color="primary">About Relaym</v-btn>
-      <places-list :places="places" @click="goSession" />
+      <v-btn round outline small color="primary" class="about-relaym-btn"
+        >About Relaym</v-btn
+      >
+      <v-btn round color="secondary" class="new-session-btn">New Session</v-btn>
     </v-flex>
   </v-container>
 </template>
@@ -45,12 +47,18 @@ export default class Index extends Vue {
   font-weight: normal;
 }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
+button {
+  display: block;
+  margin: auto;
+}
+
+.about-relaym-btn {
+  font-size: 12px;
+}
+
+.new-session-btn {
+  margin-top: 4rem;
+  font-size: 18px;
 }
 
 .links {
