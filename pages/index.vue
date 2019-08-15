@@ -12,13 +12,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import AddPlaceCard from '@/components/organisms/AddPlaceCard.vue'
 import PlacesList from '@/components/organisms/PlacesList.vue'
 import ToppageLogo from '@/components/molecules/ToppageLogo'
 import auth from '@/api/auth'
 
 @Component({
-  components: { AddPlaceCard, PlacesList, ToppageLogo },
+  components: { PlacesList, ToppageLogo },
   layout: 'toppage'
 })
 export default class Index extends Vue {
