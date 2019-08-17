@@ -1,69 +1,59 @@
 <template>
-  <div class="page-root hide-overflow">
-    <place-toolbar class="toolbar" />
+  <div class="hide-overflow">
+    <slide-menu v-model="isShowSlideMenu" />
+    <div class="page-root hide-overflow">
+      <session-toolbar @open-slider-menu="showSliderMenu" />
 
-    <div class="list-container">
-      <track-list-container />
+      <div class="list-container">
+        <track-list-container />
+      </div>
+
+      <bottom-controller
+        v-on:open-device-select-dialog="openDeviceSelectDialog"
+      />
+
+      <device-select-dialog
+        v-model="isDeviceSelectDialogOpen"
+        @select-device="onSelectDevice"
+      />
+
+      <ban-free-plan-dialog v-model="isBanDialogOpen" @ />
     </div>
-
-    <div class="fabs">
-      <v-btn v-if="playable" fab dark color="primary" @click="togglePlayback">
-        <v-icon v-if="paused">play_arrow</v-icon>
-        <v-icon v-else>pause</v-icon>
-      </v-btn>
-      <nuxt-link :to="{ path: '/search', query: { redirect_to: $route.path } }">
-        <v-btn fab dark color="accent">
-          <v-icon>add</v-icon>
-        </v-btn>
-      </nuxt-link>
-    </div>
-
-    <device-choose-dialog
-      v-model="isDialogOpen"
-      @select-device="onSelectDevice"
-    />
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { mapState, mapActions, mapGetters } from 'vuex'
-import PlaceToolbar from '@/components/molecules/PlaceToolbar.vue'
+import { Component, Vue, Watch } from 'vue-property-decorator'
+import { mapActions } from 'vuex'
+import SessionToolbar from '@/components/molecules/SessionToolbar.vue'
 import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
-import DeviceChooseDialog from '@/components/organisms/DeviceChooseDialog.vue'
+import DeviceSelectDialog from '@/components/organisms/DeviceSelectDialog.vue'
+import BottomController from '@/components/organisms/BottomController.vue'
 import Device from '@/models/Device'
+import SlideMenu from '@/components/molecules/SlideMenu.vue'
+import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
 
 @Component({
   components: {
-    DeviceChooseDialog,
+    DeviceSelectDialog,
     TrackListContainer,
-    PlaceToolbar
+    BottomController,
+    SessionToolbar,
+    SlideMenu,
+    BanFreePlanDialog
   },
   methods: {
-    ...mapActions('tracklist', [
-      'play',
-      'pause',
-      'resume',
-      'addTrack',
-      'getStatus'
-    ])
-  },
-  computed: {
-    ...mapState('tracklist', ['paused', 'device']),
-    ...mapGetters('tracklist', ['playable'])
+    ...mapActions('tracklist', ['play', 'addTrack', 'getStatus'])
   }
 })
 export default class extends Vue {
   private addTrack!: (payload: string) => void
-  private play!: (payload: Device) => void
-  private pause!: () => void
-  private resume!: () => void
   private getStatus!: () => void
-  private paused!: () => boolean
-  private playable!: () => boolean
-  private device!: () => Device
-
-  private isDialogOpen: boolean = false
+  private play!: (payload: Device) => void
+  private isDeviceSelectDialogOpen: boolean = false
+  private pageRoot: any
+  private isBanDialogOpen: boolean = false
+  private isShowSlideMenu: boolean = false
 
   mounted() {
     this.getStatus()
@@ -71,60 +61,32 @@ export default class extends Vue {
       const trackURI: string = this.$route.query.add_track as string
       this.addTrack(trackURI)
     }
-  }
-
-  async togglePlayback() {
-    await this.getStatus()
-    // pause
-    if (!this.paused) {
-      this.pause()
-      return
-    }
-    if (!this.playable) {
-      return
-    }
-    // resume
-    if (this.device) {
-      this.resume()
-      return
-    }
-    // play
-    this.isDialogOpen = true
+    this.pageRoot = document.getElementsByClassName('page-root')[0]
+    this.pageRoot.style.transition = '0.2s cubic-bezier(0.4, 0, 0.2, 1)'
+    this.isBanDialogOpen = true
   }
 
   onSelectDevice(device: Device) {
     this.play(device)
   }
-}
-</script>
 
-<style lang="scss" scoped>
-.page-root {
-  position: relative;
-  height: calc(100vh - #{$header-logo-height});
-  display: grid;
-  grid-template:
-    'toolbar' auto
-    'list' 1fr
-    / 1fr;
-
-  > .toolbar {
-    grid-area: toolbar;
+  openDeviceSelectDialog() {
+    this.isDeviceSelectDialogOpen = true
   }
 
-  > .list-container {
-    grid-area: list;
-    overflow-y: auto;
+  showSliderMenu() {
+    this.isShowSlideMenu = true
   }
 
-  > .fabs {
-    position: absolute;
-    right: 32px;
-    bottom: 32px;
-
-    a {
-      text-decoration: none;
+  @Watch('isShowSlideMenu')
+  onIsShowSliderMenuChanged(newValue: boolean) {
+    if (newValue) {
+      this.pageRoot.style.transform = 'translateX(300px)'
+    } else {
+      this.pageRoot.style.transform = ''
     }
   }
 }
-</style>
+</script>
+
+<style lang="scss" scoped></style>
