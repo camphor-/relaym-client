@@ -6,7 +6,7 @@ interface User {
   uri: string
   display_name: string
   images: Image[]
-  is_premium: boolean
+  is_premium?: boolean
 }
 
 export default User
