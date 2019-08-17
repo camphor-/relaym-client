@@ -1,3 +1,4 @@
+import ApiV2 from '../api/v2'
 import Track from '@/models/Track'
 import Api from '@/api/main'
 import Device from '@/models/Device'
@@ -56,28 +57,28 @@ export const actions = {
     commit('nextTrack', res.head)
   },
   async addTrack({}, trackURI: string) {
-    await Api.addTrack(trackURI)
+    await ApiV2.sessions.current.addTrack({ uri: trackURI })
   },
-  play({ state, commit }, device: Device) {
+  async play({ state, commit }) {
     if (!state.paused) return
-    Api.play(device.id)
+    await ApiV2.sessions.current.controlPlayback({ state: 'PLAY' })
     commit('setPaused', false)
   },
-  pause({ state, commit }) {
+  async pause({ state, commit }) {
     if (state.paused) return
-    Api.pause()
+    await ApiV2.sessions.current.controlPlayback({ state: 'STOP' })
     commit('setPaused', true)
   },
-  resume({ state, commit }) {
+  async resume({ state, commit }) {
     if (!state.paused) return
-    Api.resume()
+    await ApiV2.sessions.current.controlPlayback({ state: 'PLAY' })
     commit('setPaused', false)
   },
   nextSong({ commit }, newTrackId: number) {
     commit('nextSong', newTrackId)
   },
   async getStatus({ commit }) {
-    const res = await Api.getStatus()
+    const res = await Api.getStatus() // TODO: v2への置換え
     commit('setDevice', res.device)
     commit('setPaused', res.paused)
   }

@@ -1,4 +1,4 @@
-import Api from '@/api/main'
+import ApiV2 from '@/api/v2'
 
 export const state = () => ({
   result: []
@@ -12,6 +12,6 @@ export const mutations = {
 
 export const actions = {
   async fetchSearchResult({ commit }, q) {
-    commit('setResult', await Api.searchTracks(q))
+    commit('setResult', await ApiV2.searchForTracks({ q }))
   }
 }

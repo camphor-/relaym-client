@@ -1,5 +1,5 @@
 import Device from '@/models/Device'
-import Api from '@/api/main'
+import ApiV2 from '@/api/v2'
 
 interface State {
   availableDevices: Device[]
@@ -23,7 +23,7 @@ export const mutations = {
 
 export const actions = {
   async fetchAvailableDevices({ commit }) {
-    const res = await Api.getAvailableDevices()
+    const res = await ApiV2.users.me.getMyDevices()
     commit('setAvailableDevices', res.devices)
   }
 }
