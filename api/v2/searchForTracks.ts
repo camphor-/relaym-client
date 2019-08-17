@@ -14,7 +14,6 @@ const searchForTracks = async (req: SearchForTracksRequest) => {
   }
 }
 
-/* eslint-disable camelcase */
 export interface SearchForTracksRequest {
   q: string
 }
