@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { Component, Emit, Prop, Vue, Watch } from 'vue-property-decorator'
-import { mapGetters, mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import DeviceList from '@/components/molecules/DeviceList.vue'
 import Device from '@/models/Device'
 

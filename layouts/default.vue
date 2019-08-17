@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <v-content>
-      <header-logo />
       <nuxt />
     </v-content>
   </v-app>
@@ -9,10 +8,7 @@
 
 <script>
 import { Component, Vue } from 'vue-property-decorator'
-import HeaderLogo from '@/components/molecules/HeaderLogo'
-@Component({
-  components: { HeaderLogo }
-})
+@Component
 export default class extends Vue {}
 </script>
 

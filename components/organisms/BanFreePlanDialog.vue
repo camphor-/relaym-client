@@ -9,10 +9,8 @@
         </p>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" flat @click="closeDialog"
-            >Upgrade Spotify Premium</v-btn
-          >
-          <v-btn color="primary" flat @click="closeDialog">Dismiss now</v-btn>
+          <v-btn color="primary" flat @click="closeDialog">Upgrade</v-btn>
+          <v-btn color="primary" flat @click="closeDialog">Dismiss</v-btn>
         </v-card-actions>
       </v-card-text>
     </v-card>
