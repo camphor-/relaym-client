@@ -19,8 +19,8 @@ export interface SessionDetail extends Session {
 }
 
 export interface CurrentSession extends SessionDetail {
-  delegate: User
-  playback: {
+  delegate?: User
+  playback?: {
     paused: boolean
     device: Device
     track: Track
