@@ -1,28 +1,32 @@
 <template>
-  <v-container>
-    <v-flex align-center column>
-      <toppage-logo />
+  <div>
+    <v-container>
+      <v-flex align-center column>
+        <toppage-logo />
 
-      <h1 class="top-page-title">Relaym</h1>
-      <v-btn
-        round
-        outline
-        small
-        color="primary"
-        class="about-relaym-btn"
-        href="#"
-        >About Relaym</v-btn
-      >
-      <v-btn
-        round
-        color="secondary"
-        class="new-session-btn"
-        @click="openNewSessionDialog"
-        >New Session</v-btn
-      >
-    </v-flex>
-    <new-session-dialog v-model="isNewSessionDialogOpen" />
-  </v-container>
+        <h1 class="top-page-title">Relaym</h1>
+        <v-btn
+          round
+          outline
+          small
+          color="primary"
+          class="about-relaym-btn"
+          href="#"
+          >About Relaym</v-btn
+        >
+        <v-btn
+          round
+          color="secondary"
+          class="new-session-btn"
+          @click="openNewSessionDialog"
+          >New Session</v-btn
+        >
+      </v-flex>
+      <new-session-dialog v-model="isNewSessionDialogOpen" />
+    </v-container>
+    <img class="wave" src="../assets/images/wave.svg" alt="wave" />
+    <div class="sessions-list-container"></div>
+  </div>
 </template>
 
 <script lang="ts">
@@ -55,7 +59,7 @@ export default class Index extends Vue {
 <style lang="scss" scoped>
 .container {
   margin: 0 auto;
-  min-height: 100vh;
+  min-height: 80vh;
   text-align: center;
 }
 
@@ -83,5 +87,16 @@ button {
 
 .links {
   padding-top: 15px;
+}
+
+.wave {
+  display: block;
+  width: 100%;
+  height: 10vh;
+}
+
+.sessions-list-container {
+  background-color: $primary-color;
+  min-height: 10vh;
 }
 </style>
