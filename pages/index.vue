@@ -31,13 +31,12 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import PlacesList from '@/components/organisms/PlacesList.vue'
 import ToppageLogo from '@/components/molecules/ToppageLogo'
 import NewSessionDialog from '@/components/organisms/NewSessionDialog.vue'
 import auth from '@/api/auth'
 
 @Component({
-  components: { PlacesList, ToppageLogo, NewSessionDialog },
+  components: { ToppageLogo, NewSessionDialog },
   layout: 'toppage'
 })
 export default class Index extends Vue {
