@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 interface Device {
   id: string
   is_active: boolean
