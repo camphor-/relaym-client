@@ -10,13 +10,19 @@ interface Session {
   name: string
   is_public: boolean
   is_progressing: boolean
+}
+export default Session
+
+export interface SessionDetail extends Session {
   creator: User
+  queue: Queue
+}
+
+export interface CurrentSession extends SessionDetail {
   delegate?: User
   playback?: {
     paused: boolean
     device: Device
     track: Track
   }
-  queue: Queue
 }
-export default Session

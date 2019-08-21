@@ -1,5 +1,5 @@
 import { ApiException, ErrorResponse, instance } from '@/api/v2/common'
-import Session from '@/models/Session'
+import { SessionDetail } from '@/models/Session'
 
 const getSession = async (id: string) => {
   const res = await instance.get(`/sessions/${id}`, { withCredentials: true })
@@ -12,7 +12,7 @@ const getSession = async (id: string) => {
 }
 
 export interface GetSessionResponse {
-  session: Session
+  session: SessionDetail
 }
 
 export default getSession

@@ -10,7 +10,7 @@ instance.interceptors.response.use(
 
 class BaseError extends Error {
   constructor(...args) {
-    super(...args)
+    super(JSON.stringify(args))
 
     // this.name = this.constructor.name; でも問題ないが、
     // enumerable を false にしたほうがビルトインエラーに近づく、
