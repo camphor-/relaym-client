@@ -10,16 +10,16 @@ const WebSocketPlugin = (store: any) => {
     const message = JSON.parse(e.data) as SocketMessage
     switch (message.type) {
       case 'ADDTRACK':
-        store.commit('tracklist/addTrack', message.track)
+        store.commit('currentSession/addTrack', message.track)
         break
       case 'NEXTTRACK':
-        store.commit('tracklist/nextTrack', message.head)
+        store.commit('currentSession/nextTrack', message.head)
         break
       case 'PAUSE':
-        store.commit('tracklist/setPaused', true)
+        store.commit('currentSession/setPaused', true)
         break
       case 'RESUME':
-        store.commit('tracklist/setPaused', false)
+        store.commit('currentSession/setPaused', false)
         break
       default:
         // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -23,11 +23,11 @@ import Track from '@/models/Track'
 @Component({
   components: { TrackList, TrackListPlaceHolder },
   methods: {
-    ...mapActions('tracklist', ['fetchTrackList'])
+    ...mapActions('currentSession', ['fetchcurrentSession'])
   },
   computed: {
-    ...mapState('tracklist', ['trackList']),
-    ...mapGetters('tracklist', [
+    ...mapState('currentSession', ['trackList']),
+    ...mapGetters('currentSession', [
       'getPlayedTracks',
       'getPlayingTrack',
       'getWaitingTracks'

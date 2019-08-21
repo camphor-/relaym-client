@@ -30,11 +30,11 @@ import Device from '@/models/Device'
 
 @Component({
   methods: {
-    ...mapActions('tracklist', ['pause', 'resume', 'getStatus'])
+    ...mapActions('currentSession', ['pause', 'resume', 'getStatus'])
   },
   computed: {
-    ...mapState('tracklist', ['paused', 'device']),
-    ...mapGetters('tracklist', ['playable'])
+    ...mapState('currentSession', ['paused', 'device']),
+    ...mapGetters('currentSession', ['playable'])
   }
 })
 export default class extends Vue {

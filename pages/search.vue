@@ -38,7 +38,7 @@ import Track from '@/models/Track'
   },
   methods: {
     ...mapActions('search', ['fetchSearchResult']),
-    ...mapActions('tracklist', ['addTrack'])
+    ...mapActions('currentSession', ['addTrack'])
   }
 })
 export default class extends Vue {

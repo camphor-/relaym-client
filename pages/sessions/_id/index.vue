@@ -43,7 +43,7 @@ import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
     BanFreePlanDialog
   },
   methods: {
-    ...mapActions('tracklist', ['play', 'addTrack', 'getStatus'])
+    ...mapActions('currentSession', ['play', 'addTrack', 'getStatus'])
   }
 })
 export default class extends Vue {
