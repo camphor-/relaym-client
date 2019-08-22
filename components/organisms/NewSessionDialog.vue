@@ -1,20 +1,20 @@
 <template>
-  <v-dialog :value="value" @input="input" width="500">
+  <v-dialog :value="value" width="500" @input="input">
     <v-card>
       <v-card-title>New Session</v-card-title>
       <v-card-text>
         <v-checkbox
+          v-model="isPublic"
           color="primary"
           label="public"
-          v-model="isPublic"
         ></v-checkbox>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn @click="createNewSession()" color="primary" depressed
+        <v-btn color="primary" depressed @click="createNewSession()"
           >作成
         </v-btn>
-        <v-btn @click="closeDialog()" color="primary" flat>
+        <v-btn flat color="primary" @click="closeDialog()">
           キャンセル
         </v-btn>
       </v-card-actions>
