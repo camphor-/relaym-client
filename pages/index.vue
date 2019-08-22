@@ -35,7 +35,6 @@
 import { Component, Vue } from 'vue-property-decorator'
 import ToppageLogo from '@/components/molecules/ToppageLogo'
 import NewSessionDialog from '@/components/organisms/NewSessionDialog.vue'
-import auth from '@/api/auth'
 import SessionsListContainer from '@/components/organisms/SessionsListContainer.vue'
 
 @Component({
@@ -47,12 +46,8 @@ export default class Index extends Vue {
 
   places = [{ id: 'camphor-', name: 'CAMPHOR-' }]
 
-  goSession() {
-    // this.$router.push({ path: `/sessions/${id}` })
-    location.href = auth.getLoginUrl()
-  }
-
   openNewSessionDialog() {
+    // TODO: ログインしてるか確認
     this.isNewSessionDialogOpen = true
   }
 }
