@@ -1,20 +1,20 @@
 <template>
-  <v-dialog :value="value" width="500" @input="input">
+  <v-dialog :value="value" @input="input" width="500">
     <v-card>
       <v-card-title>New Session</v-card-title>
       <v-card-text>
         <v-checkbox
-          v-model="isPublic"
-          label="public"
           color="primary"
+          label="public"
+          v-model="isPublic"
         ></v-checkbox>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" depressed @click="createNewSession()"
-          >作成</v-btn
-        >
-        <v-btn color="primary" flat @click="closeDialog()">
+        <v-btn @click="createNewSession()" color="primary" depressed
+          >作成
+        </v-btn>
+        <v-btn @click="closeDialog()" color="primary" flat>
           キャンセル
         </v-btn>
       </v-card-actions>
@@ -24,6 +24,8 @@
 
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
+import ApiV2 from '@/api/v2'
+import Session from '@/models/Session'
 
 @Component({})
 export default class extends Vue {
@@ -40,8 +42,12 @@ export default class extends Vue {
     this.input(false)
   }
 
-  createNewSession(): void {
-    //  TODO: セッションを作成するAPIを呼ぶ
+  async createNewSession(): void {
+    const newSession: Session = await ApiV2.sessions.createSession({
+      is_public: this.isPublic
+    }).session
+    console.log(newSession)
+    this.$router.push({ path: `/sessions/${newSession.id}` })
   }
 }
 </script>
