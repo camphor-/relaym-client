@@ -1,85 +1,99 @@
 import ApiV2 from '../api/v2'
+import { CurrentSession } from '@/models/Session'
 import Track from '@/models/Track'
-import Api from '@/api/main'
-import Device from '@/models/Device'
 
 interface State {
-  trackList: Track[]
-  playingTrackId: number
-  paused: boolean
-  device: Device
+  session: CurrentSession | null
 }
-
 export const state = () => ({
-  trackList: [],
-  playingTrackId: 4,
-  paused: true,
-  device: {}
+  session: null
 })
 
 export const getters = {
   getPlayedTracks(state: State): Track[] {
-    return state.trackList.slice(0, state.playingTrackId)
+    if (!state.session) return []
+    return state.session.queue.tracks.slice(0, state.session.queue.head)
   },
-  getPlayingTrack(state: State): Track {
-    return state.trackList[state.playingTrackId]
+  getPlayingTrack(state: State): Track | null {
+    if (!state.session) return null
+    return state.session.queue.tracks[state.session.queue.head!]
   },
   getWaitingTracks(state: State): Track[] {
-    return state.trackList.slice(state.playingTrackId + 1)
+    if (!state.session) return []
+    return state.session.queue.tracks.slice(state.session.queue.head! + 1)
   },
   playable(state: State): boolean {
-    return state.trackList.slice(state.playingTrackId).length > 0
+    if (!state.session) return false
+    return state.session.queue.tracks.slice(state.session.queue.head).length > 0
   }
 }
 
 export const mutations = {
-  setTrackList: (state: State, trackList: Track[]) => {
-    state.trackList = trackList
+  setSession: (state: State, newSession: CurrentSession) => {
+    state.session = newSession
   },
   addTrack: (state: State, newTrack: Track) => {
-    state.trackList.push(newTrack)
+    if (!state.session) return
+    state.session.queue.tracks.push(newTrack)
   },
   setPaused: (state: State, paused: boolean) => {
-    state.paused = paused
+    if (!state.session) return
+    state.session = {
+      ...state.session,
+      // TODO: playbackがnullの時の適切な処理
+      playback: { ...state.session.playback!, paused }
+    }
   },
   nextTrack: (state: State, newTrackId: number) => {
-    state.playingTrackId = newTrackId
-  },
-  setDevice: (state: State, device: Device) => {
-    state.device = device
+    if (!state.session) return
+    state.session = {
+      ...state.session,
+      queue: { ...state.session.queue, head: newTrackId }
+    }
   }
 }
 
 export const actions = {
-  async fetchTrackList({ commit }) {
-    const res = await Api.getQueue()
-    commit('setTrackList', res.items)
-    commit('nextTrack', res.head)
-  },
   async addTrack({}, trackURI: string) {
     await ApiV2.sessions.current.addTrack({ uri: trackURI })
   },
   async play({ state, commit }) {
-    if (!state.paused) return
-    await ApiV2.sessions.current.controlPlayback({ state: 'PLAY' })
-    commit('setPaused', false)
+    if (!state.session) return
+    if (!state.session.playback || !state.session.playback.paused) return
+
+    try {
+      await ApiV2.sessions.current.controlPlayback({ state: 'PLAY' })
+      commit('setPaused', false)
+    } catch (e) {
+      // TODO: Error Handling
+      console.error(e)
+    }
   },
   async pause({ state, commit }) {
-    if (state.paused) return
-    await ApiV2.sessions.current.controlPlayback({ state: 'STOP' })
-    commit('setPaused', true)
+    if (!state.session) return
+    if (!state.session.playback || state.session.playback.paused) return
+
+    try {
+      await ApiV2.sessions.current.controlPlayback({ state: 'STOP' })
+      commit('setPaused', true)
+    } catch (e) {
+      // TODO: Error Handling
+      console.error(e)
+    }
   },
-  async resume({ state, commit }) {
-    if (!state.paused) return
-    await ApiV2.sessions.current.controlPlayback({ state: 'PLAY' })
-    commit('setPaused', false)
+  async resume({ dispatch }) {
+    await dispatch('play')
   },
   nextSong({ commit }, newTrackId: number) {
     commit('nextSong', newTrackId)
   },
-  async getStatus({ commit }) {
-    const res = await Api.getStatus() // TODO: v2への置換え
-    commit('setDevice', res.device)
-    commit('setPaused', res.paused)
+  async getCurrentSession({ commit }) {
+    try {
+      const newSession = await ApiV2.sessions.current.getCurrentSession()
+      commit('setSession', newSession)
+    } catch (e) {
+      console.error(e)
+      commit('setSession', null)
+    }
   }
 }
