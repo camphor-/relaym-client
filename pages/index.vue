@@ -25,7 +25,9 @@
       <new-session-dialog v-model="isNewSessionDialogOpen" />
     </v-container>
     <img class="wave" src="../assets/images/wave.svg" alt="wave" />
-    <div class="sessions-list-container"></div>
+    <div class="sessions-list-container">
+      <sessions-list-container />
+    </div>
   </div>
 </template>
 
@@ -34,9 +36,10 @@ import { Component, Vue } from 'vue-property-decorator'
 import ToppageLogo from '@/components/molecules/ToppageLogo'
 import NewSessionDialog from '@/components/organisms/NewSessionDialog.vue'
 import auth from '@/api/auth'
+import SessionsListContainer from '@/components/organisms/SessionsListContainer.vue'
 
 @Component({
-  components: { ToppageLogo, NewSessionDialog },
+  components: { ToppageLogo, NewSessionDialog, SessionsListContainer },
   layout: 'toppage'
 })
 export default class Index extends Vue {
