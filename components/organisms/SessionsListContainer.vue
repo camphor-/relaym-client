@@ -19,8 +19,8 @@ export default class extends Vue {
   title = 'Current Session'
 
   mounted() {
-    this.fetchCurrentSession()
-    this.fetchMySessions()
+    // this.fetchCurrentSession()
+    // this.fetchMySessions()
   }
 
   fetchCurrentSession(): void {

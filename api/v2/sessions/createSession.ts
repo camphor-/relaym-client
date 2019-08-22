@@ -2,7 +2,7 @@ import { ApiException, ErrorResponse, instance } from '@/api/v2/common'
 import Session from '@/models/Session'
 
 const createSession = async (req: CreateSessionRequest) => {
-  const res = await instance.post('/sessions', req, { withCredentials: true })
+  const res = await instance.post('/sessions/', req, { withCredentials: true })
   if (res.status === 200) {
     return res.data as CreateSessionResponse
   } else {

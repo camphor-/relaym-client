@@ -44,8 +44,6 @@ import SessionsListContainer from '@/components/organisms/SessionsListContainer.
 export default class Index extends Vue {
   private isNewSessionDialogOpen: boolean = false
 
-  places = [{ id: 'camphor-', name: 'CAMPHOR-' }]
-
   openNewSessionDialog() {
     // TODO: ログインしてるか確認
     this.isNewSessionDialogOpen = true

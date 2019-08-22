@@ -25,6 +25,7 @@
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 import ApiV2 from '@/api/v2'
+import Session from '@/models/Session'
 
 @Component({})
 export default class extends Vue {
@@ -41,12 +42,11 @@ export default class extends Vue {
     this.input(false)
   }
 
-  createNewSession() {
-    // const newSession: Session = await ApiV2.sessions.createSession({
-    //   is_public: this.isPublic
-    // }).session
-    location.href = ApiV2.getLoginUrl()
-    // this.$router.push({ path: `/sessions/${newSession.id}` })
+  async createNewSession() {
+    const newSession: Session = (await ApiV2.sessions.createSession({
+      is_public: this.isPublic
+    })).session
+    this.$router.push({ path: `/sessions/${newSession.id}` })
   }
 }
 </script>
