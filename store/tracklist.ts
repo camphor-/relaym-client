@@ -1,4 +1,4 @@
-import ApiV2 from '../api/v2'
+import ApiV2 from '@/api/v2'
 import Track from '@/models/Track'
 import Api from '@/api/main'
 import Device from '@/models/Device'
@@ -66,9 +66,10 @@ export const actions = {
   },
   async pause({ state, commit }) {
     if (state.paused) return
-    await ApiV2.sessions.current.controlPlayback({ state: 'STOP' })
+    await ApiV2.sessions.current.controlPlayback({ state: 'PAUSE' })
     commit('setPaused', true)
   },
+  // TODO: playとまとめる
   async resume({ state, commit }) {
     if (!state.paused) return
     await ApiV2.sessions.current.controlPlayback({ state: 'PLAY' })
