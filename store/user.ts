@@ -1,5 +1,4 @@
-import User from '../models/User'
-import Device from '@/models/Device'
+import User from '@/models/User'
 import ApiV2 from '@/api/v2'
 
 interface State {
