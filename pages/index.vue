@@ -25,6 +25,7 @@
       <new-session-dialog v-model="isNewSessionDialogOpen" />
     </v-container>
     <img class="wave" src="../assets/images/wave.svg" alt="wave" />
+    <!--  TODO: ログインしているか確認  -->
     <div class="sessions-list-container">
       <sessions-list-container />
     </div>
