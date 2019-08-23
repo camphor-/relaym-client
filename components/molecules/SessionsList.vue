@@ -1,7 +1,11 @@
 <template>
-  <div>
+  <div class="session-list-root">
     <h1>{{ title }}</h1>
-    <div v-for="(session, index) of sessions" :key="index">
+    <div
+      v-for="(session, index) of sessions"
+      :key="index"
+      class="session-holder"
+    >
       <h2>{{ session.name }}</h2>
     </div>
   </div>
@@ -20,4 +24,14 @@ export default class extends Vue {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+h1 {
+  text-align: left;
+  color: white;
+  font-weight: lighter;
+}
+
+.session-holder {
+  background: white;
+}
+</style>

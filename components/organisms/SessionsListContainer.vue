@@ -1,35 +1,41 @@
 <template>
   <v-container>
-    <sessions-list :title="title" :sessions="[currentSession]" />
+    <sessions-list :title="'Current Session'" :sessions="[currentSession]" />
+    <sessions-list :title="'Resent Sessions'" :sessions="mySessions" />
   </v-container>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import Session, { CurrentSession } from '@/models/Session'
-import ApiV2 from '@/api/v2'
 import SessionsList from '@/components/molecules/SessionsList.vue'
 
 @Component({
   components: { SessionsList }
 })
 export default class extends Vue {
-  private currentSession: CurrentSession = {}
-  private mySessions: Session[] = []
-  title = 'Current Session'
-
-  mounted() {
-    // this.fetchCurrentSession()
-    // this.fetchMySessions()
+  // TODO: storeからセッションの情報を取ってくる
+  currentSession: CurrentSession = {
+    id: 'xxxxx',
+    name: 'Session 1',
+    is_public: false,
+    is_progressing: true
   }
 
-  fetchCurrentSession(): void {
-    this.currentSession = ApiV2.sessions.current.getCurrentSession()
-  }
-
-  fetchMySessions(): void {
-    this.mySessions = ApiV2.sessions.getSessions()
-  }
+  mySessions: Session[] = [
+    {
+      id: 'xxxxx',
+      name: 'Session 2',
+      is_public: false,
+      is_progressing: false
+    },
+    {
+      id: 'xxxxx',
+      name: 'Session 3',
+      is_public: true,
+      is_progressing: false
+    }
+  ]
 }
 </script>
 
