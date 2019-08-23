@@ -1,7 +1,15 @@
 <template>
   <v-container>
-    <sessions-list :title="'Current Session'" :sessions="[currentSession]" />
-    <sessions-list :title="'Resent Sessions'" :sessions="mySessions" />
+    <sessions-list
+      v-if="currentSession"
+      :title="'Current Session'"
+      :sessions="[currentSession]"
+    />
+    <sessions-list
+      v-if="mySessions"
+      :title="'Resent Sessions'"
+      :sessions="mySessions"
+    />
   </v-container>
 </template>
 
@@ -17,7 +25,7 @@ export default class extends Vue {
   // TODO: storeからセッションの情報を取ってくる
   currentSession: CurrentSession = {
     id: 'xxxxx',
-    name: 'Session 1',
+    name: 'Session created at 2019-07-24 16:30',
     is_public: false,
     is_progressing: true
   }
@@ -25,13 +33,13 @@ export default class extends Vue {
   mySessions: Session[] = [
     {
       id: 'xxxxx',
-      name: 'Session 2',
+      name: 'Session created at 2019-07-24 12:30',
       is_public: false,
       is_progressing: false
     },
     {
       id: 'xxxxx',
-      name: 'Session 3',
+      name: 'Session created at 2019-07-24 10:30',
       is_public: true,
       is_progressing: false
     }

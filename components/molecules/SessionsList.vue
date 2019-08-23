@@ -1,13 +1,14 @@
 <template>
-  <div class="session-list-root">
-    <h1>{{ title }}</h1>
-    <div
+  <div class="sessions-list-root">
+    <h1 class="sessions-list-title">{{ title }}</h1>
+    <v-card
       v-for="(session, index) of sessions"
       :key="index"
       class="session-holder"
+      :href="`/sessions/${session.id}`"
     >
-      <h2>{{ session.name }}</h2>
-    </div>
+      <v-card-title>{{ session.name }}</v-card-title>
+    </v-card>
   </div>
 </template>
 
@@ -25,13 +26,18 @@ export default class extends Vue {
 </script>
 
 <style lang="scss" scoped>
-h1 {
-  text-align: left;
-  color: white;
+.sessions-list-root {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.sessions-list-title {
   font-weight: lighter;
+  color: #fff;
+  text-align: left;
 }
 
 .session-holder {
-  background: white;
+  margin-bottom: 40px;
 }
 </style>
