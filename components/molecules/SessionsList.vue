@@ -4,10 +4,17 @@
     <v-card
       v-for="(session, index) of sessions"
       :key="index"
-      class="session-holder"
+      class="session-holder mb-5"
       :href="`/sessions/${session.id}`"
     >
-      <v-card-title>{{ session.name }}</v-card-title>
+      <v-layout row align-center>
+        <v-flex>
+          <v-card-title>{{ session.name }}</v-card-title>
+        </v-flex>
+        <v-btn icon class="open-icon">
+          <v-icon>open_in_new</v-icon>
+        </v-btn>
+      </v-layout>
     </v-card>
   </div>
 </template>
@@ -39,5 +46,10 @@ export default class extends Vue {
 
 .session-holder {
   margin-bottom: 40px;
+  border-radius: 14px;
+}
+
+.open-icon {
+  width: 36px;
 }
 </style>
