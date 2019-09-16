@@ -11,15 +11,27 @@ export const state = () => ({
 
 export const getters = {
   getPlayedTracks(state: State): Track[] {
-    if (!state.session) return []
-    return state.session.queue.tracks.slice(0, state.session.queue.head)
+    if (!state.session || !state.session.queue.head) return []
+    if (!state.session.playback)
+      return state.session.queue.tracks.slice(0, state.session.queue.head + 1)
+
+    const playbackUri = state.session.playback.track.uri
+    const headUri = state.session.queue.tracks[state.session.queue.head].uri
+
+    const endIndex =
+      playbackUri === headUri
+        ? state.session.queue.head
+        : state.session.queue.head + 1
+    return state.session.queue.tracks.slice(0, endIndex)
   },
   getPlayingTrack(state: State): Track | null {
-    if (!state.session) return null
-    return state.session.queue.tracks[state.session.queue.head!]
+    if (!state.session || !state.session.playback) return null
+    return state.session.playback.track
   },
   getWaitingTracks(state: State): Track[] {
     if (!state.session) return []
+    if (!state.session.playback && state.session.queue.head === 0)
+      return state.session.queue.tracks
     return state.session.queue.tracks.slice(state.session.queue.head! + 1)
   },
   playable(state: State): boolean {
