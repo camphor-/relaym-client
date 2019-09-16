@@ -81,9 +81,6 @@ export const actions = {
       console.error(e)
     }
   },
-  async resume({ dispatch }) {
-    await dispatch('play')
-  },
   nextSong({ commit }, newTrackId: number) {
     commit('nextSong', newTrackId)
   },
