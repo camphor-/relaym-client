@@ -8,9 +8,7 @@
         <track-list-container />
       </div>
 
-      <bottom-controller
-        v-on:open-device-select-dialog="openDeviceSelectDialog"
-      />
+      <bottom-controller @open-device-select-dialog="openDeviceSelectDialog" />
 
       <device-select-dialog
         v-model="isDeviceSelectDialogOpen"
@@ -43,20 +41,24 @@ import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
     BanFreePlanDialog
   },
   methods: {
-    ...mapActions('currentSession', ['play', 'addTrack', 'getStatus'])
+    ...mapActions('currentSession', [
+      'setDevice',
+      'addTrack',
+      'fetchCurrentSession'
+    ])
   }
 })
 export default class extends Vue {
   private addTrack!: (payload: string) => void
-  private getStatus!: () => void
-  private play!: (payload: Device) => void
+  private setDevice!: (payload: string) => void
+  private fetchCurrentSession!: () => void
   private isDeviceSelectDialogOpen: boolean = false
   private pageRoot: any
   private isBanDialogOpen: boolean = false
   private isShowSlideMenu: boolean = false
 
   mounted() {
-    this.getStatus()
+    this.fetchCurrentSession()
     if ('add_track' in this.$route.query) {
       const trackURI: string = this.$route.query.add_track as string
       this.addTrack(trackURI)
@@ -66,8 +68,9 @@ export default class extends Vue {
     this.isBanDialogOpen = true
   }
 
-  onSelectDevice(device: Device) {
-    this.play(device)
+  async onSelectDevice(device: Device) {
+    await this.setDevice(device.id)
+    await this.fetchCurrentSession()
   }
 
   openDeviceSelectDialog() {

@@ -1,6 +1,6 @@
 <template>
   <div id="track-list-container-root">
-    <template v-if="trackList">
+    <template v-if="session && session.queue.tracks.length > 0">
       <track-list
         :played-tracks="getPlayedTracks"
         :playing-track="getPlayingTrack"
@@ -19,14 +19,15 @@ import { mapState, mapActions, mapGetters } from 'vuex'
 import TrackListPlaceHolder from '@/components/molecules/TrackListPlaceHolder.vue'
 import TrackList from '@/components/molecules/TrackList.vue'
 import Track from '@/models/Track'
+import { CurrentSession } from '@/models/Session'
 
 @Component({
   components: { TrackList, TrackListPlaceHolder },
   methods: {
-    ...mapActions('currentSession', ['fetchcurrentSession'])
+    ...mapActions('currentSession', ['fetchCurrentSession'])
   },
   computed: {
-    ...mapState('currentSession', ['trackList']),
+    ...mapState('currentSession', ['session']),
     ...mapGetters('currentSession', [
       'getPlayedTracks',
       'getPlayingTrack',
@@ -35,16 +36,16 @@ import Track from '@/models/Track'
   }
 })
 export default class extends Vue {
-  private fetchTrackList!: (payload: {}) => void
+  private fetchCurrentSession!: () => void
   private getPlayedTracks!: (payload: {}) => Track[]
   private getPlayingTrack!: (payload: {}) => Track
   private getWaitingTracks!: (payload: {}) => Track[]
+
+  private session: CurrentSession
+
   mounted() {
-    this.fetchTrackList({})
+    this.fetchCurrentSession()
   }
-  // playedTracks = this.getPlayedTracks({})
-  // playingTrack = this.getPlayingTrack({})
-  // waitingTracks = this.getWaitingTracks({})
 }
 </script>
 
