@@ -1,0 +1,6 @@
+[build]
+  publish = "dist/"
+  command = "yarn run build"
+
+[context.production]
+  environment = { BASE_URL = "https://here-songs.tomoyat1.com", BASE_WEBSOCKET_URL = "wss://here-songs.tomoyat1.com/api/v1" }

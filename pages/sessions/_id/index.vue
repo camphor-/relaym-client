@@ -22,7 +22,8 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import { mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
+import User from '@/models/User'
 import SessionToolbar from '@/components/molecules/SessionToolbar.vue'
 import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 import DeviceSelectDialog from '@/components/organisms/DeviceSelectDialog.vue'
@@ -40,6 +41,9 @@ import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
     SlideMenu,
     BanFreePlanDialog
   },
+  computed: {
+    ...mapState('user', ['me'])
+  },
   methods: {
     ...mapActions('currentSession', [
       'setDevice',
@@ -49,6 +53,7 @@ import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
   }
 })
 export default class extends Vue {
+  private readonly me: User | null
   private addTrack!: (payload: string) => void
   private setDevice!: (payload: string) => void
   private fetchCurrentSession!: () => void
@@ -65,7 +70,10 @@ export default class extends Vue {
     }
     this.pageRoot = document.getElementsByClassName('page-root')[0]
     this.pageRoot.style.transition = '0.2s cubic-bezier(0.4, 0, 0.2, 1)'
-    this.isBanDialogOpen = true
+
+    if (this.me && !this.me.is_premium) {
+      this.isBanDialogOpen = true
+    }
   }
 
   async onSelectDevice(device: Device) {
