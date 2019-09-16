@@ -106,7 +106,7 @@ export const actions = {
       console.error(e)
     }
   },
-  async getCurrentSession({ commit }) {
+  async fetchCurrentSession({ commit }) {
     try {
       const newSession = await ApiV2.sessions.current.getCurrentSession()
       commit('setSession', newSession)
