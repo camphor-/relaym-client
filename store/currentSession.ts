@@ -39,6 +39,7 @@ export const getters = {
     if (!('delegate' in state.session)) return false // TODO: デバイス指定済かのもっと妥当な判定
     if (state.session.queue.tracks.slice(state.session.queue.head).length === 0)
       return false
+
     return true
   }
 }
@@ -96,8 +97,14 @@ export const actions = {
       console.error(e)
     }
   },
-  nextSong({ commit }, newTrackId: number) {
-    commit('nextSong', newTrackId)
+  async setDevice({ state }, deviceId: string) {
+    if (!state.session) return
+    try {
+      await ApiV2.sessions.current.setDevice({ device_id: deviceId })
+    } catch (e) {
+      // TODO: Error Handling
+      console.error(e)
+    }
   },
   async getCurrentSession({ commit }) {
     try {
