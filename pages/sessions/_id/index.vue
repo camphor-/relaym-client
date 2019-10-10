@@ -45,21 +45,25 @@ import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
     ...mapState('user', ['me'])
   },
   methods: {
-    ...mapActions('tracklist', ['play', 'addTrack', 'getStatus'])
+    ...mapActions('currentSession', [
+      'setDevice',
+      'addTrack',
+      'fetchCurrentSession'
+    ])
   }
 })
 export default class extends Vue {
   private readonly me: User | null
   private addTrack!: (payload: string) => void
-  private getStatus!: () => void
-  private play!: (payload: Device) => void
+  private setDevice!: (payload: string) => void
+  private fetchCurrentSession!: () => void
   private isDeviceSelectDialogOpen: boolean = false
   private pageRoot: any
   private isBanDialogOpen: boolean = false
   private isShowSlideMenu: boolean = false
 
   mounted() {
-    this.getStatus()
+    this.fetchCurrentSession()
     if ('add_track' in this.$route.query) {
       const trackURI: string = this.$route.query.add_track as string
       this.addTrack(trackURI)
@@ -72,8 +76,9 @@ export default class extends Vue {
     }
   }
 
-  onSelectDevice(device: Device) {
-    this.play(device)
+  async onSelectDevice(device: Device) {
+    await this.setDevice(device.id)
+    await this.fetchCurrentSession()
   }
 
   openDeviceSelectDialog() {

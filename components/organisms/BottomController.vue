@@ -6,9 +6,9 @@
           <v-icon>devices</v-icon>
         </v-btn>
         <v-btn v-if="playable" icon @click="togglePlayback">
-          <v-icon v-if="paused" color="accent" x-large class="play-icon"
-            >play_arrow</v-icon
-          >
+          <v-icon v-if="paused" color="accent" x-large class="play-icon">
+            play_arrow
+          </v-icon>
           <v-icon v-else color="accent" x-large>pause</v-icon>
         </v-btn>
         <nuxt-link
@@ -26,47 +26,44 @@
 <script lang="ts">
 import { Component, Emit, Vue } from 'vue-property-decorator'
 import { mapActions, mapGetters, mapState } from 'vuex'
-import Device from '@/models/Device'
+import { CurrentSession } from '../../models/Session'
 
 @Component({
   methods: {
-    ...mapActions('tracklist', ['pause', 'resume', 'getStatus'])
+    ...mapActions('currentSession', ['pause', 'play', 'fetchCurrentSession'])
   },
   computed: {
-    ...mapState('tracklist', ['paused', 'device']),
-    ...mapGetters('tracklist', ['playable'])
+    ...mapState('currentSession', ['session']),
+    ...mapGetters('currentSession', ['playable']),
+    paused() {
+      if (!('playback' in this.session)) return true
+      return this.session.playback.paused
+    }
   }
 })
 export default class extends Vue {
   private pause!: () => void
-  private resume!: () => void
-  private getStatus!: () => void
+  private play!: () => void
+  private fetchCurrentSession!: () => void
 
-  private paused!: () => boolean
-  private device!: () => Device
-
-  private playable!: () => boolean
+  private session!: CurrentSession
+  private playable!: boolean
 
   @Emit()
   openDeviceSelectDialog() {}
 
   async togglePlayback() {
-    await this.getStatus()
-    // pause
-    if (!this.paused) {
-      this.pause()
-      return
+    await this.fetchCurrentSession()
+
+    if ('playback' in this.session) {
+      if (this.session.playback.paused) {
+        this.play()
+      } else {
+        this.pause()
+      }
+    } else if (this.playable) {
+      this.play()
     }
-    if (!this.playable) {
-      return
-    }
-    // resume
-    if (this.device) {
-      this.resume()
-      return
-    }
-    // play
-    this.openDeviceSelectDialog()
   }
 }
 </script>
