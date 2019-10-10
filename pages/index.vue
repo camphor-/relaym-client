@@ -25,28 +25,40 @@
       <new-session-dialog v-model="isNewSessionDialogOpen" />
     </v-container>
     <img class="wave" src="../assets/images/wave.svg" alt="wave" />
-    <!--  TODO: ログインしているか確認  -->
     <div class="sessions-list-container">
-      <sessions-list-container />
+      <sessions-list-container v-if="me" />
+      <login-button />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { mapState } from 'vuex'
+import User from '../models/User'
 import ToppageLogo from '@/components/molecules/ToppageLogo'
 import NewSessionDialog from '@/components/organisms/NewSessionDialog.vue'
 import SessionsListContainer from '@/components/organisms/SessionsListContainer.vue'
+import LoginButton from '@/components/organisms/LoginButton.vue'
 
 @Component({
-  components: { ToppageLogo, NewSessionDialog, SessionsListContainer },
-  layout: 'toppage'
+  components: {
+    ToppageLogo,
+    NewSessionDialog,
+    SessionsListContainer,
+    LoginButton
+  },
+  layout: 'toppage',
+  computed: {
+    ...mapState('user', ['me'])
+  }
 })
 export default class Index extends Vue {
+  private me?: User
+
   private isNewSessionDialogOpen: boolean = false
 
   openNewSessionDialog() {
-    // TODO: ログインしてるか確認
     this.isNewSessionDialogOpen = true
   }
 }
