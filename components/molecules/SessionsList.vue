@@ -4,7 +4,7 @@
     <v-card
       v-for="(session, index) of sessions"
       :key="index"
-      class="session-holder mb-5"
+      class="session-holder"
       :href="`/sessions/${session.id}`"
     >
       <v-layout row align-center>
