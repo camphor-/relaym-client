@@ -8,9 +8,7 @@
         <track-list-container />
       </div>
 
-      <bottom-controller
-        v-on:open-device-select-dialog="openDeviceSelectDialog"
-      />
+      <bottom-controller @open-device-select-dialog="openDeviceSelectDialog" />
 
       <device-select-dialog
         v-model="isDeviceSelectDialogOpen"
