@@ -67,7 +67,7 @@ export default class Index extends Vue {
 <style lang="scss" scoped>
 .container {
   margin: 0 auto;
-  min-height: 80vh;
+  min-height: 70vh;
   text-align: center;
 }
 
@@ -105,6 +105,6 @@ button {
 
 .sessions-list-container {
   background-color: $primary-color;
-  min-height: 10vh;
+  min-height: 20vh;
 }
 </style>

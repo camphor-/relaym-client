@@ -1,6 +1,7 @@
 <template>
   <div class="login-button-container">
-    <v-btn round color="white">Login</v-btn>
+    <v-btn round color="white">Login to Spotify</v-btn>
+    <div class="login-description">Spotifyにログインしてセッションを表示</div>
   </div>
 </template>
 
@@ -16,5 +17,13 @@ export default class extends Vue {}
 <style lang="scss" scoped>
 .login-button-container {
   text-align: center;
+  > button {
+    margin-bottom: 30px;
+  }
+}
+
+.login-description {
+  color: white;
+  font-size: 13px;
 }
 </style>
