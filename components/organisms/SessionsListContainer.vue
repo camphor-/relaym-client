@@ -7,7 +7,7 @@
     />
     <sessions-list
       v-if="mySessions"
-      :title="'Resent Sessions'"
+      :title="'Recent Sessions'"
       :sessions="mySessions"
     />
   </v-container>
