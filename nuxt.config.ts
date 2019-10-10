@@ -123,10 +123,9 @@ const nuxtConfig: NuxtConfiguration = {
   vuetify: {
     // Vuetify の設定はここに書く
     theme: {
-      primary: '#0D47A1',
-      secondary: '#b0bec5',
-      accent: '#DA4167',
-      error: '#b71c1c'
+      primary: '#DC4A5E',
+      secondary: '#14213D',
+      accent: '#707070'
     }
   },
 

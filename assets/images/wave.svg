@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1124 175" preserveAspectRatio="none">
+  <defs>
+    <style>
+      .cls-1, .cls-2, .cls-3 {
+        fill: #dc4a5e;
+      }
+
+      .cls-1 {
+        opacity: 0.4;
+      }
+
+      .cls-2 {
+        opacity: 0.2;
+      }
+    </style>
+  </defs>
+  <title>wave</title>
+  <path class="cls-1" d="M1124,175V86.86C1071.06,73.27,879.26,0,660.5,71.5,369.24,166.69,0,0,0,0V175"/>
+  <path class="cls-2" d="M1124,175V29c-42,22.45-480.89,170.31-649.42,65.58C277.75-27.76,0,48.46,0,48.46V175"/>
+  <path class="cls-3" d="M1124,64.88c-42,22.36-140.94,96.3-503.34,19.42C268.42,9.57,0,101.36,0,101.36V175H1124Z"/>
+</svg>

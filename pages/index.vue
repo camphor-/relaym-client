@@ -1,76 +1,98 @@
 <template>
-  <v-container>
-    <v-flex align-center>
-      <div class="logo">
-        <a href="/">
-          <img src="~assets/images/logo_toppage.svg" />
-        </a>
-      </div>
+  <div>
+    <v-container>
+      <v-flex align-center column>
+        <toppage-logo />
 
-      <add-place-card />
-      <!-- TODO: セッションリストを作る -->
-      <places-list :places="places" @click="goSession" />
-    </v-flex>
-  </v-container>
+        <h1 class="top-page-title">Relaym</h1>
+        <v-btn
+          round
+          outline
+          small
+          color="primary"
+          class="about-relaym-btn"
+          href="#"
+          >About Relaym</v-btn
+        >
+        <v-btn
+          round
+          color="secondary"
+          class="new-session-btn"
+          @click="openNewSessionDialog"
+          >New Session</v-btn
+        >
+      </v-flex>
+      <new-session-dialog v-model="isNewSessionDialogOpen" />
+    </v-container>
+    <img class="wave" src="../assets/images/wave.svg" alt="wave" />
+    <!--  TODO: ログインしているか確認  -->
+    <div class="sessions-list-container">
+      <sessions-list-container />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import AddPlaceCard from '@/components/organisms/AddPlaceCard.vue'
-import PlacesList from '@/components/organisms/PlacesList.vue'
-import auth from '@/api/auth'
+import ToppageLogo from '@/components/molecules/ToppageLogo'
+import NewSessionDialog from '@/components/organisms/NewSessionDialog.vue'
+import SessionsListContainer from '@/components/organisms/SessionsListContainer.vue'
 
 @Component({
-  components: { AddPlaceCard, PlacesList },
+  components: { ToppageLogo, NewSessionDialog, SessionsListContainer },
   layout: 'toppage'
 })
 export default class Index extends Vue {
-  places = [{ id: 'camphor-', name: 'CAMPHOR-' }]
+  private isNewSessionDialogOpen: boolean = false
 
-  goSession() {
-    // this.$router.push({ path: `/sessions/${id}` })
-    location.href = auth.getLoginUrl()
+  openNewSessionDialog() {
+    // TODO: ログインしてるか確認
+    this.isNewSessionDialogOpen = true
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.logo {
-  font-size: 3rem;
-  a img {
-    max-width: 500px;
-  }
-}
-
 .container {
   margin: 0 auto;
-  min-height: 100vh;
+  min-height: 80vh;
   text-align: center;
 }
 
-// Example of Media Query Mixin
-@include mq(md) {
-  .title {
-    font-family: 'Quicksand', 'Source Sans Pro', -apple-system,
-      BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
-      sans-serif;
-    display: block;
-    font-weight: 300;
-    font-size: 100px;
-    color: #35495e;
-    letter-spacing: 1px;
-  }
+.top-page-title {
+  font-family: Roboto, 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+  font-size: 48px;
+  color: $primary-color;
+  font-weight: normal;
 }
 
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
+button {
+  display: block;
+  margin: auto;
+}
+
+.about-relaym-btn {
+  font-size: 12px;
+}
+
+.new-session-btn {
+  margin-top: 4rem;
+  font-size: 18px;
 }
 
 .links {
   padding-top: 15px;
+}
+
+.wave {
+  display: block;
+  width: 100%;
+  height: 10vh;
+}
+
+.sessions-list-container {
+  background-color: $primary-color;
+  min-height: 10vh;
 }
 </style>
