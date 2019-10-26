@@ -28,6 +28,7 @@
 
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
+import ApiV2 from '@/api/v2'
 
 @Component({
   components: {}
@@ -46,7 +47,7 @@ export default class extends Vue {
   }
 
   terminateSession() {
-    // TODO(@aratasato): セッションを終了させる処理
+    ApiV2.sessions.current.controlPlayback({ state: 'STOP' })
   }
 }
 </script>
