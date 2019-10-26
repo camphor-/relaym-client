@@ -14,7 +14,10 @@
         </v-list-tile-content>
       </v-list-tile>
 
-      <v-list-tile class="bottom-btn" @click="terminateSession">
+      <v-list-tile
+        class="bottom-btn"
+        @click="openConfirmTerminateSessionDialog"
+      >
         <v-list-tile-avatar>
           <v-icon>archive</v-icon>
         </v-list-tile-avatar>
@@ -23,15 +26,20 @@
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
+    <confirm-terminate-session-dialog
+      v-model="isOpenConfirmTerminateSessionDialog"
+      @on-click-delete="terminateSession"
+    ></confirm-terminate-session-dialog>
   </v-navigation-drawer>
 </template>
 
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
+import ConfirmTerminateSessionDialog from './ConfirmTerminateSessionDialog.vue'
 import ApiV2 from '@/api/v2'
 
 @Component({
-  components: {}
+  components: { ConfirmTerminateSessionDialog }
 })
 export default class extends Vue {
   private items = [
@@ -39,11 +47,17 @@ export default class extends Vue {
     { title: 'Exit', icon: 'exit_to_app', to: '/' }
   ]
 
+  private isOpenConfirmTerminateSessionDialog = false
+
   @Prop({ default: false }) readonly value!: boolean
 
   @Emit()
   input(isOpen: boolean) {
     return isOpen
+  }
+
+  openConfirmTerminateSessionDialog() {
+    this.isOpenConfirmTerminateSessionDialog = true
   }
 
   terminateSession() {
