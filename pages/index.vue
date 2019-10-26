@@ -25,28 +25,40 @@
       <new-session-dialog v-model="isNewSessionDialogOpen" />
     </v-container>
     <img class="wave" src="../assets/images/wave.svg" alt="wave" />
-    <!--  TODO: ログインしているか確認  -->
     <div class="sessions-list-container">
-      <sessions-list-container />
+      <sessions-list-container v-if="isLoggedIn" />
+      <login-button v-else />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { mapState, mapGetters } from 'vuex'
 import ToppageLogo from '@/components/molecules/ToppageLogo'
 import NewSessionDialog from '@/components/organisms/NewSessionDialog.vue'
 import SessionsListContainer from '@/components/organisms/SessionsListContainer.vue'
+import LoginButton from '@/components/organisms/LoginButton.vue'
 
 @Component({
-  components: { ToppageLogo, NewSessionDialog, SessionsListContainer },
-  layout: 'toppage'
+  components: {
+    ToppageLogo,
+    NewSessionDialog,
+    SessionsListContainer,
+    LoginButton
+  },
+  layout: 'toppage',
+  computed: {
+    ...mapState('user', ['me']),
+    ...mapGetters('user', ['isLoggedIn'])
+  }
 })
 export default class Index extends Vue {
+  private isLoggedIn: () => boolean
+
   private isNewSessionDialogOpen: boolean = false
 
   openNewSessionDialog() {
-    // TODO: ログインしてるか確認
     this.isNewSessionDialogOpen = true
   }
 }
@@ -55,7 +67,7 @@ export default class Index extends Vue {
 <style lang="scss" scoped>
 .container {
   margin: 0 auto;
-  min-height: 80vh;
+  min-height: 70vh;
   text-align: center;
 }
 
@@ -93,6 +105,6 @@ button {
 
 .sessions-list-container {
   background-color: $primary-color;
-  min-height: 10vh;
+  min-height: 20vh;
 }
 </style>
