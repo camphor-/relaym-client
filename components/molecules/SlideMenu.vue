@@ -4,13 +4,21 @@
       <nuxt-link to="/">Relaym</nuxt-link>
     </div>
     <v-list>
-      <v-list-tile v-for="item in items" :key="item.title" :to="item.to" nuxt>
+      <v-list-tile to="/" nuxt>
         <v-list-tile-avatar>
-          <v-icon>{{ item.icon }}</v-icon>
+          <v-icon>home</v-icon>
         </v-list-tile-avatar>
-
         <v-list-tile-content>
-          <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          <v-list-tile-title>Home</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+
+      <v-list-tile @click="exitSession">
+        <v-list-tile-avatar>
+          <v-icon>exit_to_app</v-icon>
+        </v-list-tile-avatar>
+        <v-list-tile-content>
+          <v-list-tile-title>Exit</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
 
@@ -35,19 +43,21 @@
 
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
+import { mapState } from 'vuex'
+import { CurrentSession } from '../../models/Session'
 import ConfirmTerminateSessionDialog from './ConfirmTerminateSessionDialog.vue'
 import ApiV2 from '@/api/v2'
 
 @Component({
-  components: { ConfirmTerminateSessionDialog }
+  components: { ConfirmTerminateSessionDialog },
+  computed: {
+    ...mapState('currentSession', ['session'])
+  }
 })
 export default class extends Vue {
-  private items = [
-    { title: 'Home', icon: 'home', to: '/' },
-    { title: 'Exit', icon: 'exit_to_app', to: '/' }
-  ]
-
   private isOpenConfirmTerminateSessionDialog = false
+
+  session: CurrentSession | null
 
   @Prop({ default: false }) readonly value!: boolean
 
@@ -62,6 +72,13 @@ export default class extends Vue {
 
   terminateSession() {
     ApiV2.sessions.current.controlPlayback({ state: 'STOP' })
+  }
+
+  exitSession() {
+    if (this.session) {
+      ApiV2.sessions.leaveSession(this.session.id)
+    }
+    this.$router.push({ path: '/' })
   }
 }
 </script>
