@@ -16,7 +16,7 @@
           clearable
           placeholder="曲名, アルバム名, アーティスト名"
           @keydown.enter="search"
-        />
+        ></v-text-field>
       </v-flex>
     </v-layout>
     <search-result-list :items="result.items" @click-item="selectTrack" />
