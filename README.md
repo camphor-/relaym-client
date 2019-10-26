@@ -1,4 +1,4 @@
-# nuxt-ts-scaffold
+# Relaym Client
 
 This is a scaffold to create a project using Nuxt.js (SPA mode) with TypeScript.
 
