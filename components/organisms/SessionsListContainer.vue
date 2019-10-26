@@ -1,9 +1,9 @@
 <template>
-  <v-container>
+  <v-container v-if="loaded">
     <sessions-list
-      v-if="currentSession"
+      v-if="session"
       :title="'Current Session'"
-      :sessions="[currentSession]"
+      :sessions="[session]"
     />
     <sessions-list
       v-if="mySessions"
@@ -16,8 +16,8 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { mapState, mapActions, mapGetters } from 'vuex'
-import User from '../../models/User'
-import ApiV2 from '../../api/v2'
+import User from '@/models/User'
+import ApiV2 from '@/api/v2'
 import SessionsList from '@/components/molecules/SessionsList.vue'
 import Session, { CurrentSession } from '@/models/Session'
 
@@ -33,19 +33,17 @@ import Session, { CurrentSession } from '@/models/Session'
   }
 })
 export default class extends Vue {
-  private me?: User
-  private session?: CurrentSession
-  private mySessions?: Session[]
+  me?: User
+  session?: CurrentSession
+  mySessions?: Session[]
+  loaded = false
 
   private fetchCurrentSession!: () => void
 
-  async asyncData() {
-    const mySessions = (await ApiV2.sessions.getSessions()).sessions
+  async created() {
+    this.mySessions = (await ApiV2.sessions.getSessions()).sessions
     await this.fetchCurrentSession()
-
-    return {
-      mySessions: mySessions
-    }
+    this.loaded = true
   }
 }
 </script>
