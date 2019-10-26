@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import ApiV2 from '../../api/v2'
+import ApiV2 from '@/api/v2'
 
 @Component({
   components: {}

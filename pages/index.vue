@@ -26,16 +26,15 @@
     </v-container>
     <img class="wave" src="../assets/images/wave.svg" alt="wave" />
     <div class="sessions-list-container">
-      <sessions-list-container v-if="me" />
-      <login-button />
+      <sessions-list-container v-if="isLoggedIn" />
+      <login-button v-else />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { mapState } from 'vuex'
-import User from '../models/User'
+import { mapState, mapGetters } from 'vuex'
 import ToppageLogo from '@/components/molecules/ToppageLogo'
 import NewSessionDialog from '@/components/organisms/NewSessionDialog.vue'
 import SessionsListContainer from '@/components/organisms/SessionsListContainer.vue'
@@ -50,11 +49,12 @@ import LoginButton from '@/components/organisms/LoginButton.vue'
   },
   layout: 'toppage',
   computed: {
-    ...mapState('user', ['me'])
+    ...mapState('user', ['me']),
+    ...mapGetters('user', ['isLoggedIn'])
   }
 })
 export default class Index extends Vue {
-  private me?: User
+  private isLoggedIn: () => boolean
 
   private isNewSessionDialogOpen: boolean = false
 
