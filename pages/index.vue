@@ -22,7 +22,10 @@
           >New Session</v-btn
         >
       </v-flex>
-      <new-session-dialog v-model="isNewSessionDialogOpen" />
+      <new-session-dialog
+        v-model="isNewSessionDialogOpen"
+        @create-session="createSession"
+      />
     </v-container>
     <img class="wave" src="../assets/images/wave.svg" alt="wave" />
     <div class="sessions-list-container">
@@ -39,6 +42,8 @@ import ToppageLogo from '@/components/molecules/ToppageLogo'
 import NewSessionDialog from '@/components/organisms/NewSessionDialog.vue'
 import SessionsListContainer from '@/components/organisms/SessionsListContainer.vue'
 import LoginButton from '@/components/organisms/LoginButton.vue'
+import ApiV2 from '@/api/v2'
+import Session from '@/models/Session'
 
 @Component({
   components: {
@@ -60,6 +65,13 @@ export default class Index extends Vue {
 
   openNewSessionDialog() {
     this.isNewSessionDialogOpen = true
+  }
+
+  async createSession(payload: { isPublic: boolean }) {
+    const newSession: Session = (await ApiV2.sessions.createSession({
+      is_public: payload.isPublic
+    })).session
+    this.$router.push({ path: `/sessions/${newSession.id}` })
   }
 }
 </script>
