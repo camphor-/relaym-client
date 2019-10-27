@@ -27,7 +27,6 @@ import MessageType from '@/models/MessageType'
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { mapActions, mapState } from 'vuex'
-import MessageType from '../models/MessageType'
 import SearchResultList from '@/components/molecules/SearchResultList.vue'
 import Snackbar from '@/components/molecules/Snackbar.vue'
 import Track from '@/models/Track'
@@ -46,7 +45,7 @@ import SnackbarPayload from '@/models/SnackbarPayload'
 })
 export default class Search extends Vue {
   private fetchSearchResult!: (payload: string) => void
-  private addTrack!: (payload: string) => void
+  private addTrack!: (payload: Track) => void
   showSnackbar: (payload: SnackbarPayload) => void
   q: string = ''
 
@@ -55,11 +54,7 @@ export default class Search extends Vue {
   }
 
   selectTrack(track: Track) {
-    this.addTrack(track.uri)
-    this.showSnackbar({
-      message: `${track.name} を追加しました`,
-      messageType: MessageType.info
-    })
+    this.addTrack(track)
   }
 
   backToTrackList() {
