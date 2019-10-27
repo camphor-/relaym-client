@@ -201,7 +201,7 @@ const nuxtConfig: NuxtConfiguration = {
     BASE_URL: process.env.BASE_URL || 'http://localhost:8080',
     BASE_WEBSOCKET_URL:
       process.env.BASE_WEBSOCKET_URL || 'ws://localhost:8080/api/v2',
-    CLIENT_ID: '2d41ee0f36664938a4669dcf5e81a43f'
+    SPOTIFY_CLIENT_ID: '2d41ee0f36664938a4669dcf5e81a43f',
   }
 }
 

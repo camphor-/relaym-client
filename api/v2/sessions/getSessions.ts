@@ -1,7 +1,7 @@
 import { ApiException, ErrorResponse, instance } from '@/api/v2/common'
 import Session from '@/models/Session'
 
-const getSessions = async () => {
+const getSessions = async (): Promise<GetSessionsResponse> => {
   const res = await instance.get('/sessions/', { withCredentials: true })
   if (res.status === 200) {
     return res.data as GetSessionsResponse

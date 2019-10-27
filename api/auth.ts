@@ -15,7 +15,7 @@ export default {
       'playlist-modify-private'
     ]
     const loginUrl = `https://accounts.spotify.com/authorize?client_id=${
-      process.env.CLIENT_ID
+      process.env.SPOTIFY_CLIENT_ID
     }&response_type=code&redirect_uri=${encodeURIComponent(
       process.env.BASE_URL + '/callback'
     )}&scope=${authScopes.join(',')}`
