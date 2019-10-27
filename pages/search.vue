@@ -1,4 +1,3 @@
-import MessageType from '@/models/MessageType'
 <template>
   <v-container class="page-root">
     <v-layout row wrap>
