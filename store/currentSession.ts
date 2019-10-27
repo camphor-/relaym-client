@@ -1,10 +1,13 @@
 import ApiV2 from '../api/v2'
+import SnackbarPayload from '../models/SnackbarPayload'
+import MessageType from '../models/MessageType'
 import { CurrentSession } from '@/models/Session'
 import Track from '@/models/Track'
 
 interface State {
   session: CurrentSession | null
 }
+
 export const state = () => ({
   session: null
 })
@@ -70,8 +73,28 @@ export const mutations = {
 }
 
 export const actions = {
-  async addTrack({}, trackURI: string) {
-    await ApiV2.sessions.current.addTrack({ uri: trackURI })
+  async addTrack({ dispatch }, track: Track) {
+    try {
+      await ApiV2.sessions.current.addTrack({ uri: track.uri })
+      dispatch(
+        'snackbar/showSnackbar',
+        {
+          message: `${track.name} を追加しました`,
+          messageType: MessageType.info
+        } as SnackbarPayload,
+        { root: true }
+      )
+    } catch (err) {
+      console.error(err)
+      dispatch(
+        'snackbar/showSnackbar',
+        {
+          message: '曲を追加できませんでした',
+          messageType: MessageType.error
+        } as SnackbarPayload,
+        { root: true }
+      )
+    }
   },
   async play({ state, commit }) {
     if (!state.session) return

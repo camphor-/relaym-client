@@ -45,11 +45,7 @@ import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
     ...mapState('user', ['me'])
   },
   methods: {
-    ...mapActions('currentSession', [
-      'setDevice',
-      'addTrack',
-      'fetchCurrentSession'
-    ])
+    ...mapActions('currentSession', ['setDevice', 'fetchCurrentSession'])
   }
 })
 export default class extends Vue {
@@ -64,10 +60,6 @@ export default class extends Vue {
 
   mounted() {
     this.fetchCurrentSession()
-    if ('add_track' in this.$route.query) {
-      const trackURI: string = this.$route.query.add_track as string
-      this.addTrack(trackURI)
-    }
     this.pageRoot = document.getElementsByClassName('page-root')[0]
     this.pageRoot.style.transition = '0.2s cubic-bezier(0.4, 0, 0.2, 1)'
 
