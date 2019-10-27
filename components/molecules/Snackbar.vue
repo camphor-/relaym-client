@@ -8,6 +8,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
+import { MessageType } from '@/models/MessageType'
 
 @Component({
   components: {}
@@ -15,6 +16,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 export default class extends Vue {
   @Prop({ default: '' }) readonly text!: string
   @Prop({ default: false }) showSnackbar!: boolean
+  @Prop({ default: MessageType.info }) type?: MessageType
 }
 </script>
 <style lang="scss" scoped></style>
