@@ -125,7 +125,8 @@ const nuxtConfig: NuxtConfiguration = {
     theme: {
       primary: '#DC4A5E',
       secondary: '#14213D',
-      accent: '#707070'
+      accent: '#707070',
+      error: '#333333'
     }
   },
 
