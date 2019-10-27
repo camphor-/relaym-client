@@ -7,6 +7,16 @@
   </v-app>
 </template>
 
+<script lang="ts">
+import Vue from 'vue'
+import { Component } from 'vue-property-decorator'
+import Snackbar from '@/components/molecules/Snackbar'
+@Component({
+  components: { Snackbar }
+})
+export default class toppage extends Vue {}
+</script>
+
 <style>
 html {
   font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
@@ -27,12 +37,3 @@ html {
   margin: 0;
 }
 </style>
-<script lang="ts">
-import Vue from 'vue'
-import { Component } from 'vue-property-decorator'
-import Snackbar from '@/components/molecules/Snackbar'
-@Component({
-  components: { Snackbar }
-})
-export default class toppage extends Vue {}
-</script>
