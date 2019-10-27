@@ -21,8 +21,8 @@
     </v-layout>
     <search-result-list :items="result.items" @click-item="selectTrack" />
     <snackbar
-      :text="snackbarText"
       v-model="showSnackbar"
+      :text="snackbarText"
       :type="addSuccessMessageType"
     ></snackbar>
   </v-container>
