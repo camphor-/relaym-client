@@ -22,7 +22,7 @@
     <search-result-list :items="result.items" @click-item="selectTrack" />
     <snackbar
       :text="snackbarText"
-      :show-snackbar="showSnackbar"
+      v-model="showSnackbar"
       :type="addSuccessMessageType"
     ></snackbar>
   </v-container>

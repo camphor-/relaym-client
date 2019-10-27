@@ -1,7 +1,7 @@
 <template>
   <v-list v-if="items" two-line class="result-list">
     <template v-for="(item, index) in items">
-      <v-list-tile :key="index">
+      <v-list-tile :key="item.id">
         <v-btn flat :href="item.external_urls.spotify" target="_blank">
           <v-list-tile-avatar tile>
             <img
