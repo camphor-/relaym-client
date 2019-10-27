@@ -1,4 +1,6 @@
-export enum MessageType {
+enum MessageType {
   info,
   error
 }
+
+export default MessageType

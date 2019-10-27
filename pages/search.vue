@@ -20,7 +20,11 @@
       </v-flex>
     </v-layout>
     <search-result-list :items="result.items" @click-item="selectTrack" />
-    <snackbar :text="snackbarText" :show-snackbar="showSnackbar"></snackbar>
+    <snackbar
+      :text="snackbarText"
+      :show-snackbar="showSnackbar"
+      :type="addSuccessMessageType"
+    ></snackbar>
   </v-container>
 </template>
 
@@ -30,6 +34,7 @@ import { mapState, mapActions } from 'vuex'
 import SearchResultList from '@/components/molecules/SearchResultList.vue'
 import Snackbar from '@/components/molecules/Snackbar.vue'
 import Track from '@/models/Track'
+import MessageType from '@/models/MessageType'
 
 @Component({
   components: { SearchResultList, Snackbar },
@@ -47,6 +52,7 @@ export default class extends Vue {
   q: string = ''
   snackbarText = ''
   showSnackbar = false
+  addSuccessMessageType = MessageType.info
 
   search() {
     this.fetchSearchResult(this.q)
