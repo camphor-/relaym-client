@@ -3,6 +3,7 @@
     <v-content>
       <nuxt />
     </v-content>
+    <snackbar></snackbar>
   </v-app>
 </template>
 
@@ -26,3 +27,12 @@ html {
   margin: 0;
 }
 </style>
+<script lang="ts">
+import Vue from 'vue'
+import { Component } from 'vue-property-decorator'
+import Snackbar from '@/components/molecules/Snackbar'
+@Component({
+  components: { Snackbar }
+})
+export default class toppage extends Vue {}
+</script>
