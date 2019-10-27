@@ -1,14 +1,19 @@
-import { MessageType } from '@/models/MessageType'
 <template>
-  <v-snackbar v-model="showSnackbar" bottom timeout="3000" :color="color">
+  <v-snackbar
+    :value="value"
+    bottom
+    :timeout="3000"
+    :color="color"
+    @input="input"
+  >
     {{ text }}
-    <v-btn color="white" flat @click="snackbar = false">
+    <v-btn color="white" flat @click="input">
       Close
     </v-btn>
   </v-snackbar>
 </template>
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 import MessageType from '@/models/MessageType'
 
 @Component({
@@ -16,11 +21,16 @@ import MessageType from '@/models/MessageType'
 })
 export default class extends Vue {
   @Prop({ default: '' }) readonly text!: string
-  @Prop({ default: false }) showSnackbar!: boolean
+  @Prop({ default: false }) value!: boolean
   @Prop({ default: MessageType.info }) type!: MessageType
 
   get color() {
     return this.type === MessageType.info ? 'primary' : 'error'
+  }
+
+  @Emit()
+  input() {
+    return false
   }
 }
 </script>
