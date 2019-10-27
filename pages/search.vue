@@ -1,3 +1,4 @@
+import MessageType from '@/models/MessageType'
 <template>
   <v-container class="page-root">
     <v-layout row wrap>
@@ -20,21 +21,17 @@
       </v-flex>
     </v-layout>
     <search-result-list :items="result.items" @click-item="selectTrack" />
-    <snackbar
-      v-model="showSnackbar"
-      :text="snackbarText"
-      :type="addSuccessMessageType"
-    ></snackbar>
   </v-container>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { mapState, mapActions } from 'vuex'
+import { mapActions, mapState } from 'vuex'
+import MessageType from '../models/MessageType'
 import SearchResultList from '@/components/molecules/SearchResultList.vue'
 import Snackbar from '@/components/molecules/Snackbar.vue'
 import Track from '@/models/Track'
-import MessageType from '@/models/MessageType'
+import SnackbarPayload from '@/models/SnackbarPayload'
 
 @Component({
   components: { SearchResultList, Snackbar },
@@ -43,16 +40,15 @@ import MessageType from '@/models/MessageType'
   },
   methods: {
     ...mapActions('search', ['fetchSearchResult']),
-    ...mapActions('currentSession', ['addTrack'])
+    ...mapActions('currentSession', ['addTrack']),
+    ...mapActions('snackbar', ['showSnackbar'])
   }
 })
-export default class extends Vue {
+export default class Search extends Vue {
   private fetchSearchResult!: (payload: string) => void
   private addTrack!: (payload: string) => void
+  showSnackbar: (payload: SnackbarPayload) => void
   q: string = ''
-  snackbarText = ''
-  showSnackbar = false
-  addSuccessMessageType = MessageType.info
 
   search() {
     this.fetchSearchResult(this.q)
@@ -60,8 +56,10 @@ export default class extends Vue {
 
   selectTrack(track: Track) {
     this.addTrack(track.uri)
-    this.snackbarText = `${track.name} を追加しました`
-    this.showSnackbar = true
+    this.showSnackbar({
+      message: `${track.name} を追加しました`,
+      messageType: MessageType.info
+    })
   }
 
   backToTrackList() {

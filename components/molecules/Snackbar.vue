@@ -1,36 +1,52 @@
 <template>
-  <v-snackbar
-    :value="value"
-    bottom
-    :timeout="3000"
-    :color="color"
-    @input="input"
-  >
-    {{ text }}
-    <v-btn color="white" flat @click="input">
+  <v-snackbar v-model="value" bottom :timeout="3000" :color="color">
+    {{ message }}
+    <v-btn color="white" flat @click="close">
       Close
     </v-btn>
   </v-snackbar>
 </template>
 <script lang="ts">
-import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
+import { mapState, mapActions } from 'vuex'
 import MessageType from '@/models/MessageType'
 
 @Component({
-  components: {}
+  components: {},
+  computed: {
+    ...mapState('snackbar', ['isOpen', 'message', 'messageType'])
+  },
+  methods: {
+    ...mapActions('snackbar', ['showSnackbar', 'closeSnackbar'])
+  }
 })
-export default class extends Vue {
-  @Prop({ default: '' }) readonly text!: string
-  @Prop({ default: false }) value!: boolean
-  @Prop({ default: MessageType.info }) type!: MessageType
+export default class Snackbar extends Vue {
+  messageType!: MessageType
+  message!: string
+  isOpen!: boolean
+  showSnackbar: () => void
+  closeSnackbar: () => void
 
-  get color() {
-    return this.type === MessageType.info ? 'primary' : 'error'
+  value = false
+
+  @Watch('value')
+  timeSpent() {
+    if (this.value) return
+    this.close()
   }
 
-  @Emit()
-  input() {
-    return false
+  close() {
+    this.closeSnackbar()
+  }
+
+  @Watch('isOpen')
+  open() {
+    if (!this.isOpen) return
+    this.value = true
+  }
+
+  get color() {
+    return this.messageType === MessageType.info ? 'primary' : 'error'
   }
 }
 </script>
