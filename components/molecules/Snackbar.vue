@@ -29,20 +29,17 @@ export default class Snackbar extends Vue {
 
   value = false
 
+  // 3000ms後にstoreでも閉じた状態にする
   @Watch('value')
   timeSpent() {
     if (this.value) return
-    this.close()
-  }
-
-  close() {
     this.closeSnackbar()
   }
 
+  // storeの状態と同期
   @Watch('isOpen')
-  open() {
-    if (!this.isOpen) return
-    this.value = true
+  syncValue() {
+    this.value = this.isOpen
   }
 
   get color() {
