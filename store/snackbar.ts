@@ -29,9 +29,18 @@ export const mutations = {
 }
 
 export const actions = {
-  showSnackbar({ commit }, payload: SnackbarPayload) {
+  showSnackbar({ commit, state }, payload: SnackbarPayload) {
     commit('setMessage', payload.message)
     commit('setMessageType', payload.messageType)
+
+    // すでに開いている場合は一回とじる
+    if (state.isOpen) {
+      commit('close')
+      setTimeout(() => {
+        commit('open')
+      }, 200)
+      return
+    }
     commit('open')
   },
   closeSnackbar({ commit }) {
