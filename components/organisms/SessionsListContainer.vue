@@ -1,9 +1,9 @@
 <template>
-  <v-container>
+  <v-container v-if="loaded">
     <sessions-list
-      v-if="currentSession"
+      v-if="session"
       :title="'Current Session'"
-      :sessions="[currentSession]"
+      :sessions="[session]"
     />
     <sessions-list
       v-if="mySessions"
@@ -15,35 +15,36 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import Session, { CurrentSession } from '@/models/Session'
+import { mapState, mapActions, mapGetters } from 'vuex'
+import User from '@/models/User'
+import ApiV2 from '@/api/v2'
 import SessionsList from '@/components/molecules/SessionsList.vue'
+import Session, { CurrentSession } from '@/models/Session'
 
 @Component({
-  components: { SessionsList }
+  components: { SessionsList },
+  methods: {
+    ...mapActions('currentSession', ['fetchCurrentSession'])
+  },
+  computed: {
+    ...mapState('user', ['me']),
+    ...mapState('currentSession', ['session']),
+    ...mapGetters('user', ['isLoggedIn'])
+  }
 })
 export default class extends Vue {
-  // TODO: storeからセッションの情報を取ってくる
-  currentSession: CurrentSession = {
-    id: 'xxxxx',
-    name: 'Session created at 2019-07-24 16:30',
-    is_public: false,
-    is_progressing: true
-  }
+  me?: User
+  session?: CurrentSession
+  mySessions?: Session[]
+  loaded = false
 
-  mySessions: Session[] = [
-    {
-      id: 'xxxxx',
-      name: 'Session created at 2019-07-24 12:30',
-      is_public: false,
-      is_progressing: false
-    },
-    {
-      id: 'xxxxx',
-      name: 'Session created at 2019-07-24 10:30',
-      is_public: true,
-      is_progressing: false
-    }
-  ]
+  private fetchCurrentSession!: () => void
+
+  async created() {
+    this.mySessions = (await ApiV2.sessions.getSessions()).sessions
+    await this.fetchCurrentSession()
+    this.loaded = true
+  }
 }
 </script>
 
