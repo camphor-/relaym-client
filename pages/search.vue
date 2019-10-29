@@ -52,10 +52,14 @@ export default class Search extends Vue {
   @Watch('q')
   search() {
     if (!this.q) return
+
+    // searchInterval以上経っていたら検索
     if (this.lastSearchTime + this.searchInterval < Date.now()) {
       this.lastSearchTime = Date.now()
       this.fetchSearchResult(this.q)
     }
+
+    // searchInterval以上経って変化がなかったら検索
     const lastQ = this.q
     setTimeout(() => {
       if (lastQ === this.q) {
