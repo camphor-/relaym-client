@@ -15,21 +15,20 @@
           single-line
           clearable
           placeholder="曲名, アルバム名, アーティスト名"
-          @keydown.enter="search"
         ></v-text-field>
       </v-flex>
     </v-layout>
     <search-result-list :items="result.items" @click-item="selectTrack" />
-    <snackbar :text="snackbarText" :show-snackbar="showSnackbar"></snackbar>
   </v-container>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { mapState, mapActions } from 'vuex'
+import { Component, Vue, Watch } from 'vue-property-decorator'
+import { mapActions, mapState } from 'vuex'
 import SearchResultList from '@/components/molecules/SearchResultList.vue'
 import Snackbar from '@/components/molecules/Snackbar.vue'
 import Track from '@/models/Track'
+import SnackbarPayload from '@/models/SnackbarPayload'
 
 @Component({
   components: { SearchResultList, Snackbar },
@@ -38,24 +37,35 @@ import Track from '@/models/Track'
   },
   methods: {
     ...mapActions('search', ['fetchSearchResult']),
-    ...mapActions('currentSession', ['addTrack'])
+    ...mapActions('currentSession', ['addTrack']),
+    ...mapActions('snackbar', ['showSnackbar'])
   }
 })
-export default class extends Vue {
+export default class Search extends Vue {
   private fetchSearchResult!: (payload: string) => void
-  private addTrack!: (payload: string) => void
+  private addTrack!: (payload: Track) => void
+  showSnackbar: (payload: SnackbarPayload) => void
   q: string = ''
-  snackbarText = ''
-  showSnackbar = false
+  lastSearchTime = Date.now()
+  searchInterval = 1000
 
+  @Watch('q')
   search() {
-    this.fetchSearchResult(this.q)
+    if (!this.q) return
+    if (this.lastSearchTime + this.searchInterval < Date.now()) {
+      this.lastSearchTime = Date.now()
+      this.fetchSearchResult(this.q)
+    }
+    const lastQ = this.q
+    setTimeout(() => {
+      if (lastQ === this.q) {
+        this.fetchSearchResult(this.q)
+      }
+    }, this.searchInterval)
   }
 
   selectTrack(track: Track) {
-    this.addTrack(track.uri)
-    this.snackbarText = `${track.name} を追加しました`
-    this.showSnackbar = true
+    this.addTrack(track)
   }
 
   backToTrackList() {
