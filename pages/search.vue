@@ -15,7 +15,6 @@
           single-line
           clearable
           placeholder="曲名, アルバム名, アーティスト名"
-          @keydown.enter="search"
         ></v-text-field>
       </v-flex>
     </v-layout>
@@ -24,7 +23,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 import { mapActions, mapState } from 'vuex'
 import SearchResultList from '@/components/molecules/SearchResultList.vue'
 import Snackbar from '@/components/molecules/Snackbar.vue'
@@ -47,9 +46,22 @@ export default class Search extends Vue {
   private addTrack!: (payload: Track) => void
   showSnackbar: (payload: SnackbarPayload) => void
   q: string = ''
+  lastSearchTime = Date.now()
+  searchInterval = 1000
 
+  @Watch('q')
   search() {
-    this.fetchSearchResult(this.q)
+    if (!this.q) return
+    if (this.lastSearchTime + this.searchInterval < Date.now()) {
+      this.lastSearchTime = Date.now()
+      this.fetchSearchResult(this.q)
+    }
+    const lastQ = this.q
+    setTimeout(() => {
+      if (lastQ === this.q) {
+        this.fetchSearchResult(this.q)
+      }
+    }, this.searchInterval)
   }
 
   selectTrack(track: Track) {
