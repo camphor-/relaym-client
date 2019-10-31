@@ -37,10 +37,9 @@ export const getters = {
   playable(state: State): boolean {
     if (!state.session) return false
     if (!('delegate' in state.session)) return false // TODO: デバイス指定済かのもっと妥当な判定
-    if (state.session.queue.tracks.slice(state.session.queue.head).length === 0)
-      return false
-
-    return true
+    if (!state.session.queue.head && state.session.queue.tracks.length > 0)
+      return true
+    return state.session.queue.tracks.length - state.session.queue.head > 0
   }
 }
 
