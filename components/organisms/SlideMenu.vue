@@ -45,8 +45,8 @@
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 import { mapState } from 'vuex'
 import { CurrentSession } from '../../models/Session'
-import ConfirmTerminateSessionDialog from './ConfirmTerminateSessionDialog.vue'
-import ApiV2 from '@/api/v2'
+import ConfirmTerminateSessionDialog from '../molecules/ConfirmTerminateSessionDialog.vue'
+import ApiV2 from '../../api/v2'
 
 @Component({
   components: { ConfirmTerminateSessionDialog },
@@ -56,8 +56,7 @@ import ApiV2 from '@/api/v2'
 })
 export default class extends Vue {
   private isOpenConfirmTerminateSessionDialog = false
-
-  session: CurrentSession | null
+  private session: CurrentSession | null
 
   @Prop({ default: false }) readonly value!: boolean
 
