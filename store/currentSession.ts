@@ -74,7 +74,7 @@ export const actions = {
   },
   async play({ state, commit }) {
     if (!state.session) return
-    if (!state.session.playback || !state.session.playback.paused) return
+    if (state.session.playback && !state.session.playback.paused) return
 
     try {
       await ApiV2.sessions.current.controlPlayback({ state: 'PLAY' })
