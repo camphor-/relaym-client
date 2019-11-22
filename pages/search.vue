@@ -30,6 +30,8 @@ import SearchResultList from '@/components/molecules/SearchResultList.vue'
 import Snackbar from '@/components/molecules/Snackbar.vue'
 import Track from '@/models/Track'
 
+const SEARCH_INTERVAL = 1000
+
 @Component({
   components: { SearchResultList, Snackbar },
   computed: {
@@ -46,7 +48,6 @@ export default class Search extends Vue {
   private addTrack!: (payload: string) => void
   q: string = ''
   lastSearchTime = Date.now()
-  searchInterval = 1000
   snackbarText = ''
   showSnackbar = false
 
@@ -55,7 +56,7 @@ export default class Search extends Vue {
     if (!this.q) return
 
     // searchInterval以上経っていたら検索
-    if (this.lastSearchTime + this.searchInterval < Date.now()) {
+    if (this.lastSearchTime + SEARCH_INTERVAL < Date.now()) {
       this.lastSearchTime = Date.now()
       this.fetchSearchResult(this.q)
     }
@@ -66,7 +67,7 @@ export default class Search extends Vue {
       if (lastQ === this.q) {
         this.fetchSearchResult(this.q)
       }
-    }, this.searchInterval)
+    }, SEARCH_INTERVAL)
   }
 
   selectTrack(track: Track) {
