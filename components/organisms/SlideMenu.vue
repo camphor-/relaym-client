@@ -44,7 +44,7 @@
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 import { mapState } from 'vuex'
-import ConfirmTerminateSessionDialog from '@/molecules/ConfirmTerminateSessionDialog.vue'
+import ConfirmTerminateSessionDialog from '@/components/molecules/ConfirmTerminateSessionDialog.vue'
 import { CurrentSession } from '@/models/Session'
 import ApiV2 from '@/api/v2'
 
