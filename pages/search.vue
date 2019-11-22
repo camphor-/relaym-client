@@ -43,7 +43,7 @@ import Track from '@/models/Track'
 })
 export default class Search extends Vue {
   private fetchSearchResult!: (payload: string) => void
-  private addTrack!: (payload: Track) => void
+  private addTrack!: (payload: string) => void
   q: string = ''
   lastSearchTime = Date.now()
   searchInterval = 1000
@@ -70,7 +70,7 @@ export default class Search extends Vue {
   }
 
   selectTrack(track: Track) {
-    this.addTrack(track)
+    this.addTrack(track.uri)
     this.snackbarText = `${track.name} を追加しました`
     this.showSnackbar = true
   }
