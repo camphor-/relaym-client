@@ -15,7 +15,7 @@
         @select-device="onSelectDevice"
       />
 
-      <ban-free-plan-dialog v-model="isBanDialogOpen" @ />
+      <ban-free-plan-dialog v-model="isBanDialogOpen" />
     </div>
   </div>
 </template>
@@ -23,13 +23,13 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { mapActions, mapState } from 'vuex'
+import SlideMenu from '@/components/organisms/SlideMenu.vue'
 import User from '@/models/User'
 import SessionToolbar from '@/components/molecules/SessionToolbar.vue'
 import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 import DeviceSelectDialog from '@/components/organisms/DeviceSelectDialog.vue'
 import BottomController from '@/components/organisms/BottomController.vue'
 import Device from '@/models/Device'
-import SlideMenu from '@/components/molecules/SlideMenu.vue'
 import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
 
 @Component({
