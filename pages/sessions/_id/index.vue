@@ -23,7 +23,7 @@
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { mapActions, mapState } from 'vuex'
-import SlideMenu from '../../../components/organisms/SlideMenu.vue'
+import SlideMenu from '@/components/organisms/SlideMenu.vue'
 import User from '@/models/User'
 import SessionToolbar from '@/components/molecules/SessionToolbar.vue'
 import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
