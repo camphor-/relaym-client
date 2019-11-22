@@ -46,10 +46,11 @@ const SEARCH_INTERVAL = 1000
 export default class Search extends Vue {
   private fetchSearchResult!: (payload: string) => void
   private addTrack!: (payload: string) => void
-  q: string = ''
-  lastSearchTime = Date.now()
-  snackbarText = ''
-  showSnackbar = false
+  private q: string = ''
+  private lastSearchTime = Date.now()
+  private snackbarText = ''
+  private showSnackbar = false
+  private searchTimeoutId?: number = null
 
   @Watch('q')
   search() {
@@ -63,7 +64,11 @@ export default class Search extends Vue {
 
     // searchInterval以上経って変化がなかったら検索
     const lastQ = this.q
-    setTimeout(() => {
+    if (typeof this.searchTimeoutId === 'number') {
+      clearTimeout(this.searchTimeoutId)
+      this.searchTimeoutId = null
+    }
+    this.searchTimeoutId = setTimeout(() => {
       if (lastQ === this.q) {
         this.fetchSearchResult(this.q)
       }
@@ -83,6 +88,12 @@ export default class Search extends Vue {
     this.$router.push({
       path: redirectPath || '/'
     })
+  }
+
+  beforeDestroy() {
+    if (typeof this.searchTimeoutId === 'number') {
+      clearTimeout(this.searchTimeoutId)
+    }
   }
 }
 </script>
