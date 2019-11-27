@@ -15,21 +15,22 @@
           single-line
           clearable
           placeholder="曲名, アルバム名, アーティスト名"
-          @keydown.enter="search"
         ></v-text-field>
       </v-flex>
     </v-layout>
     <search-result-list :items="result.items" @click-item="selectTrack" />
-    <snackbar :text="snackbarText" :show-snackbar="showSnackbar"></snackbar>
+    <snackbar v-model="showSnackbar" :text="snackbarText"></snackbar>
   </v-container>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
-import { mapState, mapActions } from 'vuex'
+import { Component, Vue, Watch } from 'vue-property-decorator'
+import { mapActions, mapState } from 'vuex'
 import SearchResultList from '@/components/molecules/SearchResultList.vue'
 import Snackbar from '@/components/molecules/Snackbar.vue'
 import Track from '@/models/Track'
+
+const SEARCH_INTERVAL = 1000
 
 @Component({
   components: { SearchResultList, Snackbar },
@@ -38,18 +39,40 @@ import Track from '@/models/Track'
   },
   methods: {
     ...mapActions('search', ['fetchSearchResult']),
-    ...mapActions('currentSession', ['addTrack'])
+    ...mapActions('currentSession', ['addTrack']),
+    ...mapActions('snackbar', ['showSnackbar'])
   }
 })
-export default class extends Vue {
+export default class Search extends Vue {
   private fetchSearchResult!: (payload: string) => void
   private addTrack!: (payload: string) => void
-  q: string = ''
-  snackbarText = ''
-  showSnackbar = false
+  private q: string = ''
+  private lastSearchTime = Date.now()
+  private snackbarText = ''
+  private showSnackbar = false
+  private searchTimeoutId?: number = null
 
+  @Watch('q')
   search() {
-    this.fetchSearchResult(this.q)
+    if (!this.q) return
+
+    // searchInterval以上経っていたら検索
+    if (this.lastSearchTime + SEARCH_INTERVAL < Date.now()) {
+      this.lastSearchTime = Date.now()
+      this.fetchSearchResult(this.q)
+    }
+
+    // searchInterval以上経って変化がなかったら検索
+    const lastQ = this.q
+    if (typeof this.searchTimeoutId === 'number') {
+      clearTimeout(this.searchTimeoutId)
+      this.searchTimeoutId = null
+    }
+    this.searchTimeoutId = setTimeout(() => {
+      if (lastQ === this.q) {
+        this.fetchSearchResult(this.q)
+      }
+    }, SEARCH_INTERVAL)
   }
 
   selectTrack(track: Track) {
@@ -65,6 +88,12 @@ export default class extends Vue {
     this.$router.push({
       path: redirectPath || '/'
     })
+  }
+
+  beforeDestroy() {
+    if (typeof this.searchTimeoutId === 'number') {
+      clearTimeout(this.searchTimeoutId)
+    }
   }
 }
 </script>
