@@ -9,6 +9,7 @@ const WebSocketPlugin = (store: any) => {
   store.subscribe((mutation: { type: string; payload: any }) => {
     if (mutation.type === 'currentSession/setSession') {
       if (mutation.payload) {
+        if (socket) socket.close()
         socket = new WebSocket(SOCKET_URL)
         socket.onmessage = (e: MessageEvent) => {
           console.log(e.data)
