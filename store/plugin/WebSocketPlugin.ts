@@ -20,20 +20,53 @@ const WebSocketPlugin = (store: any) => {
               store.commit('currentSession/addTrack', message.track)
               break
             case 'NEXTTRACK':
-              store.commit('currentSession/nextTrack', message.head)
+              store.commit('currentSession/setPlayback', {
+                paused: false,
+                head: message.head,
+                length: message.length,
+                progress: message.progress,
+                remaining: message.remaining
+              })
               break
             case 'PLAY':
-              store.commit('currentSession/setPaused', false)
+              store.commit('currentSession/setPlayback', {
+                paused: false,
+                head: message.head,
+                length: message.length,
+                progress: message.progress,
+                remaining: message.remaining
+              })
+              break
+            case 'RESUME':
+              store.commit('currentSession/setPlayback', {
+                paused: false,
+                head: message.head,
+                length: message.length,
+                progress: message.progress,
+                remaining: message.remaining
+              })
               break
             case 'PAUSE':
               store.commit('currentSession/setPaused', true)
               break
-            case 'RESUME':
-              store.commit('currentSession/setPaused', false)
-              break
             case 'INTERRUPT':
+              store.commit('currentSession/setPlayback', {
+                paused: false,
+                track: message.track,
+                head: message.head,
+                length: message.length,
+                progress: message.progress,
+                remaining: message.remaining
+              })
               break
             case 'PROGRESS':
+              store.commit('currentSession/setPlayback', {
+                paused: false,
+                head: message.head,
+                length: message.length,
+                progress: message.progress,
+                remaining: message.remaining
+              })
               break
             default:
               // eslint-disable-next-line @typescript-eslint/no-unused-vars

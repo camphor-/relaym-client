@@ -1,6 +1,5 @@
 <template>
   <v-list id="track-list-root" two-line>
-    <v-subheader v-if="playedTracks.length > 0">Played</v-subheader>
     <template v-for="(item, index) in playedTracks">
       <v-list-tile
         :key="`first-${index}`"
@@ -21,7 +20,6 @@
     </template>
     <div id="windowWrapper">
       <div v-if="playingTrack" class="playing">
-        <v-subheader id="playingSubHeader">Now Playing ...</v-subheader>
         <v-list-tile :href="playingTrack.external_urls.spotify" target="_blank">
           <v-list-tile-avatar tile>
             <img :src="playingTrack.album.images[1].url" />
@@ -37,7 +35,7 @@
       </div>
       <v-divider></v-divider>
       <div v-if="waitingTracks.length > 0">
-        <v-subheader>Up Next</v-subheader>
+        <v-subheader>Up Next…</v-subheader>
         <template v-for="(item, index) in waitingTracks">
           <v-list-tile
             :key="`third-${index}`"
@@ -62,20 +60,41 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import Track from '@/models/Track'
+import { Playback } from '@/store/currentSession'
 
 @Component({
   components: {}
 })
 export default class extends Vue {
-  @Prop({ default: [] }) readonly playedTracks!: Track[]
-  @Prop({ default: null }) readonly playingTrack!: Track | null
-  @Prop({ default: [] }) readonly waitingTracks!: Track[]
+  @Prop({ default: [] }) readonly tracks!: Track[]
+  @Prop({ default: null }) readonly playback!: Playback
 
-  updated() {
+  get playedTracks(): Track[] {
+    if (this.playback.head < 0) return []
+
+    const endIndex = this.playback.track
+      ? this.playback.head + 1
+      : this.playback.head
+    return this.tracks.slice(0, endIndex)
+  }
+  get playingTrack(): Track | null {
+    if (this.playback.track === null && this.playback.head >= 0)
+      return this.tracks[this.playback.head]
+    return this.playback.track
+  }
+  get waitingTracks(): Track[] {
+    if (this.playback.head < 0) return this.tracks
+    return this.tracks.slice(this.playback.head + 1)
+  }
+
+  // TODO: DOMの生成とタイミングが合わない？
+  @Watch('playback.head')
+  onHeadTrackChanged() {
     if (this.playingTrack) {
-      this.$el.getElementsByClassName('playing')[0].scrollIntoView()
+      const playingElement = this.$el.getElementsByClassName('playing')[0]
+      if (playingElement) playingElement.scrollIntoView()
     }
   }
 }
@@ -90,15 +109,17 @@ export default class extends Vue {
 }
 
 .playing {
-  background-color: #f8dce3;
-  .v-subheader {
-    color: #da4167;
-  }
+  background-color: #ffffff;
+  margin: 12px;
+  border: 2px solid #707070;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
 }
 
 .v-subheader {
   font-size: 1.5rem;
-  font-family: 'Pacifico';
-  color: #0d47a1;
+  color: #333333;
+  background-color: $bg-color;
+  padding-top: 8px;
 }
 </style>

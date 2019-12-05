@@ -1,70 +1,102 @@
 import ApiV2 from '../api/v2'
+import User from '../models/User'
+import Device from '../models/Device'
 import { CurrentSession } from '@/models/Session'
 import Track from '@/models/Track'
 
+export interface Playback {
+  paused: boolean
+  track: Track | null
+  head: number
+  length: number
+  progress: number
+  remaining: number
+}
+
 interface State {
-  session: CurrentSession | null
+  id: string | null
+  name: string
+  isPublic: boolean
+  isProgressing: boolean
+  creator: User
+  tracks: Track[]
+  delegate?: User
+  device: Device | null
+  playback: Playback
 }
 export const state = () => ({
-  session: null
+  id: null,
+  name: '',
+  isPublic: false,
+  isProgressing: false,
+  creator: null,
+  tracks: [],
+  delegate: null,
+  device: null,
+  playback: {
+    paused: true,
+    track: null,
+    head: -1,
+    length: 0,
+    progress: 0,
+    remaining: 0
+  }
 })
 
 export const getters = {
-  getPlayedTracks(state: State): Track[] {
-    if (!state.session || !state.session.queue.head) return []
-    if (!state.session.playback)
-      return state.session.queue.tracks.slice(0, state.session.queue.head + 1)
-
-    const playbackUri = state.session.playback.track.uri
-    const headUri = state.session.queue.tracks[state.session.queue.head].uri
-
-    const endIndex =
-      playbackUri === headUri
-        ? state.session.queue.head
-        : state.session.queue.head + 1
-    return state.session.queue.tracks.slice(0, endIndex)
-  },
-  getPlayingTrack(state: State): Track | null {
-    if (!state.session || !state.session.playback) return null
-    return state.session.playback.track
-  },
-  getWaitingTracks(state: State): Track[] {
-    if (!state.session) return []
-    if (!state.session.playback && state.session.queue.head === 0)
-      return state.session.queue.tracks
-    return state.session.queue.tracks.slice(state.session.queue.head! + 1)
-  },
   playable(state: State): boolean {
-    if (!state.session) return false
-    if (!('delegate' in state.session)) return false // TODO: デバイス指定済かのもっと妥当な判定
-    if (!state.session.queue.head && state.session.queue.tracks.length > 0)
-      return true
-    return state.session.queue.tracks.length - state.session.queue.head > 0
+    if (state.id === null) return false
+    if (!state.delegate) return false
+    if (!state.playback.paused) return true
+    return state.tracks.length - (state.playback.head + 1) > 0
   }
 }
 
 export const mutations = {
-  setSession: (state: State, newSession: CurrentSession) => {
-    state.session = newSession
+  setSession: (state: State, session: CurrentSession) => {
+    state.id = session.id
+    state.name = session.name
+    state.isPublic = session.is_public
+    state.isProgressing = session.is_progressing
+    state.creator = session.creator
+    state.tracks = session.queue.tracks
+    state.delegate = session.delegate
+    state.device = session.playback ? session.playback.device : null
+
+    /*
+     playback.trackは、
+       REST API: 常に入っている
+       WebSocket: 外部からプレイリスト外の曲が再生された際にのみ入る？
+     */
+    // TODO: サーバー側に仕様を揃えてもらう
+    let track = session.playback ? session.playback.track : null
+    if (track) {
+      const headTrack = session.queue.tracks[session.queue.head!]
+      if (track.uri === headTrack.uri) {
+        track = null
+      }
+    }
+    state.playback = {
+      paused: session.playback ? session.playback.paused : true,
+      track: track,
+      head: session.queue.head || -1,
+      length: 0,
+      progress: 0,
+      remaining: 0
+    }
   },
   addTrack: (state: State, newTrack: Track) => {
-    if (!state.session) return
-    state.session.queue.tracks.push(newTrack)
+    if (!state.id) return
+    state.tracks.push(newTrack)
   },
   setPaused: (state: State, paused: boolean) => {
-    if (!state.session) return
-    state.session = {
-      ...state.session,
-      // TODO: playbackがnullの時の適切な処理
-      playback: { ...state.session.playback!, paused }
-    }
+    if (!state.id) return
+    state.playback = { ...state.playback!, paused }
   },
-  nextTrack: (state: State, newTrackId: number) => {
-    if (!state.session) return
-    state.session = {
-      ...state.session,
-      queue: { ...state.session.queue, head: newTrackId }
-    }
+  setPlayback: (state: State, playback: Playback) => {
+    if (!state.id) return
+    // 引数をそのまま突っ込むと、INTERUPTで入ってきたtrackがnullになってしまう
+    state.playback = { ...state.playback, ...playback }
   }
 }
 
@@ -73,33 +105,32 @@ export const actions = {
     await ApiV2.sessions.current.addTrack({ uri: trackURI })
   },
   async play({ state, commit }) {
-    if (!state.session) return
-    if (state.session.playback && !state.session.playback.paused) return
+    if (!state.id) return
+    if (!state.playback.paused) return
 
     try {
       await ApiV2.sessions.current.controlPlayback({ state: 'PLAY' })
-      commit('setPaused', false)
     } catch (e) {
       // TODO: Error Handling
       console.error(e)
     }
   },
   async pause({ state, commit }) {
-    if (!state.session) return
-    if (!state.session.playback || state.session.playback.paused) return
+    if (!state.id) return
+    if (state.playback.paused) return
 
     try {
-      await ApiV2.sessions.current.controlPlayback({ state: 'STOP' })
-      commit('setPaused', true)
+      await ApiV2.sessions.current.controlPlayback({ state: 'PAUSE' })
     } catch (e) {
       // TODO: Error Handling
       console.error(e)
     }
   },
-  async setDevice({ state }, deviceId: string) {
-    if (!state.session) return
+  async setDevice({ state, dispatch }, deviceId: string) {
+    if (!state.id) return
     try {
       await ApiV2.sessions.current.setDevice({ device_id: deviceId })
+      dispatch('fetchCurrentSession')
     } catch (e) {
       // TODO: Error Handling
       console.error(e)
