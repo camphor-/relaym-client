@@ -1,5 +1,5 @@
 <template>
-  <v-container class="error-page-container">
+  <v-container>
     <toppage-logo />
     <h1 class="error-page-title">Relaym</h1>
     <p>{{ error.message }}</p>
@@ -27,11 +27,6 @@ export default class Error extends Vue {
 </script>
 
 <style lang="scss" scoped>
-.error-page-container {
-  height: 100vh;
-  background: #eee;
-}
-
 .error-page-title {
   color: $primary-color;
 }
