@@ -5,6 +5,7 @@
         :key="`first-${index}`"
         :href="item.external_urls.spotify"
         target="_blank"
+        class="list-item"
       >
         <v-list-tile-avatar tile>
           <img :src="item.album.images[1].url" />
@@ -41,6 +42,7 @@
             :key="`third-${index}`"
             :href="item.external_urls.spotify"
             target="_blank"
+            class="list-item"
           >
             <v-list-tile-avatar tile>
               <img :src="item.album.images[1].url" />
@@ -88,7 +90,6 @@ export default class extends Vue {
     return this.tracks.slice(this.playback.head + 1)
   }
 
-  // TODO: DOMの生成とタイミングが合わない？
   @Watch('playingTrack.uri', { immediate: true })
   onHeadTrackChanged() {
     if (this.playingTrack) {
@@ -105,15 +106,18 @@ export default class extends Vue {
 <style lang="scss" scoped>
 #track-list-root {
   padding: 0;
+  background-color: $bg-color;
 }
 #windowWrapper {
   min-height: calc(100vh - 56px);
 }
 
+.list-item {
+  background-color: #ffffff;
+}
 .playing {
   background-color: #ffffff;
   margin: 12px;
-  border: 2px solid #707070;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
 }
@@ -121,7 +125,6 @@ export default class extends Vue {
 .v-subheader {
   font-size: 1.5rem;
   color: #333333;
-  background-color: $bg-color;
   padding-top: 8px;
 }
 </style>
