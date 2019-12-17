@@ -19,7 +19,7 @@
       <v-divider :key="`second-${index}`"></v-divider>
     </template>
     <div id="windowWrapper">
-      <div v-if="playingTrack" class="playing">
+      <div v-if="playingTrack" ref="playing" class="playing">
         <v-list-tile :href="playingTrack.external_urls.spotify" target="_blank">
           <v-list-tile-avatar tile>
             <img :src="playingTrack.album.images[1].url" />
@@ -90,11 +90,14 @@ export default class extends Vue {
   }
 
   // TODO: DOMの生成とタイミングが合わない？
-  @Watch('playback.head')
+  @Watch('playingTrack.uri', { immediate: true })
   onHeadTrackChanged() {
     if (this.playingTrack) {
-      const playingElement = this.$el.getElementsByClassName('playing')[0]
-      if (playingElement) playingElement.scrollIntoView()
+      const playingElement = this.$refs.playing as Element
+      if (playingElement) {
+        const playingPos = playingElement.getBoundingClientRect()
+        document.scrollingElement.scrollTop = playingPos.top
+      }
     }
   }
 }
