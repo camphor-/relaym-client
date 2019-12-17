@@ -49,7 +49,8 @@ export default class extends Vue {
   }
 
   @Watch('playingTrack.uri', { immediate: true })
-  onHeadTrackChanged() {
+  async onHeadTrackChanged() {
+    await new Promise(resolve => setTimeout(resolve, 500))
     if (this.playingTrack) {
       const playingElement = this.$refs.playing as Vue
       if (playingElement) {
