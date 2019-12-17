@@ -1,22 +1,7 @@
 <template>
   <v-list id="track-list-root" two-line>
     <template v-for="(item, index) in playedTracks">
-      <v-list-tile
-        :key="`first-${index}`"
-        :href="item.external_urls.spotify"
-        target="_blank"
-        class="list-item"
-      >
-        <v-list-tile-avatar tile>
-          <img :src="item.album.images[1].url" />
-        </v-list-tile-avatar>
-        <v-list-tile-content>
-          <v-list-tile-title>{{ item.name }}</v-list-tile-title>
-          <v-list-tile-sub-title
-            >{{ item.album.name }} - {{ item.artists[0].name }}
-          </v-list-tile-sub-title>
-        </v-list-tile-content>
-      </v-list-tile>
+      <track-list-item :key="`first-${index}`" :track="item" />
       <v-divider :key="`second-${index}`"></v-divider>
     </template>
     <div id="windowWrapper">
@@ -38,22 +23,7 @@
       <div v-if="waitingTracks.length > 0">
         <v-subheader>Up Next…</v-subheader>
         <template v-for="(item, index) in waitingTracks">
-          <v-list-tile
-            :key="`third-${index}`"
-            :href="item.external_urls.spotify"
-            target="_blank"
-            class="list-item"
-          >
-            <v-list-tile-avatar tile>
-              <img :src="item.album.images[1].url" />
-            </v-list-tile-avatar>
-            <v-list-tile-content>
-              <v-list-tile-title>{{ item.name }}</v-list-tile-title>
-              <v-list-tile-sub-title
-                >{{ item.album.name }} - {{ item.artists[0].name }}
-              </v-list-tile-sub-title>
-            </v-list-tile-content>
-          </v-list-tile>
+          <track-list-item :key="`third-${index}`" :track="item" />
           <v-divider :key="`fourth-${index}`"></v-divider>
         </template>
       </div>
@@ -63,11 +33,12 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
+import TrackListItem from './TrackListItem.vue'
 import Track from '@/models/Track'
 import { Playback } from '@/store/currentSession'
 
 @Component({
-  components: {}
+  components: { TrackListItem }
 })
 export default class extends Vue {
   @Prop({ default: [] }) readonly tracks!: Track[]
@@ -112,9 +83,6 @@ export default class extends Vue {
   min-height: calc(100vh - 56px);
 }
 
-.list-item {
-  background-color: #ffffff;
-}
 .playing {
   background-color: #ffffff;
   margin: 12px;
