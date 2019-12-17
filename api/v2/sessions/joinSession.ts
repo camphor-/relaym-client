@@ -5,7 +5,7 @@ const joinSession = async (id: string) => {
     withCredentials: true
   })
   if (res.status !== 204) {
-    throw new ApiException(res.status, null)
+    throw new ApiException(res.status, 'fail to join session')
   }
 }
 
