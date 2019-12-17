@@ -8,10 +8,11 @@ const nuxtConfig: NuxtConfiguration = {
    ** Headers of the page
    */
   head: {
-    title: 'Here Songs',
+    title: 'Relaym',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { name: 'google', content: 'notranslate' },
       { hid: 'description', name: 'description', content: pkg.description }
     ],
     link: [
