@@ -26,18 +26,17 @@
 <script lang="ts">
 import { Component, Emit, Vue } from 'vue-property-decorator'
 import { mapActions, mapGetters, mapState } from 'vuex'
-import { CurrentSession } from '../../models/Session'
+import { Playback } from '@/store/currentSession'
 
 @Component({
   methods: {
     ...mapActions('currentSession', ['pause', 'play', 'fetchCurrentSession'])
   },
   computed: {
-    ...mapState('currentSession', ['session']),
+    ...mapState('currentSession', ['playback']),
     ...mapGetters('currentSession', ['playable']),
     paused() {
-      if (!('playback' in this.session)) return true
-      return this.session.playback.paused
+      return this.playback.paused
     }
   }
 })
@@ -46,7 +45,7 @@ export default class extends Vue {
   private play!: () => void
   private fetchCurrentSession!: () => void
 
-  private session!: CurrentSession
+  private playback!: Playback
   private playable!: boolean
 
   @Emit()
@@ -55,14 +54,10 @@ export default class extends Vue {
   async togglePlayback() {
     await this.fetchCurrentSession()
 
-    if ('playback' in this.session) {
-      if (this.session.playback.paused) {
-        this.play()
-      } else {
-        this.pause()
-      }
-    } else if (this.playable) {
+    if (this.playback.paused && this.playable) {
       this.play()
+    } else {
+      this.pause()
     }
   }
 }

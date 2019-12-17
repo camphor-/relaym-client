@@ -9,9 +9,9 @@ const WebSocketPlugin = (store: any) => {
   store.subscribe((mutation: { type: string; payload: any }) => {
     if (mutation.type === 'currentSession/setSession') {
       if (mutation.payload) {
+        if (socket) socket.close()
         socket = new WebSocket(SOCKET_URL)
         socket.onmessage = (e: MessageEvent) => {
-          console.log(e.data)
           const message = JSON.parse(e.data) as SocketMessage
           // TODO: 残りケースの実装 cf) https://github.com/camphor-/here-songs-server/blob/master/docs/API.md#get-apiv2ws
           switch (message.type) {
@@ -19,20 +19,50 @@ const WebSocketPlugin = (store: any) => {
               store.commit('currentSession/addTrack', message.track)
               break
             case 'NEXTTRACK':
-              store.commit('currentSession/nextTrack', message.head)
+              // TODO: サーバー側から前トラックの情報が送られてくるため使用しない
               break
             case 'PLAY':
-              store.commit('currentSession/setPaused', false)
+              store.commit('currentSession/setPlayback', {
+                paused: false,
+                track: message.track,
+                head: message.head,
+                length: message.length,
+                progress: message.progress,
+                remaining: message.remaining
+              })
+              break
+            case 'RESUME':
+              store.commit('currentSession/setPlayback', {
+                paused: false,
+                track: message.track,
+                head: message.head,
+                length: message.length,
+                progress: message.progress,
+                remaining: message.remaining
+              })
               break
             case 'PAUSE':
               store.commit('currentSession/setPaused', true)
               break
-            case 'RESUME':
-              store.commit('currentSession/setPaused', false)
-              break
             case 'INTERRUPT':
+              store.commit('currentSession/setPlayback', {
+                paused: false,
+                track: message.track,
+                head: message.head,
+                length: message.length,
+                progress: message.progress,
+                remaining: message.remaining
+              })
               break
             case 'PROGRESS':
+              store.commit('currentSession/setPlayback', {
+                paused: false,
+                track: message.track,
+                head: message.head,
+                length: message.length,
+                progress: message.progress,
+                remaining: message.remaining
+              })
               break
             default:
               // eslint-disable-next-line @typescript-eslint/no-unused-vars
