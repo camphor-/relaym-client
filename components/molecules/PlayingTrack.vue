@@ -55,6 +55,9 @@ export default class extends Vue {
     }
     .track-info {
       flex-grow: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }
