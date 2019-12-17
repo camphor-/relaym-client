@@ -5,21 +5,7 @@
       <v-divider :key="`second-${index}`"></v-divider>
     </template>
     <div id="windowWrapper">
-      <div v-if="playingTrack" ref="playing" class="playing">
-        <v-list-tile :href="playingTrack.external_urls.spotify" target="_blank">
-          <v-list-tile-avatar tile>
-            <img :src="playingTrack.album.images[1].url" />
-          </v-list-tile-avatar>
-          <v-list-tile-content>
-            <v-list-tile-title>{{ playingTrack.name }}</v-list-tile-title>
-            <v-list-tile-sub-title
-              >{{ playingTrack.album.name }} -
-              {{ playingTrack.artists[0].name }}
-            </v-list-tile-sub-title>
-          </v-list-tile-content>
-        </v-list-tile>
-      </div>
-      <v-divider></v-divider>
+      <playing-track v-if="playingTrack" ref="playing" :playback="playback" />
       <div v-if="waitingTracks.length > 0">
         <v-subheader>Up Next…</v-subheader>
         <template v-for="(item, index) in waitingTracks">
@@ -34,11 +20,12 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import TrackListItem from './TrackListItem.vue'
+import PlayingTrack from './PlayingTrack'
 import Track from '@/models/Track'
 import { Playback } from '@/store/currentSession'
 
 @Component({
-  components: { TrackListItem }
+  components: { TrackListItem, PlayingTrack }
 })
 export default class extends Vue {
   @Prop({ default: [] }) readonly tracks!: Track[]
@@ -64,10 +51,11 @@ export default class extends Vue {
   @Watch('playingTrack.uri', { immediate: true })
   onHeadTrackChanged() {
     if (this.playingTrack) {
-      const playingElement = this.$refs.playing as Element
+      const playingElement = this.$refs.playing as Vue
       if (playingElement) {
-        const playingPos = playingElement.getBoundingClientRect()
-        document.scrollingElement.scrollTop = playingPos.top
+        const playingPos = playingElement.$el.getBoundingClientRect()
+        console.log(playingPos)
+        document.scrollingElement.scrollTop = playingPos.top - 56
       }
     }
   }
@@ -81,13 +69,6 @@ export default class extends Vue {
 }
 #windowWrapper {
   min-height: calc(100vh - 56px);
-}
-
-.playing {
-  background-color: #ffffff;
-  margin: 12px;
-  border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.16);
 }
 
 .v-subheader {

@@ -41,5 +41,6 @@ export default class extends Vue {
 #track-list-container-root {
   padding-top: 56px;
   padding-bottom: calc(6vmin + 56px);
+  background-color: $bg-color;
 }
 </style>
