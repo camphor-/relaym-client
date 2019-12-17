@@ -18,9 +18,9 @@ interface State {
   name: string
   isPublic: boolean
   isProgressing: boolean
-  creator: User
+  creator: User | null
   tracks: Track[]
-  delegate?: User
+  delegate?: User | null
   device: Device | null
   playback: Playback
 }
@@ -53,6 +53,16 @@ export const getters = {
 }
 
 export const mutations = {
+  clearSession: (state: State) => {
+    state.id = null
+    state.name = ''
+    state.isPublic = false
+    state.isProgressing = false
+    state.creator = null
+    state.tracks = []
+    state.delegate = null
+    state.device = null
+  },
   setSession: (state: State, session: CurrentSession) => {
     state.id = session.id
     state.name = session.name
@@ -63,23 +73,11 @@ export const mutations = {
     state.delegate = session.delegate
     state.device = session.playback ? session.playback.device : null
 
-    /*
-     playback.trackは、
-       REST API: 常に入っている
-       WebSocket: 外部からプレイリスト外の曲が再生された際にのみ入る？
-     */
-    // TODO: サーバー側に仕様を揃えてもらう
-    let track = session.playback ? session.playback.track : null
-    if (track) {
-      const headTrack = session.queue.tracks[session.queue.head!]
-      if (track.uri === headTrack.uri) {
-        track = null
-      }
-    }
+    const track = session.playback ? session.playback.track : null
     state.playback = {
       paused: session.playback ? session.playback.paused : true,
       track: track,
-      head: session.queue.head || -1,
+      head: session.playback ? session.queue.head! : -1,
       length: 0,
       progress: 0,
       remaining: 0
@@ -96,7 +94,7 @@ export const mutations = {
   setPlayback: (state: State, playback: Playback) => {
     if (!state.id) return
     // 引数をそのまま突っ込むと、INTERUPTで入ってきたtrackがnullになってしまう
-    state.playback = { ...state.playback, ...playback }
+    state.playback = playback
   }
 }
 
@@ -142,7 +140,7 @@ export const actions = {
       commit('setSession', newSession)
     } catch (e) {
       console.error(e)
-      commit('setSession', null)
+      commit('clearSession')
     }
   }
 }

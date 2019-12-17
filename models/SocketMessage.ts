@@ -1,31 +1,30 @@
 import Track from '@/models/Track'
 
-export interface AddTrackMessage {
-  type: 'ADDTRACK'
+export interface BaseMessage {
+  head: number
+  length: number
+  progress: number
+  remaining: number
   track: Track
 }
 
-export interface NextTrackMessage {
-  type: 'NEXTTRACK'
-  head: number
-  length: number
-  progress: number
-  remaining: number
+export interface AddTrackMessage extends BaseMessage {
+  type: 'ADDTRACK'
 }
 
-export interface PlayMessage {
+export interface NextTrackMessage extends BaseMessage {
+  type: 'NEXTTRACK'
+}
+
+export interface PlayMessage extends BaseMessage {
   type: 'PLAY'
-  head: number
-  length: number
-  progress: number
-  remaining: number
 }
 
 export interface PauseMessage {
   type: 'PAUSE'
 }
 
-export interface ResumeMessage {
+export interface ResumeMessage extends BaseMessage {
   type: 'RESUME'
   head: number
   length: number
@@ -33,21 +32,12 @@ export interface ResumeMessage {
   remaining: number
 }
 
-export interface InteruputMessage {
+export interface InteruputMessage extends BaseMessage {
   type: 'INTERRUPT'
-  head: number
-  length: number
-  progress: number
-  remaining: number
-  track: Track
 }
 
-export interface ProgressMessage {
+export interface ProgressMessage extends BaseMessage {
   type: 'PROGRESS'
-  head: number
-  length: number
-  progress: number
-  remaining: number
 }
 
 export type SocketMessage =

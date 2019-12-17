@@ -74,14 +74,13 @@ export default class extends Vue {
   get playedTracks(): Track[] {
     if (this.playback.head < 0) return []
 
-    const endIndex = this.playback.track
-      ? this.playback.head + 1
-      : this.playback.head
+    const endIndex =
+      this.tracks[this.playback.head].uri === this.playback.track.uri
+        ? this.playback.head
+        : this.playback.head + 1
     return this.tracks.slice(0, endIndex)
   }
   get playingTrack(): Track | null {
-    if (this.playback.track === null && this.playback.head >= 0)
-      return this.tracks[this.playback.head]
     return this.playback.track
   }
   get waitingTracks(): Track[] {
