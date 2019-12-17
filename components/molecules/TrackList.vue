@@ -54,7 +54,7 @@ export default class extends Vue {
     if (this.playingTrack) {
       const playingElement = this.$refs.playing as Vue
       if (playingElement) {
-        document.scrollingElement.scrollTop = playingElement.$el.offsetTop - 56
+        document.scrollingElement.scrollTop = playingElement.$el.offsetTop - 64
       }
     }
   }
