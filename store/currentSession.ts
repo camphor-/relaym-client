@@ -47,8 +47,7 @@ export const getters = {
   playable(state: State): boolean {
     if (state.id === null) return false
     if (!state.delegate) return false
-    if (!state.playback.paused) return true
-    return state.tracks.length - (state.playback.head + 1) > 0
+    return state.tracks.length - (state.playback.head + 1) >= 0
   }
 }
 
