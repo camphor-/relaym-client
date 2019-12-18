@@ -24,7 +24,6 @@ const WebSocketPlugin = (store: any) => {
             case 'PLAY':
               store.commit('currentSession/setPlayback', {
                 paused: false,
-                track: message.track,
                 head: message.head,
                 length: message.length,
                 progress: message.progress,
@@ -34,7 +33,6 @@ const WebSocketPlugin = (store: any) => {
             case 'RESUME':
               store.commit('currentSession/setPlayback', {
                 paused: false,
-                track: message.track,
                 head: message.head,
                 length: message.length,
                 progress: message.progress,
@@ -45,9 +43,12 @@ const WebSocketPlugin = (store: any) => {
               store.commit('currentSession/setPaused', true)
               break
             case 'INTERRUPT':
+              store.commit('currentSession/addInterruptingTrack', {
+                head: message.head,
+                track: message.track
+              })
               store.commit('currentSession/setPlayback', {
                 paused: false,
-                track: message.track,
                 head: message.head,
                 length: message.length,
                 progress: message.progress,
@@ -57,7 +58,6 @@ const WebSocketPlugin = (store: any) => {
             case 'PROGRESS':
               store.commit('currentSession/setPlayback', {
                 paused: false,
-                track: message.track,
                 head: message.head,
                 length: message.length,
                 progress: message.progress,

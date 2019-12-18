@@ -6,7 +6,6 @@ import Track from '@/models/Track'
 
 export interface Playback {
   paused: boolean
-  track: Track | null
   head: number
   length: number
   progress: number
@@ -73,10 +72,8 @@ export const mutations = {
     state.delegate = session.delegate
     state.device = session.playback ? session.playback.device : null
 
-    const track = session.playback ? session.playback.track : null
     state.playback = {
       paused: session.playback ? session.playback.paused : true,
-      track: track,
       head: session.playback ? session.queue.head! : -1,
       length: 0,
       progress: 0,
@@ -86,6 +83,13 @@ export const mutations = {
   addTrack: (state: State, newTrack: Track) => {
     if (!state.id) return
     state.tracks.push(newTrack)
+  },
+  addInterruptingTrack: (
+    state: State,
+    { head, track }: { head: number; track: Track }
+  ) => {
+    if (!state.id) return
+    state.tracks.splice(head, 0, track)
   },
   setPaused: (state: State, paused: boolean) => {
     if (!state.id) return

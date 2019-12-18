@@ -5,7 +5,12 @@
       <v-divider :key="`second-${index}`"></v-divider>
     </template>
     <div id="windowWrapper">
-      <playing-track v-if="playingTrack" ref="playing" :playback="playback" />
+      <playing-track
+        v-if="playingTrack"
+        ref="playing"
+        :playback="playback"
+        :playing-track="playingTrack"
+      />
       <div v-if="waitingTracks.length > 0">
         <v-subheader>Up Next…</v-subheader>
         <template v-for="(item, index) in waitingTracks">
@@ -33,15 +38,10 @@ export default class extends Vue {
 
   get playedTracks(): Track[] {
     if (this.playback.head < 0) return []
-
-    const endIndex =
-      this.tracks[this.playback.head].uri === this.playback.track.uri
-        ? this.playback.head
-        : this.playback.head + 1
-    return this.tracks.slice(0, endIndex)
+    return this.tracks.slice(0, this.playback.head)
   }
   get playingTrack(): Track | null {
-    return this.playback.track
+    return this.playback ? this.tracks[this.playback.head] : null
   }
   get waitingTracks(): Track[] {
     if (this.playback.head < 0) return this.tracks

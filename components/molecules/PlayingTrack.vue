@@ -1,12 +1,12 @@
 <template>
   <div class="playing">
     <div class="track-container">
-      <img :src="playback.track.album.images[1].url" />
+      <img :src="playingTrack.album.images[1].url" />
       <div class="track-info">
-        <v-list-tile-title>{{ playback.track.name }}</v-list-tile-title>
+        <v-list-tile-title>{{ playingTrack.name }}</v-list-tile-title>
         <v-list-tile-sub-title
-          >{{ playback.track.album.name }} -
-          {{ playback.track.artists[0].name }}
+          >{{ playingTrack.album.name }} -
+          {{ playingTrack.artists[0].name }}
         </v-list-tile-sub-title>
       </div>
     </div>
@@ -23,6 +23,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import Seekbar from '@/components/atoms/Seekbar.vue'
 import { Playback } from '@/store/currentSession'
+import Track from '@/models/Track'
 
 @Component({
   name: 'PlayingTrack',
@@ -30,6 +31,7 @@ import { Playback } from '@/store/currentSession'
 })
 export default class extends Vue {
   @Prop({ required: true }) readonly playback!: Playback
+  @Prop({ required: true }) readonly playingTrack!: Track
 }
 </script>
 
