@@ -37,7 +37,7 @@
     <confirm-terminate-session-dialog
       v-model="isOpenConfirmTerminateSessionDialog"
       @on-click-delete="terminateSession"
-    ></confirm-terminate-session-dialog>
+    />
   </v-navigation-drawer>
 </template>
 
@@ -69,8 +69,14 @@ export default class extends Vue {
     this.isOpenConfirmTerminateSessionDialog = true
   }
 
-  terminateSession() {
-    ApiV2.sessions.current.controlPlayback({ state: 'STOP' })
+  async terminateSession() {
+    try {
+      await ApiV2.sessions.current.controlPlayback({ state: 'STOP' })
+      this.$router.push('/')
+    } catch (e) {
+      console.error(e)
+      // TODO: エラー処理
+    }
   }
 
   exitSession() {
