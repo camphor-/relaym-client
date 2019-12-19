@@ -17,6 +17,7 @@
 
       <ban-free-plan-dialog v-model="isBanDialogOpen" />
     </div>
+    <snackbar v-model="showSnackbar" :text="snackbarText" />
   </div>
 </template>
 
@@ -32,6 +33,7 @@ import BottomController from '@/components/organisms/BottomController.vue'
 import Device from '@/models/Device'
 import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
 import ApiV2 from '@/api/v2'
+import Snackbar from '@/components/molecules/Snackbar.vue'
 
 @Component({
   components: {
@@ -40,7 +42,8 @@ import ApiV2 from '@/api/v2'
     BottomController,
     SessionToolbar,
     SlideMenu,
-    BanFreePlanDialog
+    BanFreePlanDialog,
+    Snackbar
   },
   computed: {
     ...mapState('user', ['me']),
@@ -64,6 +67,8 @@ export default class extends Vue {
   private pageRoot: any
   private isBanDialogOpen: boolean = false
   private isShowSlideMenu: boolean = false
+  private showSnackbar = false
+  private snackbarText = ''
 
   // スラグのセッションid
   private pathId = ''
@@ -92,7 +97,15 @@ export default class extends Vue {
           await ApiV2.sessions.joinSession(this.pathId)
         }
       } catch (e) {
-        this.$router.push(`/sessions/${this.id}`)
+        if (
+          e.statusCode === 400 &&
+          e.msg.msg === 'creator cannot be removed from session'
+        ) {
+          this.snackbarText = 'セッションの作成者は退出できません。'
+          this.showSnackbar = true
+        } else {
+          this.$router.push(`/sessions/${this.id}`)
+        }
       }
     }
 
