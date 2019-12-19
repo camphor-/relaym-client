@@ -37,7 +37,7 @@
     <confirm-terminate-session-dialog
       v-model="isOpenConfirmTerminateSessionDialog"
       @on-click-delete="terminateSession"
-    ></confirm-terminate-session-dialog>
+    />
   </v-navigation-drawer>
 </template>
 
@@ -45,18 +45,17 @@
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 import { mapState } from 'vuex'
 import ConfirmTerminateSessionDialog from '@/components/molecules/ConfirmTerminateSessionDialog.vue'
-import { CurrentSession } from '@/models/Session'
 import ApiV2 from '@/api/v2'
 
 @Component({
   components: { ConfirmTerminateSessionDialog },
   computed: {
-    ...mapState('currentSession', ['session'])
+    ...mapState('currentSession', ['id'])
   }
 })
 export default class extends Vue {
   private isOpenConfirmTerminateSessionDialog = false
-  private session: CurrentSession | null
+  private id: string | null
 
   @Prop({ default: false }) readonly value!: boolean
 
@@ -73,11 +72,11 @@ export default class extends Vue {
     ApiV2.sessions.current.controlPlayback({ state: 'STOP' })
   }
 
-  exitSession() {
-    if (this.session) {
-      ApiV2.sessions.leaveSession(this.session.id)
+  async exitSession() {
+    if (this.id) {
+      await ApiV2.sessions.leaveSession(this.id)
+      this.$router.push({ path: '/' })
     }
-    this.$router.push({ path: '/' })
   }
 }
 </script>
