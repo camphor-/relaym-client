@@ -38,6 +38,10 @@
       v-model="isOpenConfirmTerminateSessionDialog"
       @on-click-delete="terminateSession"
     />
+    <snackbar
+      v-model="showExitSuccessSnackbar"
+      :text="'セッションを退出しました。'"
+    />
   </v-navigation-drawer>
 </template>
 
@@ -46,9 +50,10 @@ import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 import { mapState } from 'vuex'
 import ConfirmTerminateSessionDialog from '@/components/molecules/ConfirmTerminateSessionDialog.vue'
 import ApiV2 from '@/api/v2'
+import Snackbar from '@/components/molecules/Snackbar.vue'
 
 @Component({
-  components: { ConfirmTerminateSessionDialog },
+  components: { ConfirmTerminateSessionDialog, Snackbar },
   computed: {
     ...mapState('currentSession', ['id'])
   }
@@ -56,6 +61,7 @@ import ApiV2 from '@/api/v2'
 export default class extends Vue {
   private isOpenConfirmTerminateSessionDialog = false
   private id: string | null
+  private showExitSuccessSnackbar: boolean = false
 
   @Prop({ default: false }) readonly value!: boolean
 
@@ -74,8 +80,13 @@ export default class extends Vue {
 
   async exitSession() {
     if (this.id) {
-      await ApiV2.sessions.leaveSession(this.id)
-      this.$router.push({ path: '/' })
+      try {
+        await ApiV2.sessions.leaveSession(this.id)
+        this.showExitSuccessSnackbar = true
+        this.$router.push({ path: '/' })
+      } catch (e) {
+        console.error(e)
+      }
     }
   }
 }
