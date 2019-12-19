@@ -14,6 +14,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
   components: {},
   computed: {
     progressPercent() {
+      if (this.length === 0) return 0
       return (this.progress / this.length) * 100
     }
   },

@@ -37,14 +37,12 @@ export default class extends Vue {
   @Prop({ default: null }) readonly playback!: Playback
 
   get playedTracks(): Track[] {
-    if (this.playback.head < 0) return []
     return this.tracks.slice(0, this.playback.head)
   }
   get playingTrack(): Track | null {
-    return this.playback ? this.tracks[this.playback.head] : null
+    return this.playback.finished ? null : this.tracks[this.playback.head]
   }
   get waitingTracks(): Track[] {
-    if (this.playback.head < 0) return this.tracks
     return this.tracks.slice(this.playback.head + 1)
   }
 

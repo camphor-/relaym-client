@@ -40,20 +40,16 @@ const WebSocketPlugin = (store: any) => {
               })
               break
             case 'PAUSE':
-              store.commit('currentSession/setPaused', true)
-              break
-            case 'INTERRUPT':
-              store.commit('currentSession/addInterruptingTrack', {
-                head: message.head,
-                track: message.track
-              })
               store.commit('currentSession/setPlayback', {
-                paused: false,
+                paused: true,
                 head: message.head,
                 length: message.length,
                 progress: message.progress,
                 remaining: message.remaining
               })
+              break
+            case 'INTERRUPT':
+              store.commit('currentSession/addInterruptingTrack', message.track)
               break
             case 'PROGRESS':
               store.commit('currentSession/setPlayback', {
