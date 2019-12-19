@@ -74,9 +74,8 @@ export const mutations = {
 
     state.playback = {
       paused: session.playback ? session.playback.paused : true,
-      finished: !!(
-        !session.playback && session.queue.head === session.queue.tracks.length
-      ),
+      finished:
+        !session.playback && session.queue.head === session.queue.tracks.length,
       head: session.queue.head!,
       length: 0,
       progress: 0,
