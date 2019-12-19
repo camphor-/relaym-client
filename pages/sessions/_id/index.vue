@@ -70,7 +70,7 @@ export default class extends Vue {
 
   async mounted() {
     this.pathId = this.$route.path.split('/').slice(-1)[0]
-    this.fetchCurrentSession()
+    await this.fetchCurrentSession()
 
     // 参加しているセッションがない場合
     if (!this.id) {
@@ -84,8 +84,8 @@ export default class extends Vue {
       // 参加しているセッションがスラグのセッションidと異なる場合
     } else if (this.id !== this.pathId) {
       try {
-        const pathIdSession = await ApiV2.sessions.getSession(this.pathId)
         // スラグのidのセッションが進行中か確認
+        const pathIdSession = await ApiV2.sessions.getSession(this.pathId)
         if (pathIdSession.session.is_progressing) {
           // 現在のセッションから退出して新しいセッションに参加
           await ApiV2.sessions.leaveSession(this.id)
