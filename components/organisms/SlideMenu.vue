@@ -74,8 +74,14 @@ export default class extends Vue {
     this.isOpenConfirmTerminateSessionDialog = true
   }
 
-  terminateSession() {
-    ApiV2.sessions.current.controlPlayback({ state: 'STOP' })
+  async terminateSession() {
+    try {
+      await ApiV2.sessions.current.controlPlayback({ state: 'STOP' })
+      this.$router.push('/')
+    } catch (e) {
+      console.error(e)
+      // TODO: エラー処理
+    }
   }
 
   async exitSession() {

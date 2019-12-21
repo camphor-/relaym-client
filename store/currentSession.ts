@@ -6,7 +6,7 @@ import Track from '@/models/Track'
 
 export interface Playback {
   paused: boolean
-  track: Track | null
+  finished: boolean
   head: number
   length: number
   progress: number
@@ -46,9 +46,9 @@ export const state = () => ({
 
 export const getters = {
   playable(state: State): boolean {
-    if (state.id === null) return false
-    if (!state.delegate) return false
-    return state.tracks.length - (state.playback.head + 1) >= 0
+    if (state.id === null) return false // セッションに参加していない
+    if (!state.delegate) return false // 再生デバイスが指定されていない
+    return state.playback.head < state.tracks.length
   }
 }
 
@@ -73,19 +73,23 @@ export const mutations = {
     state.delegate = session.delegate
     state.device = session.playback ? session.playback.device : null
 
-    const track = session.playback ? session.playback.track : null
     state.playback = {
       paused: session.playback ? session.playback.paused : true,
-      track: track,
-      head: session.playback ? session.queue.head! : -1,
-      length: 0,
-      progress: 0,
-      remaining: 0
+      finished:
+        !session.playback && session.queue.head === session.queue.tracks.length,
+      head: session.queue.head!,
+      length: state.playback.length,
+      progress: state.playback.progress,
+      remaining: state.playback.remaining
     }
   },
   addTrack: (state: State, newTrack: Track) => {
     if (!state.id) return
     state.tracks.push(newTrack)
+  },
+  addInterruptingTrack: (state: State, track: Track) => {
+    if (!state.id) return
+    state.tracks.splice(state.playback.head, 0, track)
   },
   setPaused: (state: State, paused: boolean) => {
     if (!state.id) return

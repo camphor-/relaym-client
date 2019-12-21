@@ -16,7 +16,7 @@ const WebSocketPlugin = (store: any) => {
           // TODO: 残りケースの実装 cf) https://github.com/camphor-/here-songs-server/blob/master/docs/API.md#get-apiv2ws
           switch (message.type) {
             case 'ADDTRACK':
-              store.commit('currentSession/addTrack', message.track)
+              store.dispatch('currentSession/fetchCurrentSession')
               break
             case 'NEXTTRACK':
               // TODO: サーバー側から前トラックの情報が送られてくるため使用しない
@@ -24,7 +24,6 @@ const WebSocketPlugin = (store: any) => {
             case 'PLAY':
               store.commit('currentSession/setPlayback', {
                 paused: false,
-                track: message.track,
                 head: message.head,
                 length: message.length,
                 progress: message.progress,
@@ -34,7 +33,6 @@ const WebSocketPlugin = (store: any) => {
             case 'RESUME':
               store.commit('currentSession/setPlayback', {
                 paused: false,
-                track: message.track,
                 head: message.head,
                 length: message.length,
                 progress: message.progress,
@@ -42,22 +40,20 @@ const WebSocketPlugin = (store: any) => {
               })
               break
             case 'PAUSE':
-              store.commit('currentSession/setPaused', true)
-              break
-            case 'INTERRUPT':
               store.commit('currentSession/setPlayback', {
-                paused: false,
-                track: message.track,
+                paused: true,
                 head: message.head,
                 length: message.length,
                 progress: message.progress,
                 remaining: message.remaining
               })
               break
+            case 'INTERRUPT':
+              store.commit('currentSession/addInterruptingTrack', message.track)
+              break
             case 'PROGRESS':
               store.commit('currentSession/setPlayback', {
                 paused: false,
-                track: message.track,
                 head: message.head,
                 length: message.length,
                 progress: message.progress,
