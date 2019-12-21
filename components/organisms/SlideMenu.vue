@@ -1,62 +1,67 @@
 <template>
-  <v-navigation-drawer :value="value" fixed temporary @input="input">
-    <div id="logo">
-      <nuxt-link to="/">Relaym</nuxt-link>
-    </div>
-    <v-list>
-      <v-list-tile to="/" nuxt>
-        <v-list-tile-avatar>
-          <v-icon>home</v-icon>
-        </v-list-tile-avatar>
-        <v-list-tile-content>
-          <v-list-tile-title>Home</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+  <div>
+    <v-navigation-drawer :value="value" fixed temporary @input="input">
+      <div id="logo">
+        <nuxt-link to="/">Relaym</nuxt-link>
+      </div>
+      <v-list>
+        <v-list-tile to="/" nuxt>
+          <v-list-tile-avatar>
+            <v-icon>home</v-icon>
+          </v-list-tile-avatar>
+          <v-list-tile-content>
+            <v-list-tile-title>Home</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
 
-      <v-list-tile @click="exitSession">
-        <v-list-tile-avatar>
-          <v-icon>exit_to_app</v-icon>
-        </v-list-tile-avatar>
-        <v-list-tile-content>
-          <v-list-tile-title>Exit</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+        <v-list-tile @click="exitSession">
+          <v-list-tile-avatar>
+            <v-icon>exit_to_app</v-icon>
+          </v-list-tile-avatar>
+          <v-list-tile-content>
+            <v-list-tile-title>Exit</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
 
-      <v-list-tile
-        class="bottom-btn"
-        @click="openConfirmTerminateSessionDialog"
-      >
-        <v-list-tile-avatar>
-          <v-icon>archive</v-icon>
-        </v-list-tile-avatar>
-        <v-list-tile-content>
-          <v-list-tile-title>Terminate and Archive</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-    </v-list>
-    <confirm-terminate-session-dialog
-      v-model="isOpenConfirmTerminateSessionDialog"
-      @on-click-delete="terminateSession"
-    />
-  </v-navigation-drawer>
+        <v-list-tile
+          class="bottom-btn"
+          @click="openConfirmTerminateSessionDialog"
+        >
+          <v-list-tile-avatar>
+            <v-icon>archive</v-icon>
+          </v-list-tile-avatar>
+          <v-list-tile-content>
+            <v-list-tile-title>Terminate and Archive</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+      <confirm-terminate-session-dialog
+        v-model="isOpenConfirmTerminateSessionDialog"
+        @on-click-delete="terminateSession"
+      />
+    </v-navigation-drawer>
+    <snackbar v-model="showSnackbar" :text="snackbarText" />
+  </div>
 </template>
 
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 import { mapState } from 'vuex'
 import ConfirmTerminateSessionDialog from '@/components/molecules/ConfirmTerminateSessionDialog.vue'
-import { CurrentSession } from '@/models/Session'
 import ApiV2 from '@/api/v2'
+import Snackbar from '@/components/molecules/Snackbar.vue'
 
 @Component({
-  components: { ConfirmTerminateSessionDialog },
+  components: { ConfirmTerminateSessionDialog, Snackbar },
   computed: {
-    ...mapState('currentSession', ['session'])
+    ...mapState('currentSession', ['id'])
   }
 })
 export default class extends Vue {
   private isOpenConfirmTerminateSessionDialog = false
-  private session: CurrentSession | null
+  private id: string | null
+  private showSnackbar = false
+  private snackbarText = ''
 
   @Prop({ default: false }) readonly value!: boolean
 
@@ -79,11 +84,22 @@ export default class extends Vue {
     }
   }
 
-  exitSession() {
-    if (this.session) {
-      ApiV2.sessions.leaveSession(this.session.id)
+  async exitSession() {
+    if (this.id) {
+      try {
+        await ApiV2.sessions.leaveSession(this.id)
+        this.showSnackbar = true
+        this.$router.push({ path: '/' })
+        this.snackbarText = 'セッションから退出しました。'
+      } catch (e) {
+        if (e.statusCode === 400) {
+          this.showSnackbar = true
+          this.snackbarText = 'セッションの作成者は退出できません。'
+        } else {
+          console.error(e)
+        }
+      }
     }
-    this.$router.push({ path: '/' })
   }
 }
 </script>

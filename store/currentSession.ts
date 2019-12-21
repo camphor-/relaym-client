@@ -24,6 +24,7 @@ interface State {
   device: Device | null
   playback: Playback
 }
+
 export const state = () => ({
   id: null,
   name: '',
