@@ -16,7 +16,7 @@ const WebSocketPlugin = (store: any) => {
           // TODO: 残りケースの実装 cf) https://github.com/camphor-/here-songs-server/blob/master/docs/API.md#get-apiv2ws
           switch (message.type) {
             case 'ADDTRACK':
-              store.commit('currentSession/addTrack', message.track)
+              store.dispatch('currentSession/fetchCurrentSession')
               break
             case 'NEXTTRACK':
               // TODO: サーバー側から前トラックの情報が送られてくるため使用しない

@@ -77,9 +77,9 @@ export const mutations = {
       finished:
         !session.playback && session.queue.head === session.queue.tracks.length,
       head: session.queue.head!,
-      length: 0,
-      progress: 0,
-      remaining: 0
+      length: state.playback.length,
+      progress: state.playback.progress,
+      remaining: state.playback.remaining
     }
   },
   addTrack: (state: State, newTrack: Track) => {
