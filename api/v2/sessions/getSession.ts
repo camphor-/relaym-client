@@ -11,8 +11,6 @@ const getSession = async (id: string) => {
   }
 }
 
-export interface GetSessionResponse {
-  session: SessionDetail
-}
+export type GetSessionResponse = SessionDetail
 
 export default getSession
