@@ -74,8 +74,18 @@ export default class extends Vue {
   private pathId = ''
 
   async mounted() {
+    this.pageRoot = document.getElementsByClassName('page-root')[0]
+    this.pageRoot.style.transition = '0.2s cubic-bezier(0.4, 0, 0.2, 1)'
+
+    if (this.me && !this.me.is_premium) {
+      this.isBanDialogOpen = true
+    }
+
     this.pathId = this.$route.path.split('/').slice(-1)[0]
     await this.fetchCurrentSession()
+
+    // 参加しているセッションと一致する場合
+    if (this.id === this.pathId) return
 
     // 参加しているセッションがない場合
     if (!this.id) {
@@ -84,10 +94,11 @@ export default class extends Vue {
         await ApiV2.sessions.joinSession(this.pathId)
       } catch (e) {
         this.$router.push('/')
+        return
       }
 
       // 参加しているセッションがスラグのセッションidと異なる場合
-    } else if (this.id !== this.pathId) {
+    } else {
       try {
         // スラグのidのセッションが進行中か確認
         const pathIdSession = await ApiV2.sessions.getSession(this.pathId)
@@ -95,6 +106,10 @@ export default class extends Vue {
           // 現在のセッションから退出して新しいセッションに参加
           await ApiV2.sessions.leaveSession(this.id)
           await ApiV2.sessions.joinSession(this.pathId)
+        } else {
+          // TODO: 終了済みセッションの処理
+          this.$router.push('/')
+          return
         }
       } catch (e) {
         if (
@@ -106,15 +121,13 @@ export default class extends Vue {
         } else {
           this.$router.push(`/sessions/${this.id}`)
         }
+        console.error(e)
+        return
       }
     }
 
-    this.pageRoot = document.getElementsByClassName('page-root')[0]
-    this.pageRoot.style.transition = '0.2s cubic-bezier(0.4, 0, 0.2, 1)'
-
-    if (this.me && !this.me.is_premium) {
-      this.isBanDialogOpen = true
-    }
+    // 参加セッションが変わったので再度取得
+    await this.fetchCurrentSession()
   }
 
   async onSelectDevice(device: Device) {
