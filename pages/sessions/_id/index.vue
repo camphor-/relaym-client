@@ -109,10 +109,6 @@ export default class extends Vue {
       }
     }
 
-    if ('add_track' in this.$route.query) {
-      const trackURI: string = this.$route.query.add_track as string
-      this.addTrack(trackURI)
-    }
     this.pageRoot = document.getElementsByClassName('page-root')[0]
     this.pageRoot.style.transition = '0.2s cubic-bezier(0.4, 0, 0.2, 1)'
 
