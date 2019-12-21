@@ -87,30 +87,24 @@ export default class extends Vue {
     // 参加しているセッションと一致する場合
     if (this.id === this.pathId) return
 
-    // 参加しているセッションがない場合
-    if (!this.id) {
-      try {
-        // スラグのidのセッションに参加を試みる
-        await ApiV2.sessions.joinSession(this.pathId)
-      } catch (e) {
+    try {
+      // スラグのidのセッションが進行中か確認
+      const pathIdSession = await ApiV2.sessions.getSession(this.pathId)
+      if (!pathIdSession.is_progressing) {
         this.$router.push('/')
         return
       }
+    } catch (e) {
+      console.error(e)
+      this.$router.push('/')
+      return
+    }
 
-      // 参加しているセッションがスラグのセッションidと異なる場合
-    } else {
+    // 別のセッションに参加している場合
+    if (this.id) {
       try {
-        // スラグのidのセッションが進行中か確認
-        const pathIdSession = await ApiV2.sessions.getSession(this.pathId)
-        if (pathIdSession.session.is_progressing) {
-          // 現在のセッションから退出して新しいセッションに参加
-          await ApiV2.sessions.leaveSession(this.id)
-          await ApiV2.sessions.joinSession(this.pathId)
-        } else {
-          // TODO: 終了済みセッションの処理
-          this.$router.push('/')
-          return
-        }
+        // 現在のセッションから退出して新しいセッションに参加
+        await ApiV2.sessions.leaveSession(this.id)
       } catch (e) {
         if (
           e.statusCode === 400 &&
@@ -124,6 +118,14 @@ export default class extends Vue {
         console.error(e)
         return
       }
+    }
+
+    try {
+      // スラグのidのセッションに参加を試みる
+      await ApiV2.sessions.joinSession(this.pathId)
+    } catch (e) {
+      this.$router.push('/')
+      return
     }
 
     // 参加セッションが変わったので再度取得
