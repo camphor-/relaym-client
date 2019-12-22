@@ -15,6 +15,7 @@
           >About Relaym</v-btn
         >
         <v-btn
+          v-if="isLoggedIn"
           round
           color="secondary"
           class="new-session-btn"
