@@ -1,6 +1,6 @@
 <template>
   <div class="bottom-controller-wrapper">
-    <div class="bottom-controller elevation-5">
+    <div v-if="showController" class="bottom-controller elevation-5">
       <v-layout align-center justify-space-around>
         <v-btn icon large @click="openDeviceSelectDialog">
           <v-icon>devices</v-icon>
@@ -69,6 +69,7 @@ export default class extends Vue {
 
   private showSnackbar = false
   private snackbarText = ''
+  private showController = true
 
   @Emit()
   openDeviceSelectDialog() {}
@@ -76,7 +77,7 @@ export default class extends Vue {
   playable(): boolean {
     // セッションに参加していない
     if (this.id === null) {
-      this.$router.push('/')
+      this.showController = false
       return false
     }
 
@@ -88,7 +89,8 @@ export default class extends Vue {
     }
 
     // デバイスを選択する必要がある
-    if (!this.delegate || !this.availableDevices.includes(this.device)) {
+    console.log(this.device)
+    if (!this.delegate) {
       this.snackbarText = 'デバイスを選択してください。'
       this.showSnackbar = true
       return false
