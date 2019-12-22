@@ -69,6 +69,7 @@ a {
 }
 
 .bottom-controller-wrapper {
+  z-index: 1;
   width: 100%;
   position: fixed;
   bottom: 0;
