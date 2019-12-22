@@ -20,6 +20,7 @@
         </nuxt-link>
       </v-layout>
     </div>
+    <snackbar v-model="showSnackbar" :text="snackbarText" />
   </div>
 </template>
 
@@ -27,16 +28,26 @@
 import { Component, Emit, Vue } from 'vue-property-decorator'
 import { mapActions, mapState } from 'vuex'
 import { Playback } from '@/store/currentSession'
-import Track from '../../models/Track'
-import User from '../../models/User'
+import Track from '@/models/Track'
+import User from '@/models/User'
+import Snackbar from '@/components/molecules/Snackbar.vue'
+import Device from '@/models/Device'
 
 @Component({
+  components: { Snackbar },
   methods: {
     ...mapActions('currentSession', ['pause', 'play', 'fetchCurrentSession']),
     ...mapActions('devices', ['fetchAvailableDevices'])
   },
   computed: {
-    ...mapState('currentSession', ['playback', 'id', 'delegate', 'tracks']),
+    ...mapState('currentSession', [
+      'playback',
+      'id',
+      'delegate',
+      'tracks',
+      'device'
+    ]),
+    ...mapState('devices', ['availableDevices']),
     paused() {
       return this.playback.paused
     }
@@ -53,6 +64,11 @@ export default class extends Vue {
   private id: string | null
   private delegate?: User | null
   private tracks: Track[]
+  private availableDevices: Device[]
+  private device: Device
+
+  private showSnackbar = false
+  private snackbarText = ''
 
   @Emit()
   openDeviceSelectDialog() {}
@@ -64,10 +80,21 @@ export default class extends Vue {
       return false
     }
 
-    // 再生デバイスが指定されていない
-    if (!this.delegate) {
+    // 再生可能なデバイスがない
+    if (this.availableDevices.length === 0) {
+      this.snackbarText = 'デバイスが見つかりません。'
+      this.showSnackbar = true
       return false
     }
+
+    // デバイスを選択する必要がある
+    if (!this.delegate || this.availableDevices.includes(this.device)) {
+      this.snackbarText = 'デバイスを選択してください。'
+      this.showSnackbar = true
+      return false
+    }
+
+    // 再生可能な曲があるか確認
     return this.playback.head < this.tracks.length
   }
 
