@@ -2,7 +2,10 @@
   <div class="hide-overflow">
     <slide-menu v-model="isShowSlideMenu" />
     <div class="page-root hide-overflow">
-      <session-toolbar @open-slider-menu="showSliderMenu" />
+      <session-toolbar
+        :session-name="name"
+        @open-slider-menu="showSliderMenu"
+      />
 
       <div class="list-container">
         <track-list-container />
@@ -47,7 +50,7 @@ import Snackbar from '@/components/molecules/Snackbar.vue'
   },
   computed: {
     ...mapState('user', ['me']),
-    ...mapState('currentSession', ['id'])
+    ...mapState('currentSession', ['id', 'name'])
   },
   methods: {
     ...mapActions('currentSession', [
@@ -60,6 +63,7 @@ import Snackbar from '@/components/molecules/Snackbar.vue'
 export default class extends Vue {
   private readonly me: User | null
   private readonly id: string | null
+  private readonly name: string | null
   private addTrack!: (payload: string) => void
   private setDevice!: (payload: string) => void
   private fetchCurrentSession!: () => void

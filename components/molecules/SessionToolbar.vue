@@ -3,17 +3,19 @@
     <v-btn icon @click="openSliderMenu">
       <v-icon color="white">menu</v-icon>
     </v-btn>
-    <span class="session-name">CAMPHOR- HOUSE</span>
+    <span class="session-name">{{ sessionName }}</span>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Emit, Vue } from 'vue-property-decorator'
+import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 
 @Component({
   components: {}
 })
 export default class extends Vue {
+  @Prop({ default: '' }) readonly sessionName!: string
+
   @Emit()
   openSliderMenu() {}
 }
