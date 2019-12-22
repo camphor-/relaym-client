@@ -88,14 +88,20 @@ export default class extends Vue {
     }
 
     // デバイスを選択する必要がある
-    if (!this.delegate || this.availableDevices.includes(this.device)) {
+    if (!this.delegate || !this.availableDevices.includes(this.device)) {
       this.snackbarText = 'デバイスを選択してください。'
       this.showSnackbar = true
       return false
     }
 
     // 再生可能な曲があるか確認
-    return this.playback.head < this.tracks.length
+    if (this.playback.head >= this.tracks.length) {
+      this.snackbarText = '曲を追加してください。'
+      this.showSnackbar = true
+      return false
+    }
+
+    return true
   }
 
   async togglePlayback() {
