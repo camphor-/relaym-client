@@ -5,7 +5,7 @@
         <v-btn icon large @click="openDeviceSelectDialog">
           <v-icon>devices</v-icon>
         </v-btn>
-        <v-btn v-if="playable" icon @click="togglePlayback">
+        <v-btn icon @click="togglePlayback">
           <v-icon v-if="paused" color="accent" x-large class="play-icon">
             play_arrow
           </v-icon>
@@ -25,16 +25,18 @@
 
 <script lang="ts">
 import { Component, Emit, Vue } from 'vue-property-decorator'
-import { mapActions, mapGetters, mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 import { Playback } from '@/store/currentSession'
+import Track from '../../models/Track'
+import User from '../../models/User'
 
 @Component({
   methods: {
-    ...mapActions('currentSession', ['pause', 'play', 'fetchCurrentSession'])
+    ...mapActions('currentSession', ['pause', 'play', 'fetchCurrentSession']),
+    ...mapActions('devices', ['fetchAvailableDevices'])
   },
   computed: {
-    ...mapState('currentSession', ['playback']),
-    ...mapGetters('currentSession', ['playable']),
+    ...mapState('currentSession', ['playback', 'id', 'delegate', 'tracks']),
     paused() {
       return this.playback.paused
     }
@@ -44,17 +46,36 @@ export default class extends Vue {
   private pause!: () => void
   private play!: () => void
   private fetchCurrentSession!: () => void
+  private fetchAvailableDevices!: () => void
 
   private playback!: Playback
-  private playable!: boolean
+
+  private id: string | null
+  private delegate?: User | null
+  private tracks: Track[]
 
   @Emit()
   openDeviceSelectDialog() {}
 
+  playable(): boolean {
+    // セッションに参加していない
+    if (this.id === null) {
+      this.$router.push('/')
+      return false
+    }
+
+    // 再生デバイスが指定されていない
+    if (!this.delegate) {
+      return false
+    }
+    return this.playback.head < this.tracks.length
+  }
+
   async togglePlayback() {
     await this.fetchCurrentSession()
+    await this.fetchAvailableDevices()
 
-    if (this.playback.paused && this.playable) {
+    if (this.playback.paused && this.playable()) {
       this.play()
     } else {
       this.pause()

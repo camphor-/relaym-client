@@ -44,14 +44,6 @@ export const state = () => ({
   }
 })
 
-export const getters = {
-  playable(state: State): boolean {
-    if (state.id === null) return false // セッションに参加していない
-    if (!state.delegate) return false // 再生デバイスが指定されていない
-    return state.playback.head < state.tracks.length
-  }
-}
-
 export const mutations = {
   clearSession: (state: State) => {
     state.id = null
