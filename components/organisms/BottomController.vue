@@ -40,13 +40,7 @@ import Device from '@/models/Device'
     ...mapActions('devices', ['fetchAvailableDevices'])
   },
   computed: {
-    ...mapState('currentSession', [
-      'playback',
-      'id',
-      'delegate',
-      'tracks',
-      'device'
-    ]),
+    ...mapState('currentSession', ['playback', 'id', 'delegate', 'tracks']),
     ...mapState('devices', ['availableDevices']),
     paused() {
       return this.playback.paused
@@ -65,7 +59,6 @@ export default class extends Vue {
   private delegate?: User | null
   private tracks: Track[]
   private availableDevices: Device[]
-  private device: Device
 
   private showSnackbar = false
   private snackbarText = ''
@@ -89,7 +82,6 @@ export default class extends Vue {
     }
 
     // デバイスを選択する必要がある
-    console.log(this.device)
     if (!this.delegate) {
       this.snackbarText = 'デバイスを選択してください。'
       this.showSnackbar = true
