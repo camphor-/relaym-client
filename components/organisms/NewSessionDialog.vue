@@ -3,11 +3,7 @@
     <v-card>
       <v-card-title>New Session</v-card-title>
       <v-card-text>
-        <v-checkbox
-          v-model="isPublic"
-          color="primary"
-          label="public"
-        ></v-checkbox>
+        <v-text-field v-model="sessionName" label="セッション名" />
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -27,7 +23,7 @@ import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 export default class extends Vue {
   @Prop({ default: false }) readonly value!: boolean
 
-  private isPublic: boolean = false
+  private sessionName: string = ''
 
   @Emit()
   input(isOpen: boolean) {
@@ -40,7 +36,7 @@ export default class extends Vue {
 
   @Emit()
   createSession() {
-    return { isPublic: this.isPublic }
+    return { name: this.sessionName }
   }
 }
 </script>

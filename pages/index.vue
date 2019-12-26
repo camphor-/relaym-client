@@ -15,6 +15,7 @@
           >About Relaym</v-btn
         >
         <v-btn
+          v-if="isLoggedIn"
           round
           color="secondary"
           class="new-session-btn"
@@ -67,9 +68,10 @@ export default class Index extends Vue {
     this.isNewSessionDialogOpen = true
   }
 
-  async createSession(payload: { isPublic: boolean }) {
+  async createSession(payload: { name: string }) {
     const newSession: Session = (await ApiV2.sessions.createSession({
-      is_public: payload.isPublic
+      is_public: true,
+      name: payload.name
     })).session
     this.$router.push({ path: `/sessions/${newSession.id}` })
   }

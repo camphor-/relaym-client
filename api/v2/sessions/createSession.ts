@@ -14,6 +14,7 @@ const createSession = async (req: CreateSessionRequest) => {
 /* eslint-disable camelcase */
 export interface CreateSessionRequest {
   is_public: boolean
+  name: string
 }
 export interface CreateSessionResponse {
   session: Session
