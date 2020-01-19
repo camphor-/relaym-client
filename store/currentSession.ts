@@ -89,7 +89,6 @@ export const mutations = {
   },
   setPlayback: (state: State, playback: Playback) => {
     if (!state.id) return
-    // 引数をそのまま突っ込むと、INTERUPTで入ってきたtrackがnullになってしまう
     state.playback = playback
   }
 }
