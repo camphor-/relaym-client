@@ -1,13 +1,13 @@
 <template>
   <div class="seekbar">
-    <span class="progress">{{ progress | timeFormat }}</span>
+    <span class="progress">{{ estimateProgress | timeFormat }}</span>
     <v-progress-linear class="progress-bar" :value="progressPercent" />
     <span class="length">{{ length | timeFormat }}</span>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 
 @Component({
   name: 'Seekbar',
@@ -31,6 +31,14 @@ export default class extends Vue {
   @Prop({ required: true }) readonly length!: number
   @Prop({ required: true }) readonly progress!: number
   @Prop({ required: true }) readonly remaining!: number
+
+  progressTimer: number | null = null
+  estimateProgress = 0
+
+  @Watch('progress')
+  onProgressChanged(val: number) {
+    this.estimateProgress = val
+  }
 }
 </script>
 
