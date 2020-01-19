@@ -46,7 +46,7 @@
 
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
-import { mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
 import ConfirmTerminateSessionDialog from '@/components/molecules/ConfirmTerminateSessionDialog.vue'
 import ApiV2 from '@/api/v2'
 import Snackbar from '@/components/molecules/Snackbar.vue'
@@ -55,11 +55,16 @@ import Snackbar from '@/components/molecules/Snackbar.vue'
   components: { ConfirmTerminateSessionDialog, Snackbar },
   computed: {
     ...mapState('currentSession', ['id'])
+  },
+  methods: {
+    ...mapMutations('currentSession', ['clearSession'])
   }
 })
 export default class extends Vue {
-  private isOpenConfirmTerminateSessionDialog = false
   private id: string | null
+  private clearSession!: () => void
+
+  private isOpenConfirmTerminateSessionDialog = false
   private showSnackbar = false
   private snackbarText = ''
 
@@ -78,6 +83,7 @@ export default class extends Vue {
     try {
       await ApiV2.sessions.current.controlPlayback({ state: 'STOP' })
       this.$router.push('/')
+      this.clearSession()
     } catch (e) {
       console.error(e)
       // TODO: エラー処理
@@ -90,6 +96,7 @@ export default class extends Vue {
         await ApiV2.sessions.leaveSession(this.id)
         this.showSnackbar = true
         this.$router.push({ path: '/' })
+        this.clearSession()
         this.snackbarText = 'セッションから退出しました。'
       } catch (e) {
         if (e.statusCode === 400) {

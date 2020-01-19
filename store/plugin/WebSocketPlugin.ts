@@ -7,6 +7,9 @@ const WebSocketPlugin = (store: any) => {
   let socket: WebSocket | null = null
 
   store.subscribe((mutation: { type: string; payload: any }) => {
+    if (mutation.type === 'currentSession/clearSession') {
+      if (socket) socket.close()
+    }
     if (mutation.type === 'currentSession/setSession') {
       if (mutation.payload) {
         if (socket) socket.close()
