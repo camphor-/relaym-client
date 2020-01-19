@@ -15,7 +15,7 @@ import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
   computed: {
     progressPercent() {
       if (this.length === 0) return 0
-      return (this.progress / this.length) * 100
+      return (this.estimateProgress / this.length) * 100
     }
   },
   filters: {
@@ -38,6 +38,19 @@ export default class extends Vue {
   @Watch('progress')
   onProgressChanged(val: number) {
     this.estimateProgress = val
+    this.setProgressTimer()
+  }
+
+  destroyed() {
+    if (this.progressTimer) clearInterval(this.progressTimer)
+  }
+
+  setProgressTimer() {
+    if (this.progressTimer) clearInterval(this.progressTimer)
+    this.progressTimer = window.setInterval(
+      () => (this.estimateProgress += 1000),
+      1000
+    )
   }
 }
 </script>
