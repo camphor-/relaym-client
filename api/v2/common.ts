@@ -4,8 +4,8 @@ export const instance = axios.create({
   baseURL: process.env.BASE_URL + '/api/v2'
 })
 instance.interceptors.response.use(
-  response => Promise.resolve(response),
-  error => Promise.resolve(error.response)
+  (response) => Promise.resolve(response),
+  (error) => Promise.resolve(error.response)
 )
 
 class BaseError extends Error {

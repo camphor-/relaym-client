@@ -1,11 +1,11 @@
 $breakpoints: (
-        'sm': 'screen and (min-width: 400px)',
-        'md': 'screen and (min-width: 768px)',
-        'lg': 'screen and (min-width: 1000px)'
+  'sm': 'screen and (min-width: 400px)',
+  'md': 'screen and (min-width: 768px)',
+  'lg': 'screen and (min-width: 1000px)'
 ) !default;
 $header-logo-height: 96px;
 
-$primary-color: #DC4A5E;
-$secondary-color: #14213D;
+$primary-color: #dc4a5e;
+$secondary-color: #14213d;
 $nickel: #707070;
-$bg-color: #EEEEEE;
+$bg-color: #eeeeee;
