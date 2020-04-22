@@ -69,10 +69,12 @@ export default class Index extends Vue {
   }
 
   async createSession(payload: { name: string }) {
-    const newSession: Session = (await ApiV2.sessions.createSession({
-      is_public: true,
-      name: payload.name
-    })).session
+    const newSession: Session = (
+      await ApiV2.sessions.createSession({
+        is_public: true,
+        name: payload.name
+      })
+    ).session
     this.$router.push({ path: `/sessions/${newSession.id}` })
   }
 }
