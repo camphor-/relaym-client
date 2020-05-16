@@ -50,7 +50,7 @@ export default class Search extends Vue {
   private lastSearchTime = Date.now()
   private snackbarText = ''
   private showSnackbar = false
-  private searchTimeoutId?: number = null
+  private searchTimeoutId: number | null = null
 
   @Watch('q')
   search() {
@@ -68,7 +68,7 @@ export default class Search extends Vue {
       clearTimeout(this.searchTimeoutId)
       this.searchTimeoutId = null
     }
-    this.searchTimeoutId = setTimeout(() => {
+    this.searchTimeoutId = window.setTimeout(() => {
       if (lastQ === this.q) {
         this.fetchSearchResult(this.q)
       }
@@ -82,9 +82,7 @@ export default class Search extends Vue {
   }
 
   backToTrackList() {
-    const redirectPath: string | null = <string | null>(
-      this.$route.query.redirect_to
-    )
+    const redirectPath = this.$route.query.redirect_to as string | null
     this.$router.push({
       path: redirectPath || '/'
     })

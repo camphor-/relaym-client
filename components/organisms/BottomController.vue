@@ -41,10 +41,7 @@ import Device from '@/models/Device'
   },
   computed: {
     ...mapState('currentSession', ['playback', 'id', 'delegate', 'tracks']),
-    ...mapState('devices', ['availableDevices']),
-    paused() {
-      return this.playback.paused
-    }
+    ...mapState('devices', ['availableDevices'])
   }
 })
 export default class extends Vue {
@@ -55,10 +52,10 @@ export default class extends Vue {
 
   private playback!: Playback
 
-  private id: string | null
-  private delegate?: User | null
-  private tracks: Track[]
-  private availableDevices: Device[]
+  private id!: string | null
+  private delegate!: User | null
+  private tracks!: Track[]
+  private availableDevices!: Device[]
 
   private showSnackbar = false
   private snackbarText = ''
@@ -107,6 +104,10 @@ export default class extends Vue {
     } else {
       this.pause()
     }
+  }
+
+  get paused() {
+    return this.playback.paused
   }
 }
 </script>

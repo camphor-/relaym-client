@@ -27,7 +27,7 @@ export default {
   searchTracks: async (keyword: string) => {
     const res = await instance.get('/search', {
       params: {
-        keyword: keyword
+        keyword
       },
       withCredentials: true
     })

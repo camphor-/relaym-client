@@ -22,6 +22,10 @@ export interface PlayMessage extends BaseMessage {
 
 export interface PauseMessage {
   type: 'PAUSE'
+  head: number
+  length: number
+  progress: number
+  remaining: number
 }
 
 export interface ResumeMessage extends BaseMessage {

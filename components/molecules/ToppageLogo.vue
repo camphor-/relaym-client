@@ -97,7 +97,10 @@
     </svg>
   </div>
 </template>
-<script lang="ts"></script>
+<script lang="ts">
+import Vue from 'vue'
+export default Vue.extend({ name: 'ToppageLogo' })
+</script>
 <style lang="scss">
 .logo {
   margin: 10vh auto 5vh auto;

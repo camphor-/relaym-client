@@ -61,9 +61,9 @@ import Snackbar from '@/components/molecules/Snackbar.vue'
   }
 })
 export default class extends Vue {
-  private readonly me: User | null
-  private readonly id: string | null
-  private readonly name: string | null
+  private readonly me!: User | null
+  private readonly id!: string | null
+  private readonly name!: string | null
   private addTrack!: (payload: string) => void
   private setDevice!: (payload: string) => void
   private fetchCurrentSession!: () => void

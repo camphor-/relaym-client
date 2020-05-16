@@ -60,9 +60,10 @@ const WebSocketPlugin = (store: any) => {
                 remaining: message.remaining
               })
               break
-            default:
+            default: {
               // eslint-disable-next-line @typescript-eslint/no-unused-vars
               const _: never = message
+            }
           }
         }
       }
