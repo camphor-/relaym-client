@@ -39,9 +39,11 @@ export default class extends Vue {
   get playedTracks(): Track[] {
     return this.tracks.slice(0, this.playback.head)
   }
+
   get playingTrack(): Track | null {
     return this.playback.finished ? null : this.tracks[this.playback.head]
   }
+
   get waitingTracks(): Track[] {
     return this.tracks.slice(this.playback.head + 1)
   }
