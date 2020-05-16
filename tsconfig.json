@@ -10,7 +10,5 @@
     "moduleResolution": "node",
     "noImplicitAny": false
   },
-  "include": [
-    "*"
-  ]
+  "exclude": ["node_modules"]
 }
