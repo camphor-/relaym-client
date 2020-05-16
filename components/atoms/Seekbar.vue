@@ -19,7 +19,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
     }
   },
   filters: {
-    timeFormat: function(val) {
+    timeFormat(val) {
       const lengthSec = Math.round(val / 1000)
       const min = Math.floor(lengthSec / 60)
       const sec = lengthSec % 60
