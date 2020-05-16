@@ -82,9 +82,7 @@ export default class Search extends Vue {
   }
 
   backToTrackList() {
-    const redirectPath: string | null = <string | null>(
-      this.$route.query.redirect_to
-    )
+    const redirectPath = this.$route.query.redirect_to as string | null
     this.$router.push({
       path: redirectPath || '/'
     })
