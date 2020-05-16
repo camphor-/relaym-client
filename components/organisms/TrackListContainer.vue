@@ -28,8 +28,8 @@ import TrackList from '@/components/molecules/TrackList.vue'
 })
 export default class extends Vue {
   private fetchCurrentSession!: () => void
-  private tracks: Track[]
-  private playback: Playback
+  private tracks!: Track[]
+  private playback!: Playback
 }
 </script>
 

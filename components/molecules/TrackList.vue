@@ -25,7 +25,7 @@
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import TrackListItem from './TrackListItem.vue'
-import PlayingTrack from './PlayingTrack'
+import PlayingTrack from './PlayingTrack.vue'
 import Track from '@/models/Track'
 import { Playback } from '@/store/currentSession'
 
@@ -53,8 +53,9 @@ export default class extends Vue {
     await new Promise(resolve => setTimeout(resolve, 500))
     if (this.playingTrack) {
       const playingElement = this.$refs.playing as Vue
-      if (playingElement) {
-        document.scrollingElement.scrollTop = playingElement.$el.offsetTop - 64
+      if (playingElement && document.scrollingElement) {
+        document.scrollingElement.scrollTop =
+          (playingElement.$el as HTMLElement).offsetTop - 64
       }
     }
   }

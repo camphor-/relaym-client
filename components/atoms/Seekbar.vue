@@ -11,13 +11,6 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 
 @Component({
   name: 'Seekbar',
-  components: {},
-  computed: {
-    progressPercent() {
-      if (this.length === 0) return 0
-      return (this.progress / this.length) * 100
-    }
-  },
   filters: {
     timeFormat(val) {
       const lengthSec = Math.round(val / 1000)
@@ -31,6 +24,11 @@ export default class extends Vue {
   @Prop({ required: true }) readonly length!: number
   @Prop({ required: true }) readonly progress!: number
   @Prop({ required: true }) readonly remaining!: number
+
+  get progressPercent() {
+    if (this.length === 0) return 0
+    return (this.progress / this.length) * 100
+  }
 }
 </script>
 

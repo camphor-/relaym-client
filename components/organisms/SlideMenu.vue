@@ -59,7 +59,7 @@ import Snackbar from '@/components/molecules/Snackbar.vue'
 })
 export default class extends Vue {
   private isOpenConfirmTerminateSessionDialog = false
-  private id: string | null
+  private id!: string | null
   private showSnackbar = false
   private snackbarText = ''
 

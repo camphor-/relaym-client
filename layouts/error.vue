@@ -13,7 +13,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import ToppageLogo from '@/components/molecules/ToppageLogo'
+import ToppageLogo from '@/components/molecules/ToppageLogo.vue'
 
 @Component({
   components: {

@@ -39,7 +39,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { mapState, mapGetters } from 'vuex'
-import ToppageLogo from '@/components/molecules/ToppageLogo'
+import ToppageLogo from '@/components/molecules/ToppageLogo.vue'
 import NewSessionDialog from '@/components/organisms/NewSessionDialog.vue'
 import SessionsListContainer from '@/components/organisms/SessionsListContainer.vue'
 import LoginButton from '@/components/organisms/LoginButton.vue'
@@ -60,7 +60,7 @@ import Session from '@/models/Session'
   }
 })
 export default class Index extends Vue {
-  private isLoggedIn: () => boolean
+  private isLoggedIn!: () => boolean
 
   private isNewSessionDialogOpen: boolean = false
 
