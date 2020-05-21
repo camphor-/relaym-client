@@ -39,6 +39,6 @@
     "nodemon": "^1.19.1",
     "prettier": "2.0.4",
     "sass-loader": "^7.1.0",
-    "typesync": "^0.5.1"
+    "typesync": "^0.6.1"
   }
 }
