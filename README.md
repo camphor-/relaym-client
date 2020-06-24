@@ -1,8 +1,10 @@
 # Relaym Client
 
-This is a scaffold to create a project using Nuxt.js (SPA mode) with TypeScript.
+RelaymのWebフロントエンドを管理するリポジトリです。
 
-## Build Setup
+## 開発
+
+### ローカル開発環境のセットアップ
 
 ``` bash
 # install dependencies
@@ -18,5 +20,3 @@ $ yarn start
 # generate static project
 $ yarn run generate
 ```
-
-For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
