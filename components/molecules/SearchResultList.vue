@@ -2,7 +2,12 @@
   <v-list v-if="items" two-line class="result-list">
     <template v-for="(item, index) in items">
       <v-list-tile :key="index">
-        <v-btn flat :href="item.external_url" target="_blank">
+        <v-btn
+          flat
+          :href="item.external_url"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <v-list-tile-avatar tile>
             <img
               v-if="item.album.images[2]"
