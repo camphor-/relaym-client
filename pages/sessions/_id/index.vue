@@ -3,7 +3,7 @@
     <slide-menu v-model="isShowSlideMenu" />
     <div class="page-root hide-overflow">
       <session-toolbar
-        :session-name="name"
+        :session-name="session.name"
         @open-slider-menu="showSliderMenu"
       />
 
@@ -35,8 +35,8 @@ import DeviceSelectDialog from '@/components/organisms/DeviceSelectDialog.vue'
 import BottomController from '@/components/organisms/BottomController.vue'
 import Device from '@/models/Device'
 import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
-import ApiV2 from '@/api/v2'
 import Snackbar from '@/components/molecules/Snackbar.vue'
+import { Session } from '@/api/v3/types'
 
 @Component({
   components: {
@@ -50,23 +50,18 @@ import Snackbar from '@/components/molecules/Snackbar.vue'
   },
   computed: {
     ...mapState('user', ['me']),
-    ...mapState('currentSession', ['id', 'name'])
+    ...mapState('pages/sessions/detail', ['session'])
   },
   methods: {
-    ...mapActions('currentSession', [
-      'setDevice',
-      'addTrack',
-      'fetchCurrentSession'
-    ])
+    ...mapActions('pages/sessions/detail', ['setSessionId', 'setDevice'])
   }
 })
 export default class extends Vue {
   private readonly me!: User | null
-  private readonly id!: string | null
-  private readonly name!: string | null
-  private addTrack!: (payload: string) => void
-  private setDevice!: (payload: string) => void
-  private fetchCurrentSession!: () => void
+  private readonly session!: Session | null
+  private setSessionId!: (id: string) => void
+  private setDevice!: (deviceId: string) => void
+
   private isDeviceSelectDialogOpen: boolean = false
   private pageRoot: any
   private isBanDialogOpen: boolean = false
@@ -77,7 +72,7 @@ export default class extends Vue {
   // スラグのセッションid
   private pathId = ''
 
-  async mounted() {
+  mounted() {
     this.pageRoot = document.getElementsByClassName('page-root')[0]
     this.pageRoot.style.transition = '0.2s cubic-bezier(0.4, 0, 0.2, 1)'
 
@@ -85,32 +80,12 @@ export default class extends Vue {
       this.isBanDialogOpen = true
     }
 
-    this.pathId = this.$route.path.split('/').slice(-1)[0]
-    await this.fetchCurrentSession()
-
-    // 参加しているセッションと一致する場合
-    if (this.id === this.pathId) return
-
-    try {
-      // スラグのidのセッションが進行中か確認
-      const pathIdSession = await ApiV2.sessions.getSession(this.pathId)
-      if (!pathIdSession.is_progressing) {
-        this.$router.push('/')
-        return
-      }
-    } catch (e) {
-      console.error(e)
-      this.$router.push('/')
-      return
-    }
-
-    // 参加セッションが変わったので再度取得
-    await this.fetchCurrentSession()
+    const pathId = this.$route.path.split('/').slice(-1)[0]
+    this.setSessionId(pathId)
   }
 
   async onSelectDevice(device: Device) {
     await this.setDevice(device.id)
-    await this.fetchCurrentSession()
   }
 
   openDeviceSelectDialog() {

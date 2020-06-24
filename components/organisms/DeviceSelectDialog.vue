@@ -30,10 +30,10 @@ import Device from '@/models/Device'
 @Component({
   components: { DeviceList },
   computed: {
-    ...mapGetters('devices', ['getPlayableDevices'])
+    ...mapGetters('pages/sessions/detail', ['getPlayableDevices'])
   },
   methods: {
-    ...mapActions('devices', ['fetchAvailableDevices'])
+    ...mapActions('pages/sessions/detail', ['fetchAvailableDevices'])
   }
 })
 export default class extends Vue {
