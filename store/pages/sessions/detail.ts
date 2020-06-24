@@ -17,7 +17,7 @@ export const state = (): State => ({
 })
 
 export const getters = {
-  getPlayableDevices(state: State): Device[] {
+  playableDevices(state: State): Device[] {
     return state.devices.filter((d) => !d.is_restricted)
   }
 }

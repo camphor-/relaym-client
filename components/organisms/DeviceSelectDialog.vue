@@ -6,7 +6,7 @@
       </v-card-title>
 
       <v-card-text>
-        <device-list :items="getPlayableDevices" @click-item="selectDevice" />
+        <device-list :items="playableDevices" @click-item="selectDevice" />
       </v-card-text>
 
       <v-divider></v-divider>
@@ -30,7 +30,7 @@ import Device from '@/models/Device'
 @Component({
   components: { DeviceList },
   computed: {
-    ...mapGetters('pages/sessions/detail', ['getPlayableDevices'])
+    ...mapGetters('pages/sessions/detail', ['playableDevices'])
   },
   methods: {
     ...mapActions('pages/sessions/detail', ['fetchAvailableDevices'])
