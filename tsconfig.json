@@ -6,7 +6,7 @@
     "paths": { "@/*": ["./*"], "~/*": ["./*"] },
     "target": "es5",
     "strict": true,
-    "module": "es2018",
+    "module": "es2020",
     "moduleResolution": "node",
     "noImplicitAny": false
   },
