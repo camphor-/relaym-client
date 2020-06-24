@@ -40,7 +40,6 @@ interface PlayState {
 
 export interface Device {
   id: string
-  // eslint-disable-next-line camelcase
   is_restricted: boolean
   name: string
 }
