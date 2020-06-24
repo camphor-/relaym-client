@@ -17,6 +17,9 @@ export const state = (): State => ({
 })
 
 export const getters = {
+  sessionName(state: State): string {
+    return state.session?.name ?? ''
+  },
   playableDevices(state: State): Device[] {
     return state.devices.filter((d) => !d.is_restricted)
   }

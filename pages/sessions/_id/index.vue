@@ -3,7 +3,7 @@
     <slide-menu v-model="isShowSlideMenu" />
     <div class="page-root hide-overflow">
       <session-toolbar
-        :session-name="session.name"
+        :session-name="sessionName"
         @open-slider-menu="showSliderMenu"
       />
 
@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 import SlideMenu from '@/components/organisms/SlideMenu.vue'
 import User from '@/models/User'
 import SessionToolbar from '@/components/molecules/SessionToolbar.vue'
@@ -36,7 +36,6 @@ import BottomController from '@/components/organisms/BottomController.vue'
 import Device from '@/models/Device'
 import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
 import Snackbar from '@/components/molecules/Snackbar.vue'
-import { Session } from '@/api/v3/types'
 
 @Component({
   components: {
@@ -50,7 +49,7 @@ import { Session } from '@/api/v3/types'
   },
   computed: {
     ...mapState('user', ['me']),
-    ...mapState('pages/sessions/detail', ['session'])
+    ...mapGetters('pages/sessions/detail', ['sessionName'])
   },
   methods: {
     ...mapActions('pages/sessions/detail', ['setSessionId', 'setDevice'])
@@ -58,7 +57,6 @@ import { Session } from '@/api/v3/types'
 })
 export default class extends Vue {
   private readonly me!: User | null
-  private readonly session!: Session | null
   private setSessionId!: (id: string) => void
   private setDevice!: (deviceId: string) => void
 
@@ -69,8 +67,9 @@ export default class extends Vue {
   private showSnackbar = false
   private snackbarText = ''
 
-  // スラグのセッションid
-  private pathId = ''
+  get pathId() {
+    return this.$route.path.split('/').slice(-1)[0]
+  }
 
   mounted() {
     this.pageRoot = document.getElementsByClassName('page-root')[0]
@@ -80,8 +79,7 @@ export default class extends Vue {
       this.isBanDialogOpen = true
     }
 
-    const pathId = this.$route.path.split('/').slice(-1)[0]
-    this.setSessionId(pathId)
+    this.setSessionId(this.pathId)
   }
 
   async onSelectDevice(device: Device) {
