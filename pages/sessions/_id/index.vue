@@ -67,8 +67,9 @@ export default class extends Vue {
   private showSnackbar = false
   private snackbarText = ''
 
-  get pathId() {
-    return this.$route.path.split('/').slice(-1)[0]
+  @Watch('$route.params.id', { immediate: true })
+  onPathIdChanged() {
+    this.setSessionId(this.$route.params.id)
   }
 
   mounted() {
@@ -78,8 +79,6 @@ export default class extends Vue {
     if (this.me && !this.me.is_premium) {
       this.isBanDialogOpen = true
     }
-
-    this.setSessionId(this.pathId)
   }
 
   async onSelectDevice(device: Device) {

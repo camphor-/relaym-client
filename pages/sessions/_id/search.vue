@@ -18,7 +18,7 @@
         ></v-text-field>
       </v-flex>
     </v-layout>
-    <search-result-list :items="result.items" @click-item="selectTrack" />
+    <search-result-list :items="result" @click-item="selectTrack" />
     <snackbar v-model="showSnackbar" :text="snackbarText"></snackbar>
   </v-container>
 </template>
@@ -28,29 +28,38 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { mapActions, mapState } from 'vuex'
 import SearchResultList from '@/components/molecules/SearchResultList.vue'
 import Snackbar from '@/components/molecules/Snackbar.vue'
-import Track from '@/models/Track'
+import { Track } from '@/api/v3/types'
 
 const SEARCH_INTERVAL = 1000
 
 @Component({
   components: { SearchResultList, Snackbar },
   computed: {
-    ...mapState('search', ['result'])
+    ...mapState('pages/sessions/search', ['result'])
   },
   methods: {
-    ...mapActions('search', ['fetchSearchResult']),
-    ...mapActions('currentSession', ['addTrack']),
+    ...mapActions('pages/sessions/search', [
+      'setSessionId',
+      'fetchSearchResult',
+      'enqueueTrack'
+    ]),
     ...mapActions('snackbar', ['showSnackbar'])
   }
 })
 export default class Search extends Vue {
+  private setSessionId!: (payload: string) => void
   private fetchSearchResult!: (payload: string) => void
-  private addTrack!: (payload: string) => void
+  private enqueueTrack!: (payload: string) => void
   private q: string = ''
   private lastSearchTime = Date.now()
   private snackbarText = ''
   private showSnackbar = false
   private searchTimeoutId: number | null = null
+
+  @Watch('$route.params.id', { immediate: true })
+  onPathIdChanged() {
+    this.setSessionId(this.$route.params.id)
+  }
 
   @Watch('q')
   search() {
@@ -76,16 +85,13 @@ export default class Search extends Vue {
   }
 
   selectTrack(track: Track) {
-    this.addTrack(track.uri)
+    this.enqueueTrack(track.uri)
     this.snackbarText = `${track.name} を追加しました`
     this.showSnackbar = true
   }
 
   backToTrackList() {
-    const redirectPath = this.$route.query.redirect_to as string | null
-    this.$router.push({
-      path: redirectPath || '/'
-    })
+    this.$router.push(`/sessions/${this.$route.params.id}`)
   }
 
   beforeDestroy() {
