@@ -26,26 +26,29 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import TrackListItem from './TrackListItem.vue'
 import PlayingTrack from './PlayingTrack.vue'
-import Track from '@/models/Track'
-import { Playback } from '@/store/currentSession'
+import { Queue, Track, Playback } from '@/api/v3/types'
 
 @Component({
   components: { TrackListItem, PlayingTrack }
 })
 export default class extends Vue {
-  @Prop({ default: [] }) readonly tracks!: Track[]
-  @Prop({ default: null }) readonly playback!: Playback
+  @Prop({ required: true }) readonly queue!: Queue
+  @Prop({ required: true }) readonly playback!: Playback
 
   get playedTracks(): Track[] {
-    return this.tracks.slice(0, this.playback.head)
+    return this.queue.tracks.slice(0, this.queue.head)
   }
 
   get playingTrack(): Track | null {
-    return this.playback.finished ? null : this.tracks[this.playback.head]
+    return this.playback.state.type === 'PLAY'
+      ? this.queue.tracks[this.queue.head]
+      : null
   }
 
   get waitingTracks(): Track[] {
-    return this.tracks.slice(this.playback.head + 1)
+    return this.playback.state.type === 'STOP'
+      ? this.queue.tracks.slice(this.queue.head)
+      : this.queue.tracks.slice(this.queue.head + 1)
   }
 
   @Watch('playingTrack.uri', { immediate: true })
