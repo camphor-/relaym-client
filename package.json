@@ -17,7 +17,7 @@
     "@nuxtjs/axios": "^5.9.7",
     "@nuxtjs/pwa": "^3.0.0-beta.16",
     "@nuxtjs/style-resources": "^1.0.0",
-    "@nuxtjs/vuetify": "^0.5.6",
+    "@nuxtjs/vuetify": "^1.11.2",
     "axios": "^0.19.0",
     "cross-env": "^7.0.2",
     "nuxt": "^2.8.1",
