@@ -1,5 +1,5 @@
 import User from '@/models/User'
-import ApiV2 from '@/api/v2'
+import { getMyUserInfo } from '@/api/v3/user'
 
 interface State {
   me: User | null
@@ -23,7 +23,7 @@ export const mutations = {
 export const actions = {
   async fetchMyUserInfo({ commit }) {
     try {
-      const res = await ApiV2.users.me.getMyUserInfo()
+      const res = await getMyUserInfo()
       commit('setMyUserInfo', res)
     } catch (e) {
       console.error(e)
