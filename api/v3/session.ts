@@ -1,5 +1,5 @@
 import { Session } from '@/api/v3/types'
-import { instance } from '@/api/v2/common'
+import { instance } from '@/api/v3/index'
 import Track from '@/models/Track'
 
 export const createSession = async (req: CreateSessionRequest) => {
