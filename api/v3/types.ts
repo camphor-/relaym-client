@@ -1,14 +1,15 @@
+/* eslint-disable camelcase */
+
 export interface Session {
   id: string
   name: string
-  creator: User
+  creator: Creator
   playback: Playback
   queue: Queue
 }
 
-export interface User {
+export interface Creator {
   id: string
-  // eslint-disable-next-line camelcase
   display_name: string
 }
 
@@ -49,7 +50,6 @@ interface Queue {
   tracks: Track[]
 }
 
-/* eslint-disable camelcase */
 export interface Track {
   uri: string
   id: string
@@ -73,4 +73,11 @@ interface Image {
   width: number
   height: number
   url: string
+}
+
+export interface User {
+  id: string
+  uri: string
+  display_name: string
+  is_premium: boolean
 }

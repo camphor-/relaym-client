@@ -1,5 +1,6 @@
 import { Session } from '@/api/v3/types'
 import { instance } from '@/api/v2/common'
+import Track from '@/models/Track'
 
 export const createSession = async (req: CreateSessionRequest) => {
   const res = await instance.post<Session>('/sessions', req)
@@ -42,4 +43,22 @@ export const enqueue = async (id: string, req: EnqueueReq) => {
 
 interface EnqueueReq {
   uri: string
+}
+
+export const search = async (id: string, req: SearchRequest) => {
+  const res = await instance.get<SearchForTracksResponse>(
+    `sessiond/${id}/search`,
+    {
+      params: req
+    }
+  )
+  return res.data.tracks
+}
+
+interface SearchRequest {
+  q: string
+}
+
+interface SearchForTracksResponse {
+  tracks: Track[]
 }
