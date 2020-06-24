@@ -104,34 +104,6 @@ export default class extends Vue {
       return
     }
 
-    // 別のセッションに参加している場合
-    if (this.id) {
-      try {
-        // 現在のセッションから退出して新しいセッションに参加
-        await ApiV2.sessions.leaveSession(this.id)
-      } catch (e) {
-        if (
-          e.statusCode === 400 &&
-          e.msg.msg === 'creator cannot be removed from session'
-        ) {
-          this.snackbarText = 'セッションの作成者は退出できません。'
-          this.showSnackbar = true
-        } else {
-          this.$router.push(`/sessions/${this.id}`)
-        }
-        console.error(e)
-        return
-      }
-    }
-
-    try {
-      // スラグのidのセッションに参加を試みる
-      await ApiV2.sessions.joinSession(this.pathId)
-    } catch (e) {
-      this.$router.push('/')
-      return
-    }
-
     // 参加セッションが変わったので再度取得
     await this.fetchCurrentSession()
   }
