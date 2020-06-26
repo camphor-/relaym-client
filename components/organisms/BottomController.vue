@@ -11,9 +11,7 @@
           </v-icon>
           <v-icon v-else color="accent" x-large>pause</v-icon>
         </v-btn>
-        <nuxt-link
-          :to="{ path: '/search', query: { redirect_to: $route.path } }"
-        >
+        <nuxt-link :to="searchPageUrl">
           <v-btn icon large>
             <v-icon>playlist_add</v-icon>
           </v-btn>
@@ -27,35 +25,25 @@
 <script lang="ts">
 import { Component, Emit, Vue } from 'vue-property-decorator'
 import { mapActions, mapState } from 'vuex'
-import { Playback } from '@/store/currentSession'
-import Track from '@/models/Track'
-import User from '@/models/User'
 import Snackbar from '@/components/molecules/Snackbar.vue'
-import Device from '@/models/Device'
+import { Session } from '@/api/v3/types'
 
 @Component({
   components: { Snackbar },
   methods: {
-    ...mapActions('currentSession', ['pause', 'play', 'fetchCurrentSession']),
-    ...mapActions('devices', ['fetchAvailableDevices'])
+    ...mapActions('pages/sessions/detail', ['fetchSession'])
   },
   computed: {
-    ...mapState('currentSession', ['playback', 'id', 'delegate', 'tracks']),
+    ...mapState('pages/sessions/detail', ['session']),
     ...mapState('devices', ['availableDevices'])
   }
 })
 export default class extends Vue {
   private pause!: () => void
   private play!: () => void
-  private fetchCurrentSession!: () => void
-  private fetchAvailableDevices!: () => void
+  private fetchSession!: () => void
 
-  private playback!: Playback
-
-  private id!: string | null
-  private delegate!: User | null
-  private tracks!: Track[]
-  private availableDevices!: Device[]
+  private readonly session!: Session | null
 
   private showSnackbar = false
   private snackbarText = ''
@@ -64,29 +52,11 @@ export default class extends Vue {
   @Emit()
   openDeviceSelectDialog() {}
 
-  playable(): boolean {
-    // セッションに参加していない
-    if (this.id === null) {
-      this.showController = false
-      return false
-    }
-
-    // 再生可能なデバイスがない
-    if (this.availableDevices.length === 0) {
-      this.snackbarText = 'デバイスが見つかりません。'
-      this.showSnackbar = true
-      return false
-    }
-
-    // デバイスを選択する必要がある
-    if (!this.delegate) {
-      this.snackbarText = 'デバイスを選択してください。'
-      this.showSnackbar = true
-      return false
-    }
+  get playable(): boolean {
+    if (!this.session) return false
 
     // 再生可能な曲があるか確認
-    if (this.playback.head >= this.tracks.length) {
+    if (this.session.queue.head >= this.session.queue.tracks.length) {
       this.snackbarText = '曲を追加してください。'
       this.showSnackbar = true
       return false
@@ -95,19 +65,24 @@ export default class extends Vue {
     return true
   }
 
-  async togglePlayback() {
-    await this.fetchCurrentSession()
-    await this.fetchAvailableDevices()
-
-    if (this.playback.paused && this.playable()) {
-      this.play()
-    } else {
-      this.pause()
-    }
+  get paused(): boolean {
+    if (!this.session) return true
+    return this.session.playback.state.type !== 'PLAY'
   }
 
-  get paused() {
-    return this.playback.paused
+  get searchPageUrl(): string {
+    return `/sessions/${this.session?.id}/search`
+  }
+
+  async togglePlayback() {
+    await this.fetchSession()
+    if (!this.session) return
+
+    if (this.session.playback.state.type === 'PLAY') {
+      this.pause()
+    } else {
+      this.play()
+    }
   }
 }
 </script>

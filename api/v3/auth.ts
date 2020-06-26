@@ -1,5 +1,5 @@
-import { instance } from '@/api/v3/index'
+import { baseURL } from '@/api/v3/index'
 
 export const getLoginUrl = () => {
-  return instance.getUri({ url: `/login` })
+  return `${baseURL}/login`
 }

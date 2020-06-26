@@ -1,7 +1,7 @@
 <template>
   <div id="track-list-container-root">
-    <template v-if="tracks.length > 0">
-      <track-list :tracks="tracks" :playback="playback" />
+    <template v-if="queue.tracks.length > 0">
+      <track-list :queue="queue" :playback="playback" />
     </template>
     <template v-else>
       <track-list-place-holder />
@@ -11,25 +11,35 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { mapState, mapActions } from 'vuex'
-import { Playback } from '@/store/currentSession'
-import Track from '@/models/Track'
+import { mapState } from 'vuex'
 import TrackListPlaceHolder from '@/components/molecules/TrackListPlaceHolder.vue'
 import TrackList from '@/components/molecules/TrackList.vue'
+import { Playback, Session, Queue } from '@/api/v3/types'
 
 @Component({
   components: { TrackList, TrackListPlaceHolder },
-  methods: {
-    ...mapActions('currentSession', ['fetchCurrentSession'])
-  },
   computed: {
-    ...mapState('currentSession', ['tracks', 'playback'])
+    ...mapState('pages/sessions/detail', ['session'])
   }
 })
 export default class extends Vue {
-  private fetchCurrentSession!: () => void
-  private tracks!: Track[]
-  private playback!: Playback
+  private session!: Session | null
+
+  get queue(): Queue {
+    if (!this.session) return { head: 0, tracks: [] }
+    return this.session.queue
+  }
+
+  get playback(): Playback {
+    if (!this.session) {
+      return {
+        state: { type: 'STOP' },
+        device: null
+      }
+    }
+
+    return this.session.playback
+  }
 }
 </script>
 

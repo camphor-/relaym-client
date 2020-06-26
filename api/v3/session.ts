@@ -38,7 +38,7 @@ interface ControlPlaybackRequest {
 }
 
 export const enqueue = async (id: string, req: EnqueueReq) => {
-  await instance.post(`/sessions/${id}/queues`, req)
+  await instance.post(`/sessions/${id}/queue`, req)
 }
 
 interface EnqueueReq {
@@ -47,7 +47,7 @@ interface EnqueueReq {
 
 export const search = async (id: string, req: SearchRequest) => {
   const res = await instance.get<SearchForTracksResponse>(
-    `sessiond/${id}/search`,
+    `sessions/${id}/search`,
     {
       params: req
     }

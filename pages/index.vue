@@ -30,8 +30,8 @@
     </v-container>
     <img class="wave" src="../assets/images/wave.svg" alt="wave" />
     <div class="sessions-list-container">
-      <sessions-list-container v-if="isLoggedIn" />
-      <login-button v-else />
+      <login-button v-if="!isLoggedIn" />
+      <!--  TODO: セッション参加者は、URLをもらう説明を書く    -->
     </div>
   </div>
 </template>
@@ -41,16 +41,13 @@ import { Component, Vue } from 'vue-property-decorator'
 import { mapState, mapGetters } from 'vuex'
 import ToppageLogo from '@/components/molecules/ToppageLogo.vue'
 import NewSessionDialog from '@/components/organisms/NewSessionDialog.vue'
-import SessionsListContainer from '@/components/organisms/SessionsListContainer.vue'
 import LoginButton from '@/components/organisms/LoginButton.vue'
-import ApiV2 from '@/api/v2'
-import Session from '@/models/Session'
+import { createSession } from '@/api/v3/session'
 
 @Component({
   components: {
     ToppageLogo,
     NewSessionDialog,
-    SessionsListContainer,
     LoginButton
   },
   layout: 'toppage',
@@ -69,12 +66,9 @@ export default class Index extends Vue {
   }
 
   async createSession(payload: { name: string }) {
-    const newSession: Session = (
-      await ApiV2.sessions.createSession({
-        is_public: true,
-        name: payload.name
-      })
-    ).session
+    const newSession = await createSession({
+      name: payload.name
+    })
     this.$router.push({ path: `/sessions/${newSession.id}` })
   }
 }

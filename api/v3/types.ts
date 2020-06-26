@@ -44,8 +44,8 @@ export interface Device {
   name: string
 }
 
-interface Queue {
-  head: Number
+export interface Queue {
+  head: number
   tracks: Track[]
 }
 

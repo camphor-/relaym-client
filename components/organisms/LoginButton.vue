@@ -7,14 +7,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import ApiV2 from '@/api/v2'
+import { getLoginUrl } from '@/api/v3/auth'
 
 @Component({
   components: {}
 })
 export default class extends Vue {
   login() {
-    location.href = ApiV2.getLoginUrl()
+    location.href = getLoginUrl()
   }
 }
 </script>
