@@ -14,7 +14,7 @@ import { getLoginUrl } from '@/api/v3/auth'
 })
 export default class extends Vue {
   login() {
-    location.href = getLoginUrl()
+    location.href = getLoginUrl(location.origin)
   }
 }
 </script>
