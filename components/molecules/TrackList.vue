@@ -40,7 +40,7 @@ export default class extends Vue {
   }
 
   get playingTrack(): Track | null {
-    return this.playback.state.type === 'PLAY'
+    return this.playback.state.type !== 'STOP'
       ? this.queue.tracks[this.queue.head]
       : null
   }

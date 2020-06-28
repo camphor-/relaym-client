@@ -31,19 +31,15 @@ import { Session } from '@/api/v3/types'
 @Component({
   components: { Snackbar },
   methods: {
-    ...mapActions('pages/sessions/detail', ['fetchSession'])
+    ...mapActions('pages/sessions/detail', ['controlPlayback'])
   },
   computed: {
-    ...mapState('pages/sessions/detail', ['session']),
-    ...mapState('devices', ['availableDevices'])
+    ...mapState('pages/sessions/detail', ['session'])
   }
 })
 export default class extends Vue {
-  private pause!: () => void
-  private play!: () => void
-  private fetchSession!: () => void
-
   private readonly session!: Session | null
+  private controlPlayback!: (req: { state: 'PLAY' | 'PAUSE' }) => void
 
   private showSnackbar = false
   private snackbarText = ''
@@ -74,14 +70,13 @@ export default class extends Vue {
     return `/sessions/${this.session?.id}/search`
   }
 
-  async togglePlayback() {
-    await this.fetchSession()
+  togglePlayback() {
     if (!this.session) return
 
     if (this.session.playback.state.type === 'PLAY') {
-      this.pause()
+      this.controlPlayback({ state: 'PAUSE' })
     } else {
-      this.play()
+      this.controlPlayback({ state: 'PLAY' })
     }
   }
 }
