@@ -12,9 +12,9 @@
     </div>
 
     <seekbar
-      :length="playback.length"
-      :progress="playback.progress"
-      :remaining="playback.remaining"
+      :length="playback.state.length"
+      :progress="playback.state.progress"
+      :remaining="playback.state.remaining"
     />
   </div>
 </template>
@@ -22,8 +22,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import Seekbar from '@/components/atoms/Seekbar.vue'
-import { Playback } from '@/store/currentSession'
-import Track from '@/models/Track'
+import { Playback, Track } from '@/api/v3/types'
 
 @Component({
   name: 'PlayingTrack',

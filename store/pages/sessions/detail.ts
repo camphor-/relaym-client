@@ -1,8 +1,7 @@
 import { MutationTree, ActionTree } from 'vuex'
-import Device from '@/models/Device'
-import { Session, SocketMessage } from '@/api/v3/types'
+import { Session, SocketMessage, Device } from '@/api/v3/types'
 import { getMyDevices } from '@/api/v3/user'
-import { getSession, setDevice } from '@/api/v3/session'
+import { controlPlayback, getSession, setDevice } from '@/api/v3/session'
 import { createWebSocket } from '@/api/v3/websocket'
 
 interface State {
@@ -10,13 +9,15 @@ interface State {
   session: Session | null
   devices: Device[]
   webSocket: WebSocket | null
+  progressTimer: number | null
 }
 
 export const state = (): State => ({
   sessionId: null,
   session: null,
   devices: [],
-  webSocket: null
+  webSocket: null,
+  progressTimer: null
 })
 
 export const getters = {
@@ -40,6 +41,26 @@ export const mutations: MutationTree<State> = {
   },
   setWebSocket: (state: State, socket: WebSocket | null) => {
     state.webSocket = socket
+  },
+  setProgressTimer: (state: State, timer: number) => {
+    state.progressTimer = timer
+  },
+  progressPlayback: (state: State) => {
+    if (!state.session || state.session.playback.state.type !== 'PLAY') return
+
+    // 曲の長さより進むことはないようにする
+    const newProgress = Math.min(
+      state.session.playback.state.progress + 1000,
+      state.session.playback.state.length
+    )
+
+    state.session = {
+      ...state.session,
+      playback: {
+        ...state.session.playback,
+        state: { ...state.session.playback.state, progress: newProgress }
+      }
+    }
   }
 }
 
@@ -48,16 +69,17 @@ export const actions: ActionTree<State, {}> = {
     commit('setSessionId', id)
     dispatch('fetchSession')
   },
-  async fetchSession({ state, commit }) {
+  async fetchSession({ state, commit, dispatch }) {
     if (!state.sessionId) return
     const session = await getSession(state.sessionId)
     commit('setSession', session)
+    await dispatch('setProgressTimer')
   },
   async fetchAvailableDevices({ commit }) {
     const res = await getMyDevices()
     commit('setAvailableDevices', res)
   },
-  async setDevice({ state, commit, dispatch }, deviceId: string) {
+  async setDevice({ state, dispatch }, deviceId: string) {
     if (!state.session) return
     await setDevice(state.session.id, { deviceId })
     dispatch('fetchSession')
@@ -78,5 +100,21 @@ export const actions: ActionTree<State, {}> = {
   handleWebSocketMessage: ({ dispatch }, message: SocketMessage) => {
     console.log(message)
     dispatch('fetchSession')
+  },
+  controlPlayback: ({ state }, req: { state: 'PLAY' | 'PAUSE' }) => {
+    if (!state.sessionId) return
+    controlPlayback(state.sessionId, req)
+  },
+  setProgressTimer: async ({ state, commit, dispatch }) => {
+    if (state.progressTimer) await dispatch('clearProgressTimer')
+    if (!state.session || state.session.playback.state.type !== 'PLAY') return
+
+    const timerId = setInterval(() => commit('progressPlayback'), 1000)
+    commit('setProgressTimer', timerId)
+  },
+  clearProgressTimer: ({ state, commit }) => {
+    if (!state.progressTimer) return
+    clearInterval(state.progressTimer)
+    commit('setProgressTimer', null)
   }
 }
