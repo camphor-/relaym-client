@@ -51,7 +51,8 @@ import { User, Device } from '@/api/v3/types'
       'setSessionId',
       'setDevice',
       'connectWebSocket',
-      'disconnectWebSocket'
+      'disconnectWebSocket',
+      'clearProgressTimer'
     ])
   }
 })
@@ -61,6 +62,7 @@ export default class extends Vue {
   private setDevice!: (deviceId: string) => void
   private connectWebSocket!: () => void
   private disconnectWebSocket!: () => void
+  private clearProgressTimer!: () => void
 
   private isDeviceSelectDialogOpen: boolean = false
   private pageRoot: any
@@ -81,6 +83,7 @@ export default class extends Vue {
 
   destroyed() {
     this.disconnectWebSocket()
+    this.clearProgressTimer()
   }
 
   async onSelectDevice(device: Device) {
