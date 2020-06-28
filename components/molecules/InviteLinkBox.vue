@@ -11,6 +11,10 @@
       </v-btn>
       <v-btn depressed>コピー</v-btn>
     </v-layout>
+    <v-layout align-start class="attention accent--text">
+      <v-icon color="accent">warning</v-icon>
+      <span>このリンクは不特定多数の人に共有しないでください</span>
+    </v-layout>
   </div>
 </template>
 
@@ -53,7 +57,7 @@ export default class extends Vue {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .container {
   padding: 16px;
 }
@@ -61,5 +65,12 @@ export default class extends Vue {
 .invite_description {
   font-weight: bold;
   text-align: center;
+}
+
+.attention {
+  margin-top: 16px;
+  > span {
+    margin-left: 8px;
+  }
 }
 </style>
