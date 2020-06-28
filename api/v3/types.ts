@@ -26,16 +26,16 @@ interface StopState {
 
 interface PauseState {
   type: 'PAUSE'
-  length: Number
-  progress: Number
-  remaining: Number
+  length: number
+  progress: number
+  remaining: number
 }
 
 interface PlayState {
   type: 'PLAY'
-  length: Number
-  progress: Number
-  remaining: Number
+  length: number
+  progress: number
+  remaining: number
 }
 
 export interface Device {
