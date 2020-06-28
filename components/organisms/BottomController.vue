@@ -24,12 +24,10 @@
 <script lang="ts">
 import { Component, Emit, Vue } from 'vue-property-decorator'
 import { mapActions, mapState } from 'vuex'
-import Snackbar from '@/components/organisms/Snackbar.vue'
 import { Session } from '@/api/v3/types'
 import { MessageType, SnackbarPayload } from '@/store/snackbar'
 
 @Component({
-  components: { Snackbar },
   methods: {
     ...mapActions('pages/sessions/detail', ['controlPlayback'])
   },
