@@ -20,14 +20,20 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
+import { mapActions } from 'vuex'
 import QrCode from '@/components/atoms/QrCode.vue'
+import { MessageType, SnackbarPayload } from '@/store/snackbar'
 
 @Component({
   name: 'InviteLinkBox',
-  components: { QrCode }
+  components: { QrCode },
+  methods: {
+    ...mapActions('snackbar', ['showSnackbar'])
+  }
 })
 export default class extends Vue {
   @Prop({ required: true }) readonly sessionId!: string | null
+  private showSnackbar!: (payload: SnackbarPayload) => void
 
   get inviteUrl() {
     if (!this.sessionId) return ''
@@ -50,8 +56,10 @@ export default class extends Vue {
     try {
       await navigator.share(shareData)
     } catch (e) {
-      // TODO: エラー処理
-      console.error(e)
+      this.showSnackbar({
+        message: 'シェアに失敗しました',
+        messageType: MessageType.error
+      })
     }
   }
 }
