@@ -1,8 +1,8 @@
 {
-  "name": "here-songs",
+  "name": "relaym",
   "version": "1.0.0",
-  "description": "CAMPHOR- 合宿 2019",
-  "author": "dora1998",
+  "description": "Relaymを使えば、1つの端末でSpotifyの曲を再生しながら各々が自分の端末で好きな曲を追加できるようになります",
+  "author": "CAMPHOR-",
   "private": true,
   "scripts": {
     "dev": "NUXT_HOST=0.0.0.0 nuxt",
