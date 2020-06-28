@@ -9,11 +9,29 @@ const nuxtConfig: NuxtConfiguration = {
    */
   head: {
     title: 'Relaym',
+    htmlAttrs: {
+      lang: 'ja'
+    },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { name: 'google', content: 'notranslate' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      { hid: 'description', name: 'description', content: pkg.description },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { property: 'og:title', content: 'Relaym' },
+      {
+        property: 'og:description',
+        content: pkg.description
+      },
+      {
+        property: 'og:url',
+        content: 'https://relaym.camph.net'
+      },
+      {
+        property: 'og:image',
+        // 後でちゃんとしたがぞうに差し替える
+        content: 'https://relaym.camph.net/icons/apple-touch-icon.png'
+      }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
