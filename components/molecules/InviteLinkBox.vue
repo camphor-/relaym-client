@@ -3,10 +3,10 @@
     <div class="invite_description">リンクを共有して楽しもう🎧</div>
     <qr-code :content="inviteUrl" />
     <v-layout row align-center justify-center>
-      <v-btn flat icon color="#00B900">
+      <v-btn flat icon color="#00B900" @click="handleClickLineShare">
         <v-icon>fab fa-line</v-icon>
       </v-btn>
-      <v-btn flat icon>
+      <v-btn flat icon @click="handleClickWebShare">
         <v-icon>fas fa-share-alt</v-icon>
       </v-btn>
       <v-btn depressed>コピー</v-btn>
@@ -28,6 +28,27 @@ export default class extends Vue {
   get inviteUrl() {
     if (!this.sessionId) return ''
     return `${location.origin}/sessions/${this.sessionId}`
+  }
+
+  handleClickLineShare() {
+    const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${encodeURI(
+      this.inviteUrl
+    )}`
+    window.open(lineShareUrl)
+  }
+
+  async handleClickWebShare() {
+    const shareData: ShareData = {
+      title: 'Relaym',
+      text: 'Relaymで一緒にセッションを楽しもう！',
+      url: this.inviteUrl
+    }
+    try {
+      await navigator.share(shareData)
+    } catch (e) {
+      // TODO: エラー処理
+      console.error(e)
+    }
   }
 }
 </script>
