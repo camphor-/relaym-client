@@ -16,8 +16,8 @@ export default class extends Vue {}
 <style lang="scss" scoped>
 .list-placeholder {
   vertical-align: middle;
-  height: 100%;
   font-family: 'Paficifo';
   color: #0d47a1;
+  background-color: white;
 }
 </style>

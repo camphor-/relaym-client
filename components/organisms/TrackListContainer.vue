@@ -1,7 +1,7 @@
 <template>
   <div id="track-list-container-root">
     <template v-if="queue.tracks.length > 0">
-      <track-list :queue="queue" :playback="playback" />
+      <track-list :queue="queue" :playback="playback" class="track-list" />
     </template>
     <template v-else>
       <track-list-place-holder />
@@ -46,7 +46,9 @@ export default class extends Vue {
 <style lang="scss" scoped>
 #track-list-container-root {
   padding-top: 56px;
-  padding-bottom: calc(6vmin + 56px);
   background-color: $bg-color;
+}
+.track-list {
+  padding-bottom: calc(6vmin + 56px);
 }
 </style>
