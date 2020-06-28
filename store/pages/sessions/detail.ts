@@ -1,6 +1,6 @@
 import { MutationTree, ActionTree } from 'vuex'
 import Device from '@/models/Device'
-import { Session } from '@/api/v3/types'
+import { Session, SocketMessage } from '@/api/v3/types'
 import { getMyDevices } from '@/api/v3/user'
 import { getSession, setDevice } from '@/api/v3/session'
 import { createWebSocket } from '@/api/v3/websocket'
@@ -67,11 +67,16 @@ export const actions: ActionTree<State, {}> = {
     if (state.webSocket) dispatch('disconnectWebSocket')
 
     const socket = createWebSocket(state.sessionId)
+    socket.onmessage = (ev) => dispatch('handleWebSocketMessage', ev.data)
     socket.onclose = () => commit('setWebSocket', null)
     commit('setWebSocket', socket)
   },
   disconnectWebSocket({ state }) {
     if (!state.webSocket) return
     state.webSocket.close()
+  },
+  handleWebSocketMessage: ({ dispatch }, message: SocketMessage) => {
+    console.log(message)
+    dispatch('fetchSession')
   }
 }
