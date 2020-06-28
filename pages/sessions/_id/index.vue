@@ -13,6 +13,11 @@
 
       <bottom-controller @open-device-select-dialog="openDeviceSelectDialog" />
 
+      <interrupt-detected-dialog
+        :value="isInterruptDetectedDialogOpen"
+        @input="closeInterruptDetectedDialog"
+      ></interrupt-detected-dialog>
+
       <device-select-dialog
         v-model="isDeviceSelectDialogOpen"
         @select-device="onSelectDevice"
@@ -30,6 +35,7 @@ import SessionToolbar from '@/components/molecules/SessionToolbar.vue'
 import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 import DeviceSelectDialog from '@/components/organisms/DeviceSelectDialog.vue'
 import BottomController from '@/components/organisms/BottomController.vue'
+import InterruptDetectedDialog from '@/components/organisms/InterruptDetectedDialog.vue'
 import Snackbar from '@/components/molecules/Snackbar.vue'
 import { User, Device } from '@/api/v3/types'
 
@@ -40,10 +46,12 @@ import { User, Device } from '@/api/v3/types'
     BottomController,
     SessionToolbar,
     SlideMenu,
-    Snackbar
+    Snackbar,
+    InterruptDetectedDialog
   },
   computed: {
     ...mapState('user', ['me']),
+    ...mapState('pages/sessions/detail', ['isInterruptDetectedDialogOpen']),
     ...mapGetters('pages/sessions/detail', ['sessionName'])
   },
   methods: {
@@ -52,7 +60,8 @@ import { User, Device } from '@/api/v3/types'
       'setDevice',
       'connectWebSocket',
       'disconnectWebSocket',
-      'clearProgressTimer'
+      'clearProgressTimer',
+      'setIsInterruptDetectedDialogOpen'
     ])
   }
 })
@@ -63,12 +72,14 @@ export default class extends Vue {
   private connectWebSocket!: () => void
   private disconnectWebSocket!: () => void
   private clearProgressTimer!: () => void
+  private setIsInterruptDetectedDialogOpen!: (isOpen: boolean) => void
 
   private isDeviceSelectDialogOpen: boolean = false
   private pageRoot: any
   private isShowSlideMenu: boolean = false
   private showSnackbar = false
   private snackbarText = ''
+  private readonly isInterruptDetectedDialogOpen!: boolean
 
   @Watch('$route.params.id', { immediate: true })
   onPathIdChanged() {
@@ -96,6 +107,10 @@ export default class extends Vue {
 
   showSliderMenu() {
     this.isShowSlideMenu = true
+  }
+
+  closeInterruptDetectedDialog() {
+    this.setIsInterruptDetectedDialogOpen(false)
   }
 
   @Watch('isShowSlideMenu')

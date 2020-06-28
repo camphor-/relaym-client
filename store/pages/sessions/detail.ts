@@ -10,6 +10,7 @@ interface State {
   devices: Device[]
   webSocket: WebSocket | null
   progressTimer: number | null
+  isInterruptDetectedDialogOpen: boolean
 }
 
 export const state = (): State => ({
@@ -17,7 +18,8 @@ export const state = (): State => ({
   session: null,
   devices: [],
   webSocket: null,
-  progressTimer: null
+  progressTimer: null,
+  isInterruptDetectedDialogOpen: false
 })
 
 export const getters = {
@@ -61,6 +63,9 @@ export const mutations: MutationTree<State> = {
         state: { ...state.session.playback.state, progress: newProgress }
       }
     }
+  },
+  setIsInterruptDetectedDialogOpen(state: State, isOpen: boolean) {
+    state.isInterruptDetectedDialogOpen = isOpen
   }
 }
 
@@ -89,7 +94,8 @@ export const actions: ActionTree<State, {}> = {
     if (state.webSocket) dispatch('disconnectWebSocket')
 
     const socket = createWebSocket(state.sessionId)
-    socket.onmessage = (ev) => dispatch('handleWebSocketMessage', ev.data)
+    socket.onmessage = (ev) =>
+      dispatch('handleWebSocketMessage', JSON.parse(ev.data))
     socket.onclose = () => commit('setWebSocket', null)
     commit('setWebSocket', socket)
   },
@@ -97,9 +103,13 @@ export const actions: ActionTree<State, {}> = {
     if (!state.webSocket) return
     state.webSocket.close()
   },
-  handleWebSocketMessage: ({ dispatch }, message: SocketMessage) => {
+  handleWebSocketMessage: ({ dispatch, commit }, message: SocketMessage) => {
     console.log(message)
     dispatch('fetchSession')
+    switch (message.type) {
+      case 'INTERRUPT':
+        commit('setIsInterruptDetectedDialogOpen', true)
+    }
   },
   controlPlayback: ({ state }, req: { state: 'PLAY' | 'PAUSE' }) => {
     if (!state.sessionId) return
@@ -116,5 +126,9 @@ export const actions: ActionTree<State, {}> = {
     if (!state.progressTimer) return
     clearInterval(state.progressTimer)
     commit('setProgressTimer', null)
+  },
+
+  setIsInterruptDetectedDialogOpen: ({ commit }, isOpen) => {
+    commit('setIsInterruptDetectedDialogOpen', isOpen)
   }
 }
