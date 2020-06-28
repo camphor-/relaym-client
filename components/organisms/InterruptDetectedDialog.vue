@@ -47,7 +47,7 @@ export default class extends Vue {
 <style lang="scss" scoped>
 .headline-wrapper {
   margin-top: 16px;
-  margin-bottom: 1rem;
+  margin-bottom: 16px;
 }
 
 .dialog-headline {
