@@ -52,13 +52,20 @@ import Snackbar from '@/components/molecules/Snackbar.vue'
     ...mapGetters('pages/sessions/detail', ['sessionName'])
   },
   methods: {
-    ...mapActions('pages/sessions/detail', ['setSessionId', 'setDevice'])
+    ...mapActions('pages/sessions/detail', [
+      'setSessionId',
+      'setDevice',
+      'connectWebSocket',
+      'disconnectWebSocket'
+    ])
   }
 })
 export default class extends Vue {
   private readonly me!: User | null
   private setSessionId!: (id: string) => void
   private setDevice!: (deviceId: string) => void
+  private connectWebSocket!: () => void
+  private disconnectWebSocket!: () => void
 
   private isDeviceSelectDialogOpen: boolean = false
   private pageRoot: any
@@ -70,6 +77,7 @@ export default class extends Vue {
   @Watch('$route.params.id', { immediate: true })
   onPathIdChanged() {
     this.setSessionId(this.$route.params.id)
+    this.connectWebSocket()
   }
 
   mounted() {
@@ -79,6 +87,10 @@ export default class extends Vue {
     if (this.me && !this.me.is_premium) {
       this.isBanDialogOpen = true
     }
+  }
+
+  destroyed() {
+    this.disconnectWebSocket()
   }
 
   async onSelectDevice(device: Device) {

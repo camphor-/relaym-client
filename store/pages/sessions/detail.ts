@@ -3,17 +3,20 @@ import Device from '@/models/Device'
 import { Session } from '@/api/v3/types'
 import { getMyDevices } from '@/api/v3/user'
 import { getSession, setDevice } from '@/api/v3/session'
+import { createWebSocket } from '@/api/v3/websocket'
 
 interface State {
   sessionId: string | null
   session: Session | null
   devices: Device[]
+  webSocket: WebSocket | null
 }
 
 export const state = (): State => ({
   sessionId: null,
   session: null,
-  devices: []
+  devices: [],
+  webSocket: null
 })
 
 export const getters = {
@@ -34,6 +37,9 @@ export const mutations: MutationTree<State> = {
   },
   setAvailableDevices: (state: State, devices: Device[]) => {
     state.devices = devices
+  },
+  setWebSocket: (state: State, socket: WebSocket | null) => {
+    state.webSocket = socket
   }
 }
 
@@ -55,5 +61,17 @@ export const actions: ActionTree<State, {}> = {
     if (!state.session) return
     await setDevice(state.session.id, { deviceId })
     dispatch('fetchSession')
+  },
+  connectWebSocket({ state, commit, dispatch }) {
+    if (!state.sessionId) return
+    if (state.webSocket) dispatch('disconnectWebSocket')
+
+    const socket = createWebSocket(state.sessionId)
+    socket.onclose = () => commit('setWebSocket', null)
+    commit('setWebSocket', socket)
+  },
+  disconnectWebSocket({ state }) {
+    if (!state.webSocket) return
+    state.webSocket.close()
   }
 }
