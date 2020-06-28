@@ -17,7 +17,7 @@ import { MessageType } from '@/store/snackbar'
     ...mapState('snackbar', ['isOpen', 'message', 'messageType'])
   },
   methods: {
-    ...mapActions('snackbar', ['showSnackbar', 'closeSnackbar'])
+    ...mapActions('snackbar', ['closeSnackbar'])
   }
 })
 export default class Snackbar extends Vue {
