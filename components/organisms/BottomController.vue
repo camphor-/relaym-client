@@ -39,6 +39,7 @@ import { MessageType, SnackbarPayload } from '@/store/snackbar'
 export default class extends Vue {
   private readonly session!: Session | null
   private controlPlayback!: (req: { state: 'PLAY' | 'PAUSE' }) => void
+  private showController = true
   private showSnackbar!: (payload: SnackbarPayload) => void
 
   @Emit()
