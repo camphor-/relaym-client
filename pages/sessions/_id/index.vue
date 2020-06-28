@@ -23,7 +23,6 @@
         @select-device="onSelectDevice"
       />
     </div>
-    <snackbar v-model="showSnackbar" :text="snackbarText" />
   </div>
 </template>
 
@@ -36,7 +35,6 @@ import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 import DeviceSelectDialog from '@/components/organisms/DeviceSelectDialog.vue'
 import BottomController from '@/components/organisms/BottomController.vue'
 import InterruptDetectedDialog from '@/components/organisms/InterruptDetectedDialog.vue'
-import Snackbar from '@/components/organisms/Snackbar.vue'
 import { User, Device } from '@/api/v3/types'
 
 @Component({
@@ -46,7 +44,6 @@ import { User, Device } from '@/api/v3/types'
     BottomController,
     SessionToolbar,
     SlideMenu,
-    Snackbar,
     InterruptDetectedDialog
   },
   computed: {
@@ -77,8 +74,6 @@ export default class extends Vue {
   private isDeviceSelectDialogOpen: boolean = false
   private pageRoot: any
   private isShowSlideMenu: boolean = false
-  private showSnackbar = false
-  private snackbarText = ''
   private readonly isInterruptDetectedDialogOpen!: boolean
 
   @Watch('$route.params.id', { immediate: true })
