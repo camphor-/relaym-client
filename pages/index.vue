@@ -69,7 +69,7 @@ export default class Index extends Vue {
   private isNewSessionDialogOpen: boolean = false
 
   openNewSessionDialog() {
-    if (this.me && this.me.is_premium) {
+    if (this.me && !this.me.is_premium) {
       this.isBanDialogOpen = true
       return
     }
