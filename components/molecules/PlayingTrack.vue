@@ -12,9 +12,9 @@
     </div>
 
     <seekbar
-      :length="playback.length"
-      :progress="playback.progress"
-      :remaining="playback.remaining"
+      :length="playback.state.length"
+      :progress="playback.state.progress"
+      :remaining="playback.state.remaining"
     />
   </div>
 </template>
