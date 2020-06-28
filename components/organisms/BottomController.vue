@@ -18,7 +18,6 @@
         </nuxt-link>
       </v-layout>
     </div>
-    <snackbar v-model="showSnackbar" :text="snackbarText" />
   </div>
 </template>
 
@@ -27,6 +26,7 @@ import { Component, Emit, Vue } from 'vue-property-decorator'
 import { mapActions, mapState } from 'vuex'
 import Snackbar from '@/components/organisms/Snackbar.vue'
 import { Session } from '@/api/v3/types'
+import { MessageType, SnackbarPayload } from '@/store/snackbar'
 
 @Component({
   components: { Snackbar },
@@ -34,16 +34,14 @@ import { Session } from '@/api/v3/types'
     ...mapActions('pages/sessions/detail', ['controlPlayback'])
   },
   computed: {
-    ...mapState('pages/sessions/detail', ['session'])
+    ...mapState('pages/sessions/detail', ['session']),
+    ...mapActions('snackbar', ['showSnackbar'])
   }
 })
 export default class extends Vue {
   private readonly session!: Session | null
   private controlPlayback!: (req: { state: 'PLAY' | 'PAUSE' }) => void
-
-  private showSnackbar = false
-  private snackbarText = ''
-  private showController = true
+  private showSnackbar!: (payload: SnackbarPayload) => void
 
   @Emit()
   openDeviceSelectDialog() {}
@@ -53,8 +51,10 @@ export default class extends Vue {
 
     // 再生可能な曲があるか確認
     if (this.session.queue.head >= this.session.queue.tracks.length) {
-      this.snackbarText = '曲を追加してください。'
-      this.showSnackbar = true
+      this.showSnackbar({
+        message: '曲を追加してください。',
+        messageType: MessageType.info
+      })
       return false
     }
 
