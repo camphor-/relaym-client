@@ -25,7 +25,7 @@
 <script lang="ts">
 import { Component, Emit, Vue } from 'vue-property-decorator'
 import { mapActions, mapState } from 'vuex'
-import Snackbar from '@/components/molecules/Snackbar.vue'
+import Snackbar from '@/components/organisms/Snackbar.vue'
 import { Session } from '@/api/v3/types'
 
 @Component({

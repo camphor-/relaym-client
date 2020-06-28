@@ -4,7 +4,7 @@ interface State {
   messageType: MessageType
 }
 
-interface SnackbarPayload {
+export interface SnackbarPayload {
   message: string
   messageType: MessageType
 }

@@ -36,7 +36,7 @@ import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 import DeviceSelectDialog from '@/components/organisms/DeviceSelectDialog.vue'
 import BottomController from '@/components/organisms/BottomController.vue'
 import InterruptDetectedDialog from '@/components/organisms/InterruptDetectedDialog.vue'
-import Snackbar from '@/components/molecules/Snackbar.vue'
+import Snackbar from '@/components/organisms/Snackbar.vue'
 import { User, Device } from '@/api/v3/types'
 
 @Component({
