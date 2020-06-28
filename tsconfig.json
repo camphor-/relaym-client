@@ -8,7 +8,8 @@
     "strict": true,
     "module": "es2020",
     "moduleResolution": "node",
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true
   },
   "exclude": ["node_modules"]
 }
