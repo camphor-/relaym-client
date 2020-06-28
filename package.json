@@ -13,6 +13,8 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.13.1",
+    "@fortawesome/fontawesome-free-brands": "^5.0.13",
     "@nuxt/typescript": "^2.8.1",
     "@nuxtjs/axios": "^5.9.7",
     "@nuxtjs/pwa": "^3.0.0-beta.16",
