@@ -27,6 +27,7 @@
         v-model="isNewSessionDialogOpen"
         @create-session="createSession"
       />
+      <ban-free-plan-dialog v-model="isBanDialogOpen" />
     </v-container>
     <img class="wave" src="../assets/images/wave.svg" alt="wave" />
     <div class="sessions-list-container">
@@ -42,13 +43,16 @@ import { mapState, mapGetters } from 'vuex'
 import ToppageLogo from '@/components/molecules/ToppageLogo.vue'
 import NewSessionDialog from '@/components/organisms/NewSessionDialog.vue'
 import LoginButton from '@/components/organisms/LoginButton.vue'
+import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
 import { createSession } from '@/api/v3/session'
+import User from '@/models/User'
 
 @Component({
   components: {
     ToppageLogo,
     NewSessionDialog,
-    LoginButton
+    LoginButton,
+    BanFreePlanDialog
   },
   layout: 'toppage',
   computed: {
@@ -57,11 +61,18 @@ import { createSession } from '@/api/v3/session'
   }
 })
 export default class Index extends Vue {
+  private readonly me!: User | null
+
   private isLoggedIn!: () => boolean
 
+  private isBanDialogOpen: boolean = false
   private isNewSessionDialogOpen: boolean = false
 
   openNewSessionDialog() {
+    if (this.me && !this.me.is_premium) {
+      this.isBanDialogOpen = true
+      return
+    }
     this.isNewSessionDialogOpen = true
   }
 
