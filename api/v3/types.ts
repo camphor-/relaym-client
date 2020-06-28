@@ -80,3 +80,39 @@ export interface User {
   display_name: string
   is_premium: boolean
 }
+
+export type SocketMessage =
+  | AddTrackMessage
+  | NextTrackMessage
+  | PlayMessage
+  | PauseMessage
+  | StopMessage
+  | InterruptMessage
+export interface BaseMessage {
+  type: string
+}
+
+export interface AddTrackMessage extends BaseMessage {
+  type: 'ADDTRACK'
+}
+
+export interface NextTrackMessage extends BaseMessage {
+  type: 'NEXTTRACK'
+  head: number
+}
+
+export interface PlayMessage extends BaseMessage {
+  type: 'PLAY'
+}
+
+export interface PauseMessage extends BaseMessage {
+  type: 'PAUSE'
+}
+
+export interface StopMessage extends BaseMessage {
+  type: 'STOP'
+}
+
+export interface InterruptMessage extends BaseMessage {
+  type: 'INTERRUPT'
+}

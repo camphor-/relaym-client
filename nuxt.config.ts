@@ -201,7 +201,7 @@ const nuxtConfig: NuxtConfiguration = {
   env: {
     BASE_URL: process.env.BASE_URL || 'http://relaym.local:8080',
     BASE_WEBSOCKET_URL:
-      process.env.BASE_WEBSOCKET_URL || 'ws://relaym.local:8080/api/v3'
+      process.env.BASE_WEBSOCKET_URL || 'ws://relaym.local:8080'
   }
 }
 
