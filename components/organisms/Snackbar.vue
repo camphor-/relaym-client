@@ -1,5 +1,11 @@
 <template>
-  <v-snackbar v-model="value" bottom :timeout="3000" :color="color">
+  <v-snackbar
+    :value="isOpen"
+    bottom
+    :timeout="3000"
+    :color="color"
+    @input="setIsOpen"
+  >
     {{ message }}
     <v-btn color="white" flat @click="closeSnackbar">
       Close
@@ -17,7 +23,7 @@ import { MessageType } from '@/store/snackbar'
     ...mapState('snackbar', ['isOpen', 'message', 'messageType'])
   },
   methods: {
-    ...mapActions('snackbar', ['closeSnackbar'])
+    ...mapActions('snackbar', ['closeSnackbar', 'setIsOpen'])
   }
 })
 export default class Snackbar extends Vue {
@@ -32,11 +38,6 @@ export default class Snackbar extends Vue {
   timeSpent() {
     if (this.value) return
     this.closeSnackbar()
-  }
-
-  @Watch('isOpen')
-  syncValue() {
-    this.value = this.isOpen
   }
 
   get color() {

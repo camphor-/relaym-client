@@ -52,5 +52,13 @@ export const actions = {
   },
   closeSnackbar({ commit }) {
     commit('close')
+  },
+
+  setIsOpen({ commit }, isOpen: boolean) {
+    if (isOpen) {
+      commit('open')
+    } else {
+      commit('close')
+    }
   }
 }
