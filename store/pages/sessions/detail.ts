@@ -1,6 +1,5 @@
 import { MutationTree, ActionTree } from 'vuex'
-import Device from '@/models/Device'
-import { Session, SocketMessage } from '@/api/v3/types'
+import { Session, SocketMessage, Device } from '@/api/v3/types'
 import { getMyDevices } from '@/api/v3/user'
 import { controlPlayback, getSession, setDevice } from '@/api/v3/session'
 import { createWebSocket } from '@/api/v3/websocket'

@@ -45,7 +45,7 @@ import NewSessionDialog from '@/components/organisms/NewSessionDialog.vue'
 import LoginButton from '@/components/organisms/LoginButton.vue'
 import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
 import { createSession } from '@/api/v3/session'
-import User from '@/models/User'
+import { User } from '@/api/v3/types'
 
 @Component({
   components: {

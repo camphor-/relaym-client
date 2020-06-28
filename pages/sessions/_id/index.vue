@@ -26,13 +26,12 @@
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { mapActions, mapState, mapGetters } from 'vuex'
 import SlideMenu from '@/components/organisms/SlideMenu.vue'
-import User from '@/models/User'
 import SessionToolbar from '@/components/molecules/SessionToolbar.vue'
 import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 import DeviceSelectDialog from '@/components/organisms/DeviceSelectDialog.vue'
 import BottomController from '@/components/organisms/BottomController.vue'
-import Device from '@/models/Device'
 import Snackbar from '@/components/molecules/Snackbar.vue'
+import { User, Device } from '@/api/v3/types'
 
 @Component({
   components: {
