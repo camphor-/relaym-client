@@ -19,7 +19,6 @@
       </v-flex>
     </v-layout>
     <search-result-list :items="result" @click-item="selectTrack" />
-    <snackbar v-model="showSnackbar" :text="snackbarText"></snackbar>
   </v-container>
 </template>
 
@@ -27,8 +26,9 @@
 import { Component, Vue, Watch } from 'vue-property-decorator'
 import { mapActions, mapState } from 'vuex'
 import SearchResultList from '@/components/molecules/SearchResultList.vue'
-import Snackbar from '@/components/molecules/Snackbar.vue'
+import Snackbar from '@/components/organisms/Snackbar.vue'
 import { Track } from '@/api/v3/types'
+import { MessageType, SnackbarPayload } from '@/store/snackbar'
 
 const SEARCH_INTERVAL = 1000
 
@@ -52,8 +52,8 @@ export default class Search extends Vue {
   private enqueueTrack!: (payload: string) => void
   private q: string = ''
   private lastSearchTime = Date.now()
-  private snackbarText = ''
-  private showSnackbar = false
+  private showSnackbar!: (payload: SnackbarPayload) => void
+
   private searchTimeoutId: number | null = null
 
   @Watch('$route.params.id', { immediate: true })
@@ -86,8 +86,10 @@ export default class Search extends Vue {
 
   selectTrack(track: Track) {
     this.enqueueTrack(track.uri)
-    this.snackbarText = `${track.name} を追加しました`
-    this.showSnackbar = true
+    this.showSnackbar({
+      message: `${track.name} を追加しました`,
+      messageType: MessageType.info
+    })
   }
 
   backToTrackList() {
