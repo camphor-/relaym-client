@@ -17,8 +17,6 @@
         v-model="isDeviceSelectDialogOpen"
         @select-device="onSelectDevice"
       />
-
-      <ban-free-plan-dialog v-model="isBanDialogOpen" />
     </div>
     <snackbar v-model="showSnackbar" :text="snackbarText" />
   </div>
@@ -34,7 +32,6 @@ import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 import DeviceSelectDialog from '@/components/organisms/DeviceSelectDialog.vue'
 import BottomController from '@/components/organisms/BottomController.vue'
 import Device from '@/models/Device'
-import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
 import Snackbar from '@/components/molecules/Snackbar.vue'
 
 @Component({
@@ -44,7 +41,6 @@ import Snackbar from '@/components/molecules/Snackbar.vue'
     BottomController,
     SessionToolbar,
     SlideMenu,
-    BanFreePlanDialog,
     Snackbar
   },
   computed: {
@@ -62,7 +58,6 @@ export default class extends Vue {
 
   private isDeviceSelectDialogOpen: boolean = false
   private pageRoot: any
-  private isBanDialogOpen: boolean = false
   private isShowSlideMenu: boolean = false
   private showSnackbar = false
   private snackbarText = ''
@@ -75,10 +70,6 @@ export default class extends Vue {
   mounted() {
     this.pageRoot = document.getElementsByClassName('page-root')[0]
     this.pageRoot.style.transition = '0.2s cubic-bezier(0.4, 0, 0.2, 1)'
-
-    if (this.me && !this.me.is_premium) {
-      this.isBanDialogOpen = true
-    }
   }
 
   async onSelectDevice(device: Device) {
