@@ -9,7 +9,7 @@
       <v-btn flat icon @click="handleClickWebShare">
         <v-icon>fas fa-share-alt</v-icon>
       </v-btn>
-      <v-btn depressed>コピー</v-btn>
+      <v-btn depressed @click="handleClickCopy">コピー</v-btn>
     </v-layout>
     <v-layout align-start class="attention accent--text">
       <v-icon color="accent">warning</v-icon>
@@ -21,6 +21,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { mapActions } from 'vuex'
+import * as copy from 'copy-to-clipboard'
 import QrCode from '@/components/atoms/QrCode.vue'
 import { MessageType, SnackbarPayload } from '@/store/snackbar'
 
@@ -61,6 +62,14 @@ export default class extends Vue {
         messageType: MessageType.error
       })
     }
+  }
+
+  handleClickCopy() {
+    copy(this.inviteUrl)
+    this.showSnackbar({
+      message: 'コピーしました',
+      messageType: MessageType.info
+    })
   }
 }
 </script>
