@@ -1,7 +1,12 @@
 import { MutationTree, ActionTree } from 'vuex'
 import { Session, SocketMessage, Device } from '@/api/v3/types'
-import { getMyDevices } from '@/api/v3/user'
-import { controlPlayback, getSession, setDevice } from '@/api/v3/session'
+import {
+  getDevices,
+  controlPlayback,
+  getSession,
+  setDevice
+} from '@/api/v3/session'
+
 import { createWebSocket } from '@/api/v3/websocket'
 
 interface State {
@@ -80,8 +85,8 @@ export const actions: ActionTree<State, {}> = {
     commit('setSession', session)
     await dispatch('setProgressTimer')
   },
-  async fetchAvailableDevices({ commit }) {
-    const res = await getMyDevices()
+  async fetchAvailableDevices({ commit }, sessionID: string) {
+    const res = await getDevices(sessionID)
     commit('setAvailableDevices', res)
   },
   async setDevice({ state, dispatch }, deviceId: string) {
