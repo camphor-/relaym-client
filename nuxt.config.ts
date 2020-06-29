@@ -110,7 +110,6 @@ const nuxtConfig: NuxtConfiguration = {
    ** Nuxt.js modules
    */
   modules: [
-    // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/style-resources',
     '@nuxtjs/vuetify',
     '@nuxtjs/pwa'
