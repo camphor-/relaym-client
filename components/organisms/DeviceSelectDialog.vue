@@ -39,7 +39,7 @@ import { Device, Session } from '@/api/v3/types'
 })
 export default class extends Vue {
   @Prop({ default: false }) readonly value!: boolean
-  private fetchAvailableDevices!: (sessionId: string) => void
+  private fetchAvailableDevices!: () => void
   private session!: Session | null
 
   @Emit()
@@ -49,8 +49,8 @@ export default class extends Vue {
 
   @Watch('value', { immediate: true })
   onValueChange(val: boolean) {
-    if (!val || !this.session) return
-    this.fetchAvailableDevices(this.session.id)
+    if (!val) return
+    this.fetchAvailableDevices()
   }
 
   closeDialog() {

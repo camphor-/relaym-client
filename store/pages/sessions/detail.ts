@@ -85,8 +85,9 @@ export const actions: ActionTree<State, {}> = {
     commit('setSession', session)
     await dispatch('setProgressTimer')
   },
-  async fetchAvailableDevices({ commit }, sessionID: string) {
-    const res = await getDevices(sessionID)
+  async fetchAvailableDevices({ state, commit }) {
+    if (!state.sessionId) return
+    const res = await getDevices(state.sessionId)
     commit('setAvailableDevices', res)
   },
   async setDevice({ state, dispatch }, deviceId: string) {
