@@ -23,14 +23,15 @@
 
 <script lang="ts">
 import { Component, Emit, Prop, Vue, Watch } from 'vue-property-decorator'
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 import DeviceList from '@/components/molecules/DeviceList.vue'
-import { Device } from '@/api/v3/types'
+import { Device, Session } from '@/api/v3/types'
 
 @Component({
   components: { DeviceList },
   computed: {
-    ...mapGetters('pages/sessions/detail', ['playableDevices'])
+    ...mapGetters('pages/sessions/detail', ['playableDevices']),
+    ...mapState('pages/sessions/detail', ['session'])
   },
   methods: {
     ...mapActions('pages/sessions/detail', ['fetchAvailableDevices'])
@@ -39,6 +40,7 @@ import { Device } from '@/api/v3/types'
 export default class extends Vue {
   @Prop({ default: false }) readonly value!: boolean
   private fetchAvailableDevices!: () => void
+  private session!: Session | null
 
   @Emit()
   input(isOpen: boolean) {

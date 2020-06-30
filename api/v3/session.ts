@@ -1,4 +1,4 @@
-import { Session, Track } from '@/api/v3/types'
+import { Device, Session, Track } from '@/api/v3/types'
 import { instance } from '@/api/v3/index'
 
 export const createSession = async (req: CreateSessionRequest) => {
@@ -60,4 +60,15 @@ interface SearchRequest {
 
 interface SearchForTracksResponse {
   tracks: Track[]
+}
+
+export const getDevices = async (sessionId: string) => {
+  const res = await instance.get<GetDevicesResponse>(
+    `/sessions/${sessionId}/devices`
+  )
+  return res.data.devices
+}
+
+export interface GetDevicesResponse {
+  devices: Device[]
 }
