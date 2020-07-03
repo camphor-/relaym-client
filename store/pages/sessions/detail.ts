@@ -88,7 +88,10 @@ export const actions: ActionTree<State, {}> = {
   async fetchAvailableDevices({ state, commit }) {
     if (!state.sessionId) return
     const res = await getDevices(state.sessionId)
-    commit('setAvailableDevices', res)
+    commit(
+      'setAvailableDevices',
+      res.filter((device) => !device.is_restricted)
+    )
   },
   async setDevice({ state, dispatch }, deviceId: string) {
     if (!state.session) return
