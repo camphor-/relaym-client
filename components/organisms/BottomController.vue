@@ -29,11 +29,11 @@ import { MessageType, SnackbarPayload } from '@/store/snackbar'
 
 @Component({
   methods: {
-    ...mapActions('pages/sessions/detail', ['controlPlayback'])
+    ...mapActions('pages/sessions/detail', ['controlPlayback']),
+    ...mapActions('snackbar', ['showSnackbar'])
   },
   computed: {
-    ...mapState('pages/sessions/detail', ['session']),
-    ...mapActions('snackbar', ['showSnackbar'])
+    ...mapState('pages/sessions/detail', ['session'])
   }
 })
 export default class extends Vue {
@@ -74,7 +74,7 @@ export default class extends Vue {
 
     if (this.session.playback.state.type === 'PLAY') {
       this.controlPlayback({ state: 'PAUSE' })
-    } else {
+    } else if (this.playable) {
       this.controlPlayback({ state: 'PLAY' })
     }
   }
