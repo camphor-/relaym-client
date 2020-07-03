@@ -1,7 +1,6 @@
 import { MutationTree, ActionTree } from 'vuex'
 import { enqueue, search } from '@/api/v3/session'
 import { Track } from '@/api/v3/types'
-import { MessageType } from '@/store/snackbar'
 
 interface State {
   sessionId: string | null
@@ -31,14 +30,7 @@ export const actions: ActionTree<State, {}> = {
       commit('setResult', await search(state.sessionId, { q }))
     } catch (e) {
       console.log(e)
-      dispatch(
-        'snackbar/showSnackbar',
-        {
-          message: 'エラーが 発生しました。時間をおいて再度お試しください。',
-          messageType: MessageType.error
-        },
-        { root: true }
-      )
+      dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
   },
   async enqueueTrack({ state, dispatch }, uri: string) {
@@ -47,14 +39,7 @@ export const actions: ActionTree<State, {}> = {
       await enqueue(state.sessionId, { uri })
     } catch (e) {
       console.log(e)
-      dispatch(
-        'snackbar/showSnackbar',
-        {
-          message: 'エラーが 発生しました。時間をおいて再度お試しください。',
-          messageType: MessageType.error
-        },
-        { root: true }
-      )
+      dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
   }
 }

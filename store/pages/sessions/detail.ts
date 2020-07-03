@@ -8,7 +8,6 @@ import {
 } from '@/api/v3/session'
 
 import { createWebSocket } from '@/api/v3/websocket'
-import { MessageType } from '@/store/snackbar'
 
 interface State {
   sessionId: string | null
@@ -88,14 +87,7 @@ export const actions: ActionTree<State, {}> = {
       await dispatch('setProgressTimer')
     } catch (e) {
       console.log(e)
-      dispatch(
-        'snackbar/showSnackbar',
-        {
-          message: 'エラーが 発生しました。時間をおいて再度お試しください。',
-          messageType: MessageType.error
-        },
-        { root: true }
-      )
+      dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
   },
   async fetchAvailableDevices({ state, dispatch, commit }) {
@@ -105,14 +97,7 @@ export const actions: ActionTree<State, {}> = {
       commit('setAvailableDevices', res)
     } catch (e) {
       console.log(e)
-      dispatch(
-        'snackbar/showSnackbar',
-        {
-          message: 'エラーが 発生しました。時間をおいて再度お試しください。',
-          messageType: MessageType.error
-        },
-        { root: true }
-      )
+      dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
   },
   async setDevice({ state, dispatch }, deviceId: string) {
@@ -122,14 +107,7 @@ export const actions: ActionTree<State, {}> = {
       dispatch('fetchSession')
     } catch (e) {
       console.log(e)
-      dispatch(
-        'snackbar/showSnackbar',
-        {
-          message: 'エラーが 発生しました。時間をおいて再度お試しください。',
-          messageType: MessageType.error
-        },
-        { root: true }
-      )
+      dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
   },
   connectWebSocket({ state, commit, dispatch }) {
@@ -144,14 +122,7 @@ export const actions: ActionTree<State, {}> = {
       commit('setWebSocket', socket)
     } catch (e) {
       console.log(e)
-      dispatch(
-        'snackbar/showSnackbar',
-        {
-          message: 'エラーが 発生しました。時間をおいて再度お試しください。',
-          messageType: MessageType.error
-        },
-        { root: true }
-      )
+      dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
   },
   disconnectWebSocket({ state }) {
@@ -175,14 +146,7 @@ export const actions: ActionTree<State, {}> = {
       await controlPlayback(state.sessionId, req)
     } catch (e) {
       console.log(e)
-      await dispatch(
-        'snackbar/showSnackbar',
-        {
-          message: 'エラーが 発生しました。時間をおいて再度お試しください。',
-          messageType: MessageType.error
-        },
-        { root: true }
-      )
+      await dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
   },
   setProgressTimer: async ({ state, commit, dispatch }) => {

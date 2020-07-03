@@ -1,6 +1,5 @@
 import { getMyUserInfo } from '@/api/v3/user'
 import { User } from '@/api/v3/types'
-import { MessageType } from '@/store/snackbar'
 
 interface State {
   me: User | null
@@ -28,14 +27,7 @@ export const actions = {
       commit('setMyUserInfo', res)
     } catch (e) {
       console.error(e)
-      dispatch(
-        'snackbar/showSnackbar',
-        {
-          message: 'エラーが 発生しました。時間をおいて再度お試しください。',
-          messageType: MessageType.error
-        },
-        { root: true }
-      )
+      dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
       commit('setMyUserInfo', null)
     }
   }

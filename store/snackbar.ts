@@ -50,6 +50,12 @@ export const actions = {
     }
     commit('open')
   },
+  showServerErrorSnackbar({ dispatch }) {
+    dispatch('showSnackbar', {
+      message: 'エラーが 発生しました。時間をおいて再度お試しください。',
+      messageType: MessageType.error
+    })
+  },
   closeSnackbar({ commit }) {
     commit('close')
   },

@@ -39,7 +39,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { mapState, mapGetters } from 'vuex'
+import { mapState, mapGetters, mapActions } from 'vuex'
 import ToppageLogo from '@/components/molecules/ToppageLogo.vue'
 import NewSessionDialog from '@/components/organisms/NewSessionDialog.vue'
 import LoginButton from '@/components/organisms/LoginButton.vue'
@@ -58,12 +58,17 @@ import { User } from '@/api/v3/types'
   computed: {
     ...mapState('user', ['me']),
     ...mapGetters('user', ['isLoggedIn'])
+  },
+  methods: {
+    ...mapActions('snackbar', ['showServerErrorSnackbar'])
   }
 })
 export default class Index extends Vue {
   private readonly me!: User | null
 
   private isLoggedIn!: () => boolean
+
+  private showServerErrorSnackbar!: () => void
 
   private isBanDialogOpen: boolean = false
   private isNewSessionDialogOpen: boolean = false
@@ -77,10 +82,15 @@ export default class Index extends Vue {
   }
 
   async createSession(payload: { name: string }) {
-    const newSession = await createSession({
-      name: payload.name
-    })
-    this.$router.push({ path: `/sessions/${newSession.id}` })
+    try {
+      const newSession = await createSession({
+        name: payload.name
+      })
+      this.$router.push({ path: `/sessions/${newSession.id}` })
+    } catch (e) {
+      console.log(e)
+      this.showServerErrorSnackbar()
+    }
   }
 }
 </script>
