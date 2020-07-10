@@ -25,14 +25,14 @@ interface SetDeviceRequest {
   deviceId: string
 }
 
-export const controlPlayback = async (
+export const controlState = async (
   sessionId: string,
-  req: ControlPlaybackRequest
+  req: ControlStateRequest
 ) => {
-  await instance.put(`/sessions/${sessionId}/playback`, req)
+  await instance.put(`/sessions/${sessionId}/state`, req)
 }
 
-interface ControlPlaybackRequest {
+interface ControlStateRequest {
   state: 'PLAY' | 'PAUSE'
 }
 
