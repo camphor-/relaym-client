@@ -1,10 +1,5 @@
 <template>
-  <v-list-tile
-    :href="track.external_url"
-    target="_blank"
-    rel="noopener noreferrer"
-    class="list-item"
-  >
+  <v-list-tile class="list-item">
     <v-list-tile-avatar tile>
       <img :src="track.album.images[1].url" />
     </v-list-tile-avatar>
