@@ -56,6 +56,6 @@ export default class extends Vue {
 .artwork {
   height: 46px;
   min-width: 46px;
-  margin: 0 8px;
+  margin-right: 8px;
 }
 </style>
