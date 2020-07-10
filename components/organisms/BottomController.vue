@@ -29,7 +29,7 @@ import { MessageType, SnackbarPayload } from '@/store/snackbar'
 
 @Component({
   methods: {
-    ...mapActions('pages/sessions/detail', ['controlPlayback']),
+    ...mapActions('pages/sessions/detail', ['controlState']),
     ...mapActions('snackbar', ['showSnackbar'])
   },
   computed: {
@@ -38,7 +38,7 @@ import { MessageType, SnackbarPayload } from '@/store/snackbar'
 })
 export default class extends Vue {
   private readonly session!: Session | null
-  private controlPlayback!: (req: { state: 'PLAY' | 'PAUSE' }) => void
+  private controlState!: (req: { state: 'PLAY' | 'PAUSE' }) => void
   private showController = true
   private showSnackbar!: (payload: SnackbarPayload) => void
 
@@ -73,9 +73,9 @@ export default class extends Vue {
     if (!this.session) return
 
     if (this.session.playback.state.type === 'PLAY') {
-      this.controlPlayback({ state: 'PAUSE' })
+      this.controlState({ state: 'PAUSE' })
     } else if (this.playable) {
-      this.controlPlayback({ state: 'PLAY' })
+      this.controlState({ state: 'PLAY' })
     }
   }
 }

@@ -2,7 +2,7 @@ import { MutationTree, ActionTree } from 'vuex'
 import { Session, SocketMessage, Device } from '@/api/v3/types'
 import {
   getDevices,
-  controlPlayback,
+  controlState,
   getSession,
   setDevice
 } from '@/api/v3/session'
@@ -137,13 +137,13 @@ export const actions: ActionTree<State, {}> = {
         commit('setIsInterruptDetectedDialogOpen', true)
     }
   },
-  controlPlayback: async (
+  controlState: async (
     { state, dispatch },
     req: { state: 'PLAY' | 'PAUSE' }
   ) => {
     if (!state.sessionId) return
     try {
-      await controlPlayback(state.sessionId, req)
+      await controlState(state.sessionId, req)
     } catch (e) {
       console.error(e)
       await dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
