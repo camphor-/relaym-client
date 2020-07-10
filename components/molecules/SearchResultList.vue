@@ -2,22 +2,15 @@
   <v-list v-if="items" two-line class="result-list">
     <template v-for="(item, index) in items">
       <v-list-tile :key="index">
-        <v-btn
-          flat
-          :href="item.external_url"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <v-list-tile-avatar tile>
-            <img
-              v-if="item.album.images[2]"
-              :src="item.album.images[2].url"
-              :width="item.album.images[2].width"
-              :height="item.album.images[2].height"
-            />
-            <v-icon v-else>album</v-icon>
-          </v-list-tile-avatar>
-        </v-btn>
+        <v-list-tile-avatar tile class="artwork">
+          <img
+            v-if="item.album.images[2]"
+            :src="item.album.images[2].url"
+            :width="item.album.images[2].width"
+            :height="item.album.images[2].height"
+          />
+          <v-icon v-else>album</v-icon>
+        </v-list-tile-avatar>
         <v-list-tile-content>
           <v-list-tile-title>{{ item.name }}</v-list-tile-title>
           <v-list-tile-sub-title>
@@ -60,8 +53,9 @@ export default class extends Vue {
 .v-list__tile__avatar {
   min-width: 40px;
 }
-.v-btn {
+.artwork {
   height: 46px;
   min-width: 46px;
+  margin: 0 8px;
 }
 </style>
