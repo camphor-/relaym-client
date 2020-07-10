@@ -29,7 +29,7 @@ export const actions: ActionTree<State, {}> = {
     try {
       commit('setResult', await search(state.sessionId, { q }))
     } catch (e) {
-      console.log(e)
+      console.error(e)
       dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
   },
@@ -38,7 +38,7 @@ export const actions: ActionTree<State, {}> = {
     try {
       await enqueue(state.sessionId, { uri })
     } catch (e) {
-      console.log(e)
+      console.error(e)
       dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
   }

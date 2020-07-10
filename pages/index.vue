@@ -88,7 +88,7 @@ export default class Index extends Vue {
       })
       this.$router.push({ path: `/sessions/${newSession.id}` })
     } catch (e) {
-      console.log(e)
+      console.error(e)
       this.showServerErrorSnackbar()
     }
   }

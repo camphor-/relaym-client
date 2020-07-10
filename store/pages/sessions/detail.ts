@@ -86,7 +86,7 @@ export const actions: ActionTree<State, {}> = {
       commit('setSession', session)
       await dispatch('setProgressTimer')
     } catch (e) {
-      console.log(e)
+      console.error(e)
       dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
   },
@@ -96,7 +96,7 @@ export const actions: ActionTree<State, {}> = {
       const res = await getDevices(state.sessionId)
       commit('setAvailableDevices', res)
     } catch (e) {
-      console.log(e)
+      console.error(e)
       dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
   },
@@ -106,7 +106,7 @@ export const actions: ActionTree<State, {}> = {
       await setDevice(state.session.id, { deviceId })
       dispatch('fetchSession')
     } catch (e) {
-      console.log(e)
+      console.error(e)
       dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
   },
@@ -121,7 +121,7 @@ export const actions: ActionTree<State, {}> = {
       socket.onclose = () => commit('setWebSocket', null)
       commit('setWebSocket', socket)
     } catch (e) {
-      console.log(e)
+      console.error(e)
       dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
   },
@@ -145,7 +145,7 @@ export const actions: ActionTree<State, {}> = {
     try {
       await controlPlayback(state.sessionId, req)
     } catch (e) {
-      console.log(e)
+      console.error(e)
       await dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
   },
