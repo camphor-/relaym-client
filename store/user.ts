@@ -21,12 +21,13 @@ export const mutations = {
 }
 
 export const actions = {
-  async fetchMyUserInfo({ commit }) {
+  async fetchMyUserInfo({ dispatch, commit }) {
     try {
       const res = await getMyUserInfo()
       commit('setMyUserInfo', res)
     } catch (e) {
       console.error(e)
+      dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
       commit('setMyUserInfo', null)
     }
   }

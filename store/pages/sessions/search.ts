@@ -24,12 +24,22 @@ export const actions: ActionTree<State, {}> = {
   setSessionId({ commit }, sessionId: string) {
     commit('setSessionId', sessionId)
   },
-  async fetchSearchResult({ state, commit }, q) {
+  async fetchSearchResult({ state, dispatch, commit }, q) {
     if (!state.sessionId) return
-    commit('setResult', await search(state.sessionId, { q }))
+    try {
+      commit('setResult', await search(state.sessionId, { q }))
+    } catch (e) {
+      console.error(e)
+      dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
+    }
   },
-  async enqueueTrack({ state }, uri: string) {
+  async enqueueTrack({ state, dispatch }, uri: string) {
     if (!state.sessionId) return
-    await enqueue(state.sessionId, { uri })
+    try {
+      await enqueue(state.sessionId, { uri })
+    } catch (e) {
+      console.error(e)
+      dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
+    }
   }
 }

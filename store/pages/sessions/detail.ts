@@ -81,29 +81,49 @@ export const actions: ActionTree<State, {}> = {
   },
   async fetchSession({ state, commit, dispatch }) {
     if (!state.sessionId) return
-    const session = await getSession(state.sessionId)
-    commit('setSession', session)
-    await dispatch('setProgressTimer')
+    try {
+      const session = await getSession(state.sessionId)
+      commit('setSession', session)
+      await dispatch('setProgressTimer')
+    } catch (e) {
+      console.error(e)
+      dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
+    }
   },
-  async fetchAvailableDevices({ state, commit }) {
+  async fetchAvailableDevices({ state, dispatch, commit }) {
     if (!state.sessionId) return
-    const res = await getDevices(state.sessionId)
-    commit('setAvailableDevices', res)
+    try {
+      const res = await getDevices(state.sessionId)
+      commit('setAvailableDevices', res)
+    } catch (e) {
+      console.error(e)
+      dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
+    }
   },
   async setDevice({ state, dispatch }, deviceId: string) {
     if (!state.session) return
-    await setDevice(state.session.id, { deviceId })
-    dispatch('fetchSession')
+    try {
+      await setDevice(state.session.id, { deviceId })
+      dispatch('fetchSession')
+    } catch (e) {
+      console.error(e)
+      dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
+    }
   },
   connectWebSocket({ state, commit, dispatch }) {
     if (!state.sessionId) return
     if (state.webSocket) dispatch('disconnectWebSocket')
 
-    const socket = createWebSocket(state.sessionId)
-    socket.onmessage = (ev) =>
-      dispatch('handleWebSocketMessage', JSON.parse(ev.data))
-    socket.onclose = () => commit('setWebSocket', null)
-    commit('setWebSocket', socket)
+    try {
+      const socket = createWebSocket(state.sessionId)
+      socket.onmessage = (ev) =>
+        dispatch('handleWebSocketMessage', JSON.parse(ev.data))
+      socket.onclose = () => commit('setWebSocket', null)
+      commit('setWebSocket', socket)
+    } catch (e) {
+      console.error(e)
+      dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
+    }
   },
   disconnectWebSocket({ state }) {
     if (!state.webSocket) return
@@ -117,9 +137,17 @@ export const actions: ActionTree<State, {}> = {
         commit('setIsInterruptDetectedDialogOpen', true)
     }
   },
-  controlPlayback: ({ state }, req: { state: 'PLAY' | 'PAUSE' }) => {
+  controlPlayback: async (
+    { state, dispatch },
+    req: { state: 'PLAY' | 'PAUSE' }
+  ) => {
     if (!state.sessionId) return
-    controlPlayback(state.sessionId, req)
+    try {
+      await controlPlayback(state.sessionId, req)
+    } catch (e) {
+      console.error(e)
+      await dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
+    }
   },
   setProgressTimer: async ({ state, commit, dispatch }) => {
     if (state.progressTimer) await dispatch('clearProgressTimer')
