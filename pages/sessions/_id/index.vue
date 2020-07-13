@@ -54,6 +54,7 @@ import { User, Device } from '@/api/v3/types'
   methods: {
     ...mapActions('pages/sessions/detail', [
       'setSessionId',
+      'fetchSession',
       'setDevice',
       'connectWebSocket',
       'disconnectWebSocket',
@@ -65,6 +66,7 @@ import { User, Device } from '@/api/v3/types'
 export default class extends Vue {
   private readonly me!: User | null
   private setSessionId!: (id: string) => void
+  private fetchSession!: () => Promise<void>
   private setDevice!: (deviceId: string) => void
   private connectWebSocket!: () => void
   private disconnectWebSocket!: () => void
@@ -85,11 +87,13 @@ export default class extends Vue {
   mounted() {
     this.pageRoot = document.getElementsByClassName('page-root')[0]
     this.pageRoot.style.transition = '0.2s cubic-bezier(0.4, 0, 0.2, 1)'
+    document.addEventListener('visibilitychange', this.onVisibilityChange)
   }
 
   destroyed() {
     this.disconnectWebSocket()
     this.clearProgressTimer()
+    document.removeEventListener('visibilitychange', this.onVisibilityChange)
   }
 
   async onSelectDevice(device: Device) {
@@ -115,6 +119,23 @@ export default class extends Vue {
     } else {
       this.pageRoot.style.transform = ''
     }
+  }
+
+  onVisibilityChange() {
+    console.log(`${new Date()} ${document.hidden}`)
+    if (document.hidden) {
+      this.onChangeToHidden()
+    } else {
+      this.onChangeToPassive()
+    }
+  }
+
+  onChangeToHidden() {
+    this.clearProgressTimer()
+  }
+
+  onChangeToPassive() {
+    this.fetchSession()
   }
 }
 </script>

@@ -15,7 +15,7 @@ interface State {
   session: Session | null
   devices: Device[]
   webSocket: WebSocket | null
-  isClosingWebSocket: boolean
+  webSocketRetryInterval: number
   progressTimer: number | null
   isInterruptDetectedDialogOpen: boolean
 }
@@ -25,7 +25,7 @@ export const state = (): State => ({
   session: null,
   devices: [],
   webSocket: null,
-  isClosingWebSocket: false,
+  webSocketRetryInterval: 100,
   progressTimer: null,
   isInterruptDetectedDialogOpen: false
 })
@@ -75,8 +75,8 @@ export const mutations: MutationTree<State> = {
   setIsInterruptDetectedDialogOpen(state: State, isOpen: boolean) {
     state.isInterruptDetectedDialogOpen = isOpen
   },
-  setIsClosingWebSocket(state: State, isClosingWebSocket: boolean) {
-    state.isClosingWebSocket = isClosingWebSocket
+  setWebSocketRetryInterval(state: State, webSocketRetryInterval: number) {
+    state.webSocketRetryInterval = webSocketRetryInterval
   }
 }
 
@@ -116,25 +116,24 @@ export const actions: ActionTree<State, {}> = {
       dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
   },
-  connectWebSocket({ state, commit, dispatch }) {
+  async connectWebSocket({ state, commit, dispatch }) {
     if (!state.sessionId) return
-    if (state.webSocket) dispatch('disconnectWebSocket')
+    if (state.webSocket) await dispatch('disconnectWebSocket')
 
-    commit('setIsClosingWebSocket', false)
     try {
       const socket = createWebSocket(state.sessionId)
+      socket.onopen = () => commit('setWebSocketRetryInterval', 100)
       socket.onmessage = (ev) =>
         dispatch('handleWebSocketMessage', JSON.parse(ev.data))
       socket.onclose = () => dispatch('handleWebSocketClose')
       commit('setWebSocket', socket)
     } catch (e) {
       console.error(e)
-      dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
+      await dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
   },
-  disconnectWebSocket({ state, commit }) {
+  disconnectWebSocket({ state }) {
     if (!state.webSocket) return
-    commit('setIsClosingWebSocket', true)
     state.webSocket.close()
   },
   handleWebSocketMessage: ({ dispatch, commit }, message: SocketMessage) => {
@@ -145,20 +144,24 @@ export const actions: ActionTree<State, {}> = {
         commit('setIsInterruptDetectedDialogOpen', true)
     }
   },
-  handleWebSocketClose: ({ state, dispatch, commit }) => {
+  handleWebSocketClose: async ({ state, dispatch, commit }) => {
     commit('setWebSocket', null)
-    if (state.isClosingWebSocket) return
+    commit('setWebSocketRetryInterval', state.webSocketRetryInterval * 2)
 
-    // 意図しない切断の場合の処理
     console.error('WebSocket Disconnected!')
-    dispatch(
+    await dispatch(
       'snackbar/showSnackbar',
       {
-        message: '接続が切れました。ページをリロードしてください。',
-        messageType: MessageType.error
+        message: '再接続しています…',
+        messageType: MessageType.info
       },
       { root: true }
     )
+    await new Promise((resolve) =>
+      setTimeout(resolve, state.webSocketRetryInterval)
+    )
+    await dispatch('connectWebSocket')
+    await dispatch('snackbar/closeSnackbar', null, { root: true })
   },
   controlState: async (
     { state, dispatch },
@@ -184,7 +187,6 @@ export const actions: ActionTree<State, {}> = {
     clearInterval(state.progressTimer)
     commit('setProgressTimer', null)
   },
-
   setIsInterruptDetectedDialogOpen: ({ commit }, isOpen) => {
     commit('setIsInterruptDetectedDialogOpen', isOpen)
   }
