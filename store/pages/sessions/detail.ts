@@ -8,12 +8,14 @@ import {
 } from '@/api/v3/session'
 
 import { createWebSocket } from '@/api/v3/websocket'
+import { MessageType } from '@/store/snackbar'
 
 interface State {
   sessionId: string | null
   session: Session | null
   devices: Device[]
   webSocket: WebSocket | null
+  isClosingWebSocket: boolean
   progressTimer: number | null
   isInterruptDetectedDialogOpen: boolean
 }
@@ -23,6 +25,7 @@ export const state = (): State => ({
   session: null,
   devices: [],
   webSocket: null,
+  isClosingWebSocket: false,
   progressTimer: null,
   isInterruptDetectedDialogOpen: false
 })
@@ -71,6 +74,9 @@ export const mutations: MutationTree<State> = {
   },
   setIsInterruptDetectedDialogOpen(state: State, isOpen: boolean) {
     state.isInterruptDetectedDialogOpen = isOpen
+  },
+  setIsClosingWebSocket(state: State, isClosingWebSocket: boolean) {
+    state.isClosingWebSocket = isClosingWebSocket
   }
 }
 
@@ -114,19 +120,21 @@ export const actions: ActionTree<State, {}> = {
     if (!state.sessionId) return
     if (state.webSocket) dispatch('disconnectWebSocket')
 
+    commit('setIsClosingWebSocket', false)
     try {
       const socket = createWebSocket(state.sessionId)
       socket.onmessage = (ev) =>
         dispatch('handleWebSocketMessage', JSON.parse(ev.data))
-      socket.onclose = () => commit('setWebSocket', null)
+      socket.onclose = () => dispatch('handleWebSocketClose')
       commit('setWebSocket', socket)
     } catch (e) {
       console.error(e)
       dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
   },
-  disconnectWebSocket({ state }) {
+  disconnectWebSocket({ state, commit }) {
     if (!state.webSocket) return
+    commit('setIsClosingWebSocket', true)
     state.webSocket.close()
   },
   handleWebSocketMessage: ({ dispatch, commit }, message: SocketMessage) => {
@@ -136,6 +144,21 @@ export const actions: ActionTree<State, {}> = {
       case 'INTERRUPT':
         commit('setIsInterruptDetectedDialogOpen', true)
     }
+  },
+  handleWebSocketClose: ({ state, dispatch, commit }) => {
+    commit('setWebSocket', null)
+    if (state.isClosingWebSocket) return
+
+    // 意図しない切断の場合の処理
+    console.error('WebSocket Disconnected!')
+    dispatch(
+      'snackbar/showSnackbar',
+      {
+        message: '接続が切れました。ページをリロードしてください。',
+        messageType: MessageType.error
+      },
+      { root: true }
+    )
   },
   controlState: async (
     { state, dispatch },
