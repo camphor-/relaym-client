@@ -10,6 +10,8 @@ import {
 import { createWebSocket } from '@/api/v3/websocket'
 import { MessageType } from '@/store/snackbar'
 
+const DEFAULT_WEBSOCKET_RETRY_INTERVAL = 500
+
 interface State {
   sessionId: string | null
   session: Session | null
@@ -25,7 +27,7 @@ export const state = (): State => ({
   session: null,
   devices: [],
   webSocket: null,
-  webSocketRetryInterval: 100,
+  webSocketRetryInterval: DEFAULT_WEBSOCKET_RETRY_INTERVAL,
   progressTimer: null,
   isInterruptDetectedDialogOpen: false
 })
@@ -122,7 +124,8 @@ export const actions: ActionTree<State, {}> = {
 
     try {
       const socket = createWebSocket(state.sessionId)
-      socket.onopen = () => commit('setWebSocketRetryInterval', 100)
+      socket.onopen = () =>
+        commit('setWebSocketRetryInterval', DEFAULT_WEBSOCKET_RETRY_INTERVAL)
       socket.onmessage = (ev) =>
         dispatch('handleWebSocketMessage', JSON.parse(ev.data))
       socket.onclose = () => dispatch('handleWebSocketClose')
@@ -130,11 +133,31 @@ export const actions: ActionTree<State, {}> = {
     } catch (e) {
       console.error(e)
       await dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
+      dispatch('reconnectWebSocket')
     }
   },
-  disconnectWebSocket({ state }) {
+  disconnectWebSocket({ state, commit }) {
     if (!state.webSocket) return
+    commit('setWebSocketRetryInterval', -1)
     state.webSocket.close()
+  },
+  async reconnectWebSocket({ state, commit, dispatch }) {
+    if (state.webSocketRetryInterval < 0) return
+
+    commit('setWebSocketRetryInterval', state.webSocketRetryInterval * 2)
+
+    await new Promise((resolve) =>
+      setTimeout(resolve, state.webSocketRetryInterval)
+    )
+    await dispatch(
+      'snackbar/showSnackbar',
+      {
+        message: '再接続しています…',
+        messageType: MessageType.info
+      },
+      { root: true }
+    )
+    await dispatch('connectWebSocket')
   },
   handleWebSocketMessage: ({ dispatch, commit }, message: SocketMessage) => {
     console.log(message)
@@ -144,24 +167,10 @@ export const actions: ActionTree<State, {}> = {
         commit('setIsInterruptDetectedDialogOpen', true)
     }
   },
-  handleWebSocketClose: async ({ state, dispatch, commit }) => {
-    commit('setWebSocket', null)
-    commit('setWebSocketRetryInterval', state.webSocketRetryInterval * 2)
-
+  handleWebSocketClose: ({ dispatch, commit }) => {
     console.error('WebSocket Disconnected!')
-    await dispatch(
-      'snackbar/showSnackbar',
-      {
-        message: '再接続しています…',
-        messageType: MessageType.info
-      },
-      { root: true }
-    )
-    await new Promise((resolve) =>
-      setTimeout(resolve, state.webSocketRetryInterval)
-    )
-    await dispatch('connectWebSocket')
-    await dispatch('snackbar/closeSnackbar', null, { root: true })
+    commit('setWebSocket', null)
+    dispatch('reconnectWebSocket')
   },
   controlState: async (
     { state, dispatch },
