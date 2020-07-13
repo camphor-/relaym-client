@@ -51,7 +51,7 @@ export default class extends Vue {
       : this.queue.tracks.slice(this.queue.head + 1)
   }
 
-  @Watch('playingTrack.uri', { immediate: true })
+  @Watch('queue.head', { immediate: true })
   async onHeadTrackChanged() {
     await new Promise((resolve) => setTimeout(resolve, 500))
     if (this.playingTrack) {
