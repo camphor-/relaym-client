@@ -53,6 +53,7 @@ import { Device } from '@/api/v3/types'
   methods: {
     ...mapActions('pages/sessions/detail', [
       'setSessionId',
+      'fetchSession',
       'setDevice',
       'connectWebSocket',
       'disconnectWebSocket',
@@ -63,6 +64,7 @@ import { Device } from '@/api/v3/types'
 })
 export default class extends Vue {
   private setSessionId!: (id: string) => void
+  private fetchSession!: () => Promise<void>
   private setDevice!: (deviceId: string) => void
   private connectWebSocket!: () => void
   private disconnectWebSocket!: () => void
@@ -120,11 +122,17 @@ export default class extends Vue {
   onVisibilityChange() {
     if (document.hidden) {
       this.onChangeToHidden()
+    } else {
+      this.onChangeToPassive()
     }
   }
 
   onChangeToHidden() {
     this.clearProgressTimer()
+  }
+
+  onChangeToPassive() {
+    this.fetchSession()
   }
 }
 </script>
