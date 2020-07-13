@@ -1,6 +1,7 @@
 import { MutationTree, ActionTree } from 'vuex'
 import { enqueue, search } from '@/api/v3/session'
 import { Track } from '@/api/v3/types'
+import { MessageType } from '@/store/snackbar'
 
 interface State {
   sessionId: string | null
@@ -29,6 +30,17 @@ export const actions: ActionTree<State, {}> = {
     try {
       commit('setResult', await search(state.sessionId, { q }))
     } catch (e) {
+      if (e.response?.status === 400) {
+        dispatch(
+          'snackbar/showSnackbar',
+          {
+            messageType: MessageType.info,
+            message: '検索キーワードが空です。'
+          },
+          { root: true }
+        )
+        return
+      }
       console.error(e)
       dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
@@ -38,6 +50,28 @@ export const actions: ActionTree<State, {}> = {
     try {
       await enqueue(state.sessionId, { uri })
     } catch (e) {
+      switch (e.response?.status) {
+        case 400:
+          await dispatch(
+            'snackbar/showSnackbar',
+            {
+              messageType: MessageType.info,
+              message: '選択した曲のIDが不正です。'
+            },
+            { root: true }
+          )
+          return
+        case 404:
+          await dispatch(
+            'snackbar/showSnackbar',
+            {
+              messageType: MessageType.info,
+              message: 'このセッションは存在しません。'
+            },
+            { root: true }
+          )
+          return
+      }
       console.error(e)
       dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }

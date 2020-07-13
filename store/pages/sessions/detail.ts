@@ -8,6 +8,7 @@ import {
 } from '@/api/v3/session'
 
 import { createWebSocket } from '@/api/v3/websocket'
+import { MessageType } from '@/store/snackbar'
 
 interface State {
   sessionId: string | null
@@ -86,6 +87,17 @@ export const actions: ActionTree<State, {}> = {
       commit('setSession', session)
       await dispatch('setProgressTimer')
     } catch (e) {
+      if (e.response?.status === 404) {
+        dispatch(
+          'snackbar/showSnackbar',
+          {
+            messageType: MessageType.info,
+            message: 'このセッションは存在しません。'
+          },
+          { root: true }
+        )
+        return
+      }
       console.error(e)
       dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
@@ -106,6 +118,29 @@ export const actions: ActionTree<State, {}> = {
       await setDevice(state.session.id, { deviceId })
       dispatch('fetchSession')
     } catch (e) {
+      switch (e.response?.status) {
+        case 400:
+          dispatch(
+            'snackbar/showSnackbar',
+            {
+              messageType: MessageType.info,
+              message: 'デバイスIDが選択されていません。'
+            },
+            { root: true }
+          )
+          return
+        case 404:
+          dispatch(
+            'snackbar/showSnackbar',
+            {
+              messageType: MessageType.info,
+              message: 'このセッションは存在しません。'
+            },
+            { root: true }
+          )
+          return
+      }
+
       console.error(e)
       dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
@@ -121,6 +156,17 @@ export const actions: ActionTree<State, {}> = {
       socket.onclose = () => commit('setWebSocket', null)
       commit('setWebSocket', socket)
     } catch (e) {
+      if (e.response?.status === 404) {
+        dispatch(
+          'snackbar/showSnackbar',
+          {
+            messageType: MessageType.info,
+            message: 'このセッションは存在しません。'
+          },
+          { root: true }
+        )
+        return
+      }
       console.error(e)
       dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
@@ -145,6 +191,41 @@ export const actions: ActionTree<State, {}> = {
     try {
       await controlState(state.sessionId, req)
     } catch (e) {
+      switch (e.response?.status) {
+        case 400:
+          if (e.response.data.message === 'requested state is not allowed') {
+            break
+          }
+          await dispatch(
+            'snackbar/showSnackbar',
+            {
+              messageType: MessageType.info,
+              message: '再生する曲がありません。曲を追加してください。'
+            },
+            { root: true }
+          )
+          return
+        case 403:
+          await dispatch(
+            'snackbar/showSnackbar',
+            {
+              messageType: MessageType.info,
+              message: 'Spotifyアプリをもう一度立ち上げてください。'
+            },
+            { root: true }
+          )
+          return
+        case 404:
+          await dispatch(
+            'snackbar/showSnackbar',
+            {
+              messageType: MessageType.info,
+              message: 'このセッションは存在しません。'
+            },
+            { root: true }
+          )
+          return
+      }
       console.error(e)
       await dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
