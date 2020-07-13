@@ -35,7 +35,7 @@ import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 import DeviceSelectDialog from '@/components/organisms/DeviceSelectDialog.vue'
 import BottomController from '@/components/organisms/BottomController.vue'
 import InterruptDetectedDialog from '@/components/organisms/InterruptDetectedDialog.vue'
-import { User, Device } from '@/api/v3/types'
+import { Device } from '@/api/v3/types'
 
 @Component({
   components: {
@@ -47,7 +47,6 @@ import { User, Device } from '@/api/v3/types'
     InterruptDetectedDialog
   },
   computed: {
-    ...mapState('user', ['me']),
     ...mapState('pages/sessions/detail', ['isInterruptDetectedDialogOpen']),
     ...mapGetters('pages/sessions/detail', ['sessionName'])
   },
@@ -63,7 +62,6 @@ import { User, Device } from '@/api/v3/types'
   }
 })
 export default class extends Vue {
-  private readonly me!: User | null
   private setSessionId!: (id: string) => void
   private setDevice!: (deviceId: string) => void
   private connectWebSocket!: () => void
