@@ -4,6 +4,9 @@
       <v-card-title>New Session</v-card-title>
       <v-card-text>
         <v-text-field v-model="sessionName" label="セッション名" />
+        <p>
+          <nuxt-link to="/terms">利用規約</nuxt-link>に同意する必要があります。
+        </p>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
