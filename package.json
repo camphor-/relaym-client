@@ -4,6 +4,9 @@
   "description": "Relaymを使えば、1つの端末でSpotifyの曲を再生しながら各々が自分の端末で好きな曲を追加できるようになります",
   "author": "CAMPHOR-",
   "private": true,
+  "engines": {
+    "node": "10.x"
+  },
   "scripts": {
     "dev": "NUXT_HOST=0.0.0.0 nuxt",
     "build": "nuxt build",
