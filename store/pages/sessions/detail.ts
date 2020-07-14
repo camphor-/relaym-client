@@ -10,11 +10,14 @@ import {
 import { createWebSocket } from '@/api/v3/websocket'
 import { MessageType } from '@/store/snackbar'
 
+const DEFAULT_WEBSOCKET_RETRY_INTERVAL = 500
+
 interface State {
   sessionId: string | null
   session: Session | null
   devices: Device[]
   webSocket: WebSocket | null
+  webSocketRetryInterval: number
   progressTimer: number | null
   isInterruptDetectedDialogOpen: boolean
 }
@@ -24,6 +27,7 @@ export const state = (): State => ({
   session: null,
   devices: [],
   webSocket: null,
+  webSocketRetryInterval: DEFAULT_WEBSOCKET_RETRY_INTERVAL,
   progressTimer: null,
   isInterruptDetectedDialogOpen: false
 })
@@ -72,6 +76,9 @@ export const mutations: MutationTree<State> = {
   },
   setIsInterruptDetectedDialogOpen(state: State, isOpen: boolean) {
     state.isInterruptDetectedDialogOpen = isOpen
+  },
+  setWebSocketRetryInterval(state: State, webSocketRetryInterval: number) {
+    state.webSocketRetryInterval = webSocketRetryInterval
   }
 }
 
@@ -137,15 +144,19 @@ export const actions: ActionTree<State, {}> = {
       dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
   },
-  connectWebSocket({ state, commit, dispatch }) {
+  async connectWebSocket({ state, commit, dispatch }) {
     if (!state.sessionId) return
-    if (state.webSocket) dispatch('disconnectWebSocket')
+    if (state.webSocket) await dispatch('disconnectWebSocket')
 
     try {
       const socket = createWebSocket(state.sessionId)
+      socket.onopen = () => {
+        commit('setWebSocketRetryInterval', DEFAULT_WEBSOCKET_RETRY_INTERVAL)
+        dispatch('fetchSession')
+      }
       socket.onmessage = (ev) =>
         dispatch('handleWebSocketMessage', JSON.parse(ev.data))
-      socket.onclose = () => commit('setWebSocket', null)
+      socket.onclose = () => dispatch('handleWebSocketClose')
       commit('setWebSocket', socket)
     } catch (e) {
       if (e.response?.status === 404) {
@@ -160,12 +171,32 @@ export const actions: ActionTree<State, {}> = {
         return
       }
       console.error(e)
-      dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
+      await dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
+      dispatch('reconnectWebSocket')
     }
   },
-  disconnectWebSocket({ state }) {
+  disconnectWebSocket({ state, commit }) {
     if (!state.webSocket) return
+    commit('setWebSocketRetryInterval', -1)
     state.webSocket.close()
+  },
+  async reconnectWebSocket({ state, commit, dispatch }) {
+    if (state.webSocketRetryInterval < 0) return
+
+    commit('setWebSocketRetryInterval', state.webSocketRetryInterval * 2)
+
+    await new Promise((resolve) =>
+      setTimeout(resolve, state.webSocketRetryInterval)
+    )
+    await dispatch(
+      'snackbar/showSnackbar',
+      {
+        message: '再接続しています…',
+        messageType: MessageType.info
+      },
+      { root: true }
+    )
+    await dispatch('connectWebSocket')
   },
   handleWebSocketMessage: ({ dispatch, commit }, message: SocketMessage) => {
     console.log(message)
@@ -174,6 +205,11 @@ export const actions: ActionTree<State, {}> = {
       case 'INTERRUPT':
         commit('setIsInterruptDetectedDialogOpen', true)
     }
+  },
+  handleWebSocketClose: ({ dispatch, commit }) => {
+    console.error('WebSocket Disconnected!')
+    commit('setWebSocket', null)
+    dispatch('reconnectWebSocket')
   },
   controlState: async (
     { state, dispatch },
@@ -234,7 +270,6 @@ export const actions: ActionTree<State, {}> = {
     clearInterval(state.progressTimer)
     commit('setProgressTimer', null)
   },
-
   setIsInterruptDetectedDialogOpen: ({ commit }, isOpen) => {
     commit('setIsInterruptDetectedDialogOpen', isOpen)
   }

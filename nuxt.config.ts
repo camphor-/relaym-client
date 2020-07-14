@@ -109,11 +109,7 @@ const nuxtConfig: NuxtConfiguration = {
   /*
    ** Nuxt.js modules
    */
-  modules: [
-    '@nuxtjs/style-resources',
-    '@nuxtjs/vuetify',
-    '@nuxtjs/pwa'
-  ],
+  modules: ['@nuxtjs/style-resources', '@nuxtjs/vuetify', '@nuxtjs/pwa'],
 
   /*
    ** Build configuration
@@ -135,6 +131,15 @@ const nuxtConfig: NuxtConfiguration = {
       }
     }
   },
+
+  buildModules: [
+    [
+      '@nuxtjs/google-analytics',
+      {
+        id: 'UA-172508001-1'
+      }
+    ]
+  ],
 
   styleResources: {
     scss: ['~/assets/scss/variables.scss', '~/assets/scss/mixins.scss']
