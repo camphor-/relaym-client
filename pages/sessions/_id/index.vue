@@ -85,7 +85,12 @@ export default class extends Vue {
   // Watchと同じ処理をしているが、404の場合にエラーページに飛ばすには、
   // ライフサイクル系の関数の中でエラーをthrowする必要があるので処理を分けている
   async created() {
-    await this.setSessionId(this.$route.params.id)
+    try {
+      await this.setSessionId(this.$route.params.id)
+    } catch (e) {
+      console.log('hoge')
+      throw e
+    }
     this.connectWebSocket()
   }
 
