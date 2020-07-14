@@ -63,7 +63,7 @@ import { Device } from '@/api/v3/types'
   }
 })
 export default class extends Vue {
-  private setSessionId!: (id: string) => void
+  private setSessionId!: (id: string) => Promise<void>
   private fetchSession!: () => Promise<void>
   private setDevice!: (deviceId: string) => void
   private connectWebSocket!: () => void
