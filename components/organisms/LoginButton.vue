@@ -25,7 +25,7 @@ export default class extends Vue {
 .login-button-container {
   text-align: center;
   > button {
-    margin-bottom: 30px;
+    margin-bottom: 16px;
   }
 }
 
