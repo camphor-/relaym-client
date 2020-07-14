@@ -30,7 +30,7 @@
       <ban-free-plan-dialog v-model="isBanDialogOpen" />
     </v-container>
     <img class="wave" src="../assets/images/wave.svg" alt="wave" />
-    <div class="sessions-list-container">
+    <div class="login-button-wrapper">
       <login-button v-if="!isLoggedIn" />
 
       <!--  TODO: セッション参加者は、URLをもらう説明を書く    -->
@@ -99,7 +99,7 @@ export default class Index extends Vue {
 <style lang="scss" scoped>
 .container {
   margin: 0 auto;
-  min-height: 70vh;
+  min-height: 65vh;
   text-align: center;
 }
 
@@ -121,7 +121,7 @@ button {
 }
 
 .new-session-btn {
-  margin-top: 4rem;
+  margin-top: 2rem;
   font-size: 18px;
 }
 
@@ -135,8 +135,8 @@ button {
   height: 10vh;
 }
 
-.sessions-list-container {
+.login-button-wrapper {
   background-color: $primary-color;
-  min-height: 20vh;
+  min-height: 25vh;
 }
 </style>
