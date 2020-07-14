@@ -1,7 +1,9 @@
 <template>
   <div class="login-button-container">
     <v-btn round color="white" @click="login">Login to Spotify</v-btn>
-    <div class="login-description">Spotifyにログインしてセッションを表示</div>
+    <p class="terms-agreement">
+      <nuxt-link to="/terms">利用規約</nuxt-link>に同意する必要があります。
+    </p>
   </div>
 </template>
 
@@ -27,8 +29,11 @@ export default class extends Vue {
   }
 }
 
-.login-description {
+.terms-agreement {
   color: white;
   font-size: 13px;
+  a {
+    color: white;
+  }
 }
 </style>

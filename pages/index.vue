@@ -32,6 +32,7 @@
     <img class="wave" src="../assets/images/wave.svg" alt="wave" />
     <div class="sessions-list-container">
       <login-button v-if="!isLoggedIn" />
+
       <!--  TODO: セッション参加者は、URLをもらう説明を書く    -->
     </div>
   </div>
