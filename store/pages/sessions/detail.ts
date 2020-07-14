@@ -76,9 +76,9 @@ export const mutations: MutationTree<State> = {
 }
 
 export const actions: ActionTree<State, {}> = {
-  setSessionId({ commit, dispatch }, id: string) {
+  async setSessionId({ commit, dispatch }, id: string) {
     commit('setSessionId', id)
-    dispatch('fetchSession')
+    await dispatch('fetchSession')
   },
   async fetchSession({ state, commit, dispatch }) {
     if (!state.sessionId) return
@@ -88,15 +88,7 @@ export const actions: ActionTree<State, {}> = {
       await dispatch('setProgressTimer')
     } catch (e) {
       if (e.response?.status === 404) {
-        dispatch(
-          'snackbar/showSnackbar',
-          {
-            messageType: MessageType.info,
-            message: 'このセッションは存在しません。'
-          },
-          { root: true }
-        )
-        return
+        throw new Error('このセッションは存在しません。')
       }
       console.error(e)
       dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
@@ -116,7 +108,7 @@ export const actions: ActionTree<State, {}> = {
     if (!state.session) return
     try {
       await setDevice(state.session.id, { deviceId })
-      dispatch('fetchSession')
+      await dispatch('fetchSession')
     } catch (e) {
       switch (e.response?.status) {
         case 400:

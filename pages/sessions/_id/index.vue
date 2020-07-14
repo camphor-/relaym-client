@@ -64,7 +64,7 @@ import { User, Device } from '@/api/v3/types'
 })
 export default class extends Vue {
   private readonly me!: User | null
-  private setSessionId!: (id: string) => void
+  private setSessionId!: (id: string) => Promise<void>
   private setDevice!: (deviceId: string) => void
   private connectWebSocket!: () => void
   private disconnectWebSocket!: () => void
@@ -76,9 +76,16 @@ export default class extends Vue {
   private isShowSlideMenu: boolean = false
   private readonly isInterruptDetectedDialogOpen!: boolean
 
-  @Watch('$route.params.id', { immediate: true })
-  onPathIdChanged() {
-    this.setSessionId(this.$route.params.id)
+  @Watch('$route.params.id')
+  async onPathIdChanged() {
+    await this.setSessionId(this.$route.params.id)
+    this.connectWebSocket()
+  }
+
+  // Watchと同じ処理をしているが、404の場合にエラーページに飛ばすには、
+  // ライフサイクル系の関数の中でエラーをthrowする必要があるので処理を分けている
+  async created() {
+    await this.setSessionId(this.$route.params.id)
     this.connectWebSocket()
   }
 
