@@ -33,7 +33,7 @@ export const controlState = async (
 }
 
 interface ControlStateRequest {
-  state: 'PLAY' | 'PAUSE'
+  state: 'PLAY' | 'PAUSE' | 'ARCHIVED'
 }
 
 export const enqueue = async (id: string, req: EnqueueReq) => {
