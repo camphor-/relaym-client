@@ -18,7 +18,7 @@ export interface Playback {
   device: Device | null
 }
 
-export type State = StopState | PauseState | PlayState
+export type State = StopState | PauseState | PlayState | ArchivedState
 
 interface StopState {
   type: 'STOP'
@@ -36,6 +36,10 @@ interface PlayState {
   length: number
   progress: number
   remaining: number
+}
+
+interface ArchivedState {
+  type: 'ARCHIVED'
 }
 
 export interface Device {
