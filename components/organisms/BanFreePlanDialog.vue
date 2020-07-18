@@ -9,7 +9,9 @@
         </p>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" flat @click="closeDialog">Upgrade</v-btn>
+          <v-btn color="primary" flat @click="jumpToSpotifyWebsite"
+            >Upgrade</v-btn
+          >
           <v-btn color="primary" flat @click="closeDialog">Dismiss</v-btn>
         </v-card-actions>
       </v-card-text>
@@ -33,6 +35,11 @@ export default class extends Vue {
 
   closeDialog() {
     this.input(false)
+  }
+
+  jumpToSpotifyWebsite() {
+    this.input(false)
+    location.href = 'https://www.spotify.com/jp/premium/'
   }
 }
 </script>

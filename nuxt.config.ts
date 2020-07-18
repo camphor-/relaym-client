@@ -8,11 +8,30 @@ const nuxtConfig: NuxtConfiguration = {
    ** Headers of the page
    */
   head: {
-    title: 'Here Songs',
+    title: 'Relaym',
+    htmlAttrs: {
+      lang: 'ja'
+    },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { hid: 'description', name: 'description', content: pkg.description }
+      { name: 'google', content: 'notranslate' },
+      { hid: 'description', name: 'description', content: pkg.description },
+      { name: 'twitter:card', content: 'summary_large_image' },
+      { property: 'og:title', content: 'Relaym' },
+      {
+        property: 'og:description',
+        content: pkg.description
+      },
+      {
+        property: 'og:url',
+        content: 'https://relaym.camph.net'
+      },
+      {
+        property: 'og:image',
+        // 後でちゃんとしたがぞうに差し替える
+        content: 'https://relaym.camph.net/icons/apple-touch-icon.png'
+      }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
@@ -82,18 +101,15 @@ const nuxtConfig: NuxtConfiguration = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [
+    { src: '~/plugins/getUserInfo.ts' },
+    { src: '~/plugins/loadFontAwesome.ts' }
+  ],
 
   /*
    ** Nuxt.js modules
    */
-  modules: [
-    // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios',
-    '@nuxtjs/style-resources',
-    '@nuxtjs/vuetify',
-    '@nuxtjs/pwa'
-  ],
+  modules: ['@nuxtjs/style-resources', '@nuxtjs/vuetify', '@nuxtjs/pwa'],
 
   /*
    ** Build configuration
@@ -116,6 +132,15 @@ const nuxtConfig: NuxtConfiguration = {
     }
   },
 
+  buildModules: [
+    [
+      '@nuxtjs/google-analytics',
+      {
+        id: 'UA-172508001-1'
+      }
+    ]
+  ],
+
   styleResources: {
     scss: ['~/assets/scss/variables.scss', '~/assets/scss/mixins.scss']
   },
@@ -123,10 +148,10 @@ const nuxtConfig: NuxtConfiguration = {
   vuetify: {
     // Vuetify の設定はここに書く
     theme: {
-      primary: '#0D47A1',
-      secondary: '#b0bec5',
-      accent: '#DA4167',
-      error: '#b71c1c'
+      primary: '#DC4A5E',
+      secondary: '#14213D',
+      accent: '#707070',
+      error: '#333333'
     }
   },
 
@@ -199,10 +224,9 @@ const nuxtConfig: NuxtConfiguration = {
   },
 
   env: {
-    BASE_URL: process.env.BASE_URL || 'http://localhost:8080',
+    BASE_URL: process.env.BASE_URL || 'http://relaym.local:8080',
     BASE_WEBSOCKET_URL:
-      process.env.BASE_WEBSOCKET_URL || 'ws://localhost:8080/api/v1',
-    CLIENT_ID: '2d41ee0f36664938a4669dcf5e81a43f'
+      process.env.BASE_WEBSOCKET_URL || 'ws://relaym.local:8080'
   }
 }
 

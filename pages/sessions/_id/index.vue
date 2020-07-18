@@ -2,36 +2,40 @@
   <div class="hide-overflow">
     <slide-menu v-model="isShowSlideMenu" />
     <div class="page-root hide-overflow">
-      <session-toolbar @open-slider-menu="showSliderMenu" />
+      <session-toolbar
+        :session-name="sessionName"
+        @open-slider-menu="showSliderMenu"
+      />
 
       <div class="list-container">
         <track-list-container />
       </div>
 
-      <bottom-controller
-        v-on:open-device-select-dialog="openDeviceSelectDialog"
-      />
+      <bottom-controller @open-device-select-dialog="openDeviceSelectDialog" />
+
+      <interrupt-detected-dialog
+        :value="isInterruptDetectedDialogOpen"
+        @input="closeInterruptDetectedDialog"
+      ></interrupt-detected-dialog>
 
       <device-select-dialog
         v-model="isDeviceSelectDialogOpen"
         @select-device="onSelectDevice"
       />
-
-      <ban-free-plan-dialog v-model="isBanDialogOpen" @ />
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import { mapActions } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
+import SlideMenu from '@/components/organisms/SlideMenu.vue'
 import SessionToolbar from '@/components/molecules/SessionToolbar.vue'
 import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 import DeviceSelectDialog from '@/components/organisms/DeviceSelectDialog.vue'
 import BottomController from '@/components/organisms/BottomController.vue'
-import Device from '@/models/Device'
-import SlideMenu from '@/components/molecules/SlideMenu.vue'
-import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
+import InterruptDetectedDialog from '@/components/organisms/InterruptDetectedDialog.vue'
+import { Device } from '@/api/v3/types'
 
 @Component({
   components: {
@@ -40,34 +44,58 @@ import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
     BottomController,
     SessionToolbar,
     SlideMenu,
-    BanFreePlanDialog
+    InterruptDetectedDialog
+  },
+  computed: {
+    ...mapState('pages/sessions/detail', ['isInterruptDetectedDialogOpen']),
+    ...mapGetters('pages/sessions/detail', ['sessionName'])
   },
   methods: {
-    ...mapActions('tracklist', ['play', 'addTrack', 'getStatus'])
+    ...mapActions('pages/sessions/detail', [
+      'setSessionId',
+      'fetchSession',
+      'setDevice',
+      'connectWebSocket',
+      'disconnectWebSocket',
+      'clearProgressTimer',
+      'setIsInterruptDetectedDialogOpen'
+    ])
   }
 })
 export default class extends Vue {
-  private addTrack!: (payload: string) => void
-  private getStatus!: () => void
-  private play!: (payload: Device) => void
+  private setSessionId!: (id: string) => void
+  private fetchSession!: () => Promise<void>
+  private setDevice!: (deviceId: string) => void
+  private connectWebSocket!: () => void
+  private disconnectWebSocket!: () => void
+  private clearProgressTimer!: () => void
+  private setIsInterruptDetectedDialogOpen!: (isOpen: boolean) => void
+
   private isDeviceSelectDialogOpen: boolean = false
   private pageRoot: any
-  private isBanDialogOpen: boolean = false
   private isShowSlideMenu: boolean = false
+  private readonly isInterruptDetectedDialogOpen!: boolean
 
-  mounted() {
-    this.getStatus()
-    if ('add_track' in this.$route.query) {
-      const trackURI: string = this.$route.query.add_track as string
-      this.addTrack(trackURI)
-    }
-    this.pageRoot = document.getElementsByClassName('page-root')[0]
-    this.pageRoot.style.transition = '0.2s cubic-bezier(0.4, 0, 0.2, 1)'
-    this.isBanDialogOpen = true
+  @Watch('$route.params.id', { immediate: true })
+  onPathIdChanged() {
+    this.setSessionId(this.$route.params.id)
+    this.connectWebSocket()
   }
 
-  onSelectDevice(device: Device) {
-    this.play(device)
+  mounted() {
+    this.pageRoot = document.getElementsByClassName('page-root')[0]
+    this.pageRoot.style.transition = '0.2s cubic-bezier(0.4, 0, 0.2, 1)'
+    document.addEventListener('visibilitychange', this.onVisibilityChange)
+  }
+
+  destroyed() {
+    this.disconnectWebSocket()
+    this.clearProgressTimer()
+    document.removeEventListener('visibilitychange', this.onVisibilityChange)
+  }
+
+  async onSelectDevice(device: Device) {
+    await this.setDevice(device.id)
   }
 
   openDeviceSelectDialog() {
@@ -78,6 +106,10 @@ export default class extends Vue {
     this.isShowSlideMenu = true
   }
 
+  closeInterruptDetectedDialog() {
+    this.setIsInterruptDetectedDialogOpen(false)
+  }
+
   @Watch('isShowSlideMenu')
   onIsShowSliderMenuChanged(newValue: boolean) {
     if (newValue) {
@@ -85,6 +117,22 @@ export default class extends Vue {
     } else {
       this.pageRoot.style.transform = ''
     }
+  }
+
+  onVisibilityChange() {
+    if (document.hidden) {
+      this.onChangeToHidden()
+    } else {
+      this.onChangeToPassive()
+    }
+  }
+
+  onChangeToHidden() {
+    this.clearProgressTimer()
+  }
+
+  onChangeToPassive() {
+    this.fetchSession()
   }
 }
 </script>

@@ -2,15 +2,14 @@
   "compilerOptions": {
     "baseUrl": ".",
     "experimentalDecorators": true,
-    "types": ["@types/node", "@nuxt/vue-app", "@nuxtjs/axios", "vue-router"],
+    "types": ["@types/node", "@nuxt/vue-app", "vue-router"],
     "paths": { "@/*": ["./*"], "~/*": ["./*"] },
     "target": "es5",
     "strict": true,
-    "module": "es2015",
+    "module": "es2020",
     "moduleResolution": "node",
-    "noImplicitAny": false
+    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true
   },
-  "include": [
-    "*"
-  ]
+  "exclude": ["node_modules"]
 }

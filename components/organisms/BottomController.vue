@@ -1,19 +1,17 @@
 <template>
   <div class="bottom-controller-wrapper">
-    <div class="bottom-controller elevation-5">
+    <div v-if="showController" class="bottom-controller elevation-5">
       <v-layout align-center justify-space-around>
         <v-btn icon large @click="openDeviceSelectDialog">
           <v-icon>devices</v-icon>
         </v-btn>
-        <v-btn v-if="playable" icon @click="togglePlayback">
-          <v-icon v-if="paused" color="accent" x-large class="play-icon"
-            >play_arrow</v-icon
-          >
+        <v-btn icon @click="togglePlayback">
+          <v-icon v-if="paused" color="accent" x-large class="play-icon">
+            play_arrow
+          </v-icon>
           <v-icon v-else color="accent" x-large>pause</v-icon>
         </v-btn>
-        <nuxt-link
-          :to="{ path: '/search', query: { redirect_to: $route.path } }"
-        >
+        <nuxt-link :to="searchPageUrl">
           <v-btn icon large>
             <v-icon>playlist_add</v-icon>
           </v-btn>
@@ -25,48 +23,60 @@
 
 <script lang="ts">
 import { Component, Emit, Vue } from 'vue-property-decorator'
-import { mapActions, mapGetters, mapState } from 'vuex'
-import Device from '@/models/Device'
+import { mapActions, mapState } from 'vuex'
+import { Session } from '@/api/v3/types'
+import { MessageType, SnackbarPayload } from '@/store/snackbar'
 
 @Component({
   methods: {
-    ...mapActions('tracklist', ['pause', 'resume', 'getStatus'])
+    ...mapActions('pages/sessions/detail', ['controlState']),
+    ...mapActions('snackbar', ['showSnackbar'])
   },
   computed: {
-    ...mapState('tracklist', ['paused', 'device']),
-    ...mapGetters('tracklist', ['playable'])
+    ...mapState('pages/sessions/detail', ['session'])
   }
 })
 export default class extends Vue {
-  private pause!: () => void
-  private resume!: () => void
-  private getStatus!: () => void
-
-  private paused!: () => boolean
-  private device!: () => Device
-
-  private playable!: () => boolean
+  private readonly session!: Session | null
+  private controlState!: (req: { state: 'PLAY' | 'PAUSE' }) => void
+  private showController = true
+  private showSnackbar!: (payload: SnackbarPayload) => void
 
   @Emit()
   openDeviceSelectDialog() {}
 
-  async togglePlayback() {
-    await this.getStatus()
-    // pause
-    if (!this.paused) {
-      this.pause()
-      return
+  get playable(): boolean {
+    if (!this.session) return false
+
+    // 再生可能な曲があるか確認
+    if (this.session.queue.head >= this.session.queue.tracks.length) {
+      this.showSnackbar({
+        message: '曲を追加してください。',
+        messageType: MessageType.info
+      })
+      return false
     }
-    if (!this.playable) {
-      return
+
+    return true
+  }
+
+  get paused(): boolean {
+    if (!this.session) return true
+    return this.session.playback.state.type !== 'PLAY'
+  }
+
+  get searchPageUrl(): string {
+    return `/sessions/${this.session?.id}/search`
+  }
+
+  togglePlayback() {
+    if (!this.session) return
+
+    if (this.session.playback.state.type === 'PLAY') {
+      this.controlState({ state: 'PAUSE' })
+    } else if (this.playable) {
+      this.controlState({ state: 'PLAY' })
     }
-    // resume
-    if (this.device) {
-      this.resume()
-      return
-    }
-    // play
-    this.openDeviceSelectDialog()
   }
 }
 </script>
@@ -77,6 +87,7 @@ a {
 }
 
 .bottom-controller-wrapper {
+  z-index: 1;
   width: 100%;
   position: fixed;
   bottom: 0;

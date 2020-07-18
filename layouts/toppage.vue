@@ -3,8 +3,18 @@
     <v-content>
       <nuxt />
     </v-content>
+    <snackbar></snackbar>
   </v-app>
 </template>
+
+<script>
+import { Component, Vue } from 'vue-property-decorator'
+import Snackbar from '@/components/organisms/Snackbar'
+@Component({
+  components: { Snackbar }
+})
+export default class extends Vue {}
+</script>
 
 <style>
 html {
