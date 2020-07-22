@@ -76,15 +76,8 @@ export default class extends Vue {
   private isShowSlideMenu: boolean = false
   private readonly isInterruptDetectedDialogOpen!: boolean
 
-  @Watch('$route.params.id')
+  @Watch('$route.params.id', { immediate: true })
   async onPathIdChanged() {
-    await this.setSessionId(this.$route.params.id)
-    this.connectWebSocket()
-  }
-
-  // Watchと同じ処理をしているが、404の場合にエラーページに飛ばすには、
-  // ライフサイクル系の関数の中でエラーをthrowする必要があるので処理を分けている
-  async created() {
     try {
       await this.setSessionId(this.$route.params.id)
     } catch (e) {
