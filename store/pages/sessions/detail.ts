@@ -235,9 +235,8 @@ export const actions: ActionTree<State, {}> = {
           return
         case 403:
           if (state.session) {
-            window.open(
+            window.location.href =
               state.session.queue.tracks[state.session.queue.head].external_url
-            )
           } else {
             await dispatch('snackbar/showServerErrorSnackbar', null, {
               root: true
