@@ -88,8 +88,7 @@ export default class extends Vue {
     try {
       await this.setSessionId(this.$route.params.id)
     } catch (e) {
-      console.log('hoge')
-      throw e
+      this.$router.push({ name: 'error' })
     }
     this.connectWebSocket()
   }
