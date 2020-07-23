@@ -40,13 +40,14 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { mapState, mapGetters, mapActions } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 import ToppageLogo from '@/components/molecules/ToppageLogo.vue'
 import NewSessionDialog from '@/components/organisms/NewSessionDialog.vue'
 import LoginButton from '@/components/organisms/LoginButton.vue'
 import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
 import { createSession } from '@/api/v3/session'
 import { User } from '@/api/v3/types'
+import { MessageType, SnackbarPayload } from '@/store/snackbar'
 
 @Component({
   components: {
@@ -61,7 +62,7 @@ import { User } from '@/api/v3/types'
     ...mapGetters('user', ['isLoggedIn'])
   },
   methods: {
-    ...mapActions('snackbar', ['showServerErrorSnackbar'])
+    ...mapActions('snackbar', ['showServerErrorSnackbar', 'showSnackbar'])
   }
 })
 export default class Index extends Vue {
@@ -70,6 +71,7 @@ export default class Index extends Vue {
   private isLoggedIn!: () => boolean
 
   private showServerErrorSnackbar!: () => void
+  private showSnackbar!: (payload: SnackbarPayload) => void
 
   private isBanDialogOpen: boolean = false
   private isNewSessionDialogOpen: boolean = false
@@ -89,6 +91,13 @@ export default class Index extends Vue {
       })
       this.$router.push({ path: `/sessions/${newSession.id}` })
     } catch (e) {
+      if (e.response?.status === 400) {
+        this.showSnackbar({
+          messageType: MessageType.info,
+          message: 'セッション名は必須です。'
+        })
+        return
+      }
       console.error(e)
       this.showServerErrorSnackbar()
     }

@@ -7,7 +7,13 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" depressed @click="createSession()">作成 </v-btn>
+        <v-btn
+          color="primary"
+          :disabled="sessionName === ''"
+          depressed
+          @click="createSession()"
+          >作成
+        </v-btn>
         <v-btn flat color="primary" @click="closeDialog()">
           キャンセル
         </v-btn>

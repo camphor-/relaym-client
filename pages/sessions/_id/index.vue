@@ -63,7 +63,7 @@ import { Device } from '@/api/v3/types'
   }
 })
 export default class extends Vue {
-  private setSessionId!: (id: string) => void
+  private setSessionId!: (id: string) => Promise<void>
   private fetchSession!: () => Promise<void>
   private setDevice!: (deviceId: string) => void
   private connectWebSocket!: () => void
@@ -77,8 +77,12 @@ export default class extends Vue {
   private readonly isInterruptDetectedDialogOpen!: boolean
 
   @Watch('$route.params.id', { immediate: true })
-  onPathIdChanged() {
-    this.setSessionId(this.$route.params.id)
+  async onPathIdChanged() {
+    try {
+      await this.setSessionId(this.$route.params.id)
+    } catch (e) {
+      this.$router.push({ name: 'error' })
+    }
     this.connectWebSocket()
   }
 
