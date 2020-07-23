@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container>
+    <v-container d-flex>
       <v-flex align-center column>
         <toppage-logo />
 
@@ -19,18 +19,17 @@
           <login-button v-else />
         </div>
       </v-flex>
-      <new-session-dialog
-        v-model="isNewSessionDialogOpen"
-        @create-session="createSession"
-      />
-      <ban-free-plan-dialog v-model="isBanDialogOpen" />
     </v-container>
     <img class="wave" src="../assets/images/wave.svg" alt="wave" />
     <div class="login-button-wrapper">
-      <login-button v-if="!isLoggedIn" />
-
       <!--  TODO: セッション参加者は、URLをもらう説明を書く    -->
     </div>
+
+    <new-session-dialog
+      v-model="isNewSessionDialogOpen"
+      @create-session="createSession"
+    />
+    <ban-free-plan-dialog v-model="isBanDialogOpen" />
   </div>
 </template>
 
@@ -104,7 +103,7 @@ export default class Index extends Vue {
 <style lang="scss" scoped>
 .container {
   margin: 0 auto;
-  min-height: 65vh;
+  height: unquote('min(75vh, 600px)');
   text-align: center;
 }
 
@@ -141,6 +140,6 @@ button {
 .login-button-wrapper {
   margin-top: -1px;
   background-color: $primary-color;
-  min-height: 25vh;
+  height: unquote('min(15vh, 101px)');
 }
 </style>
