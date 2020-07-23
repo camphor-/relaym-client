@@ -13,7 +13,7 @@
         </v-layout>
         <p class="description">
           Spotifyアプリを開いて、適当な曲の再生を開始することで、デバイスをアクティブにしてください。<br />
-          その後、このページを開いてください。
+          その後、このページで再生ボタンを押してください。
         </p>
         <v-card-actions>
           <v-spacer></v-spacer>
