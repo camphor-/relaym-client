@@ -14,7 +14,7 @@
           prepend-icon="search"
           single-line
           clearable
-          placeholder="曲名、アルバム名、アーティスト名など"
+          placeholder="曲名、アルバム名、アーティスト名"
         ></v-text-field>
       </v-flex>
     </v-layout>
