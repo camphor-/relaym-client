@@ -18,6 +18,7 @@
       <span class="scroll-text">Scroll</span>
       <img src="../assets/images/scroll_arrow.svg" />
     </div>
+    <service-description />
 
     <new-session-dialog
       v-model="isNewSessionDialogOpen"
@@ -38,9 +39,11 @@ import { createSession } from '@/api/v3/session'
 import { User } from '@/api/v3/types'
 import { MessageType, SnackbarPayload } from '@/store/snackbar'
 import NewSessionButton from '@/components/atoms/NewSessionButton.vue'
+import ServiceDescription from '@/components/organisms/ServiceDescription.vue'
 
 @Component({
   components: {
+    ServiceDescription,
     NewSessionButton,
     ToppageLogo,
     NewSessionDialog,
