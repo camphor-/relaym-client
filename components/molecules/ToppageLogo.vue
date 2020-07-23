@@ -103,7 +103,6 @@ export default Vue.extend({ name: 'ToppageLogo' })
 </script>
 <style lang="scss">
 .logo {
-  margin: 10vh auto 5vh auto;
   max-width: 500px;
 }
 .cls-1 {

@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="33.951" height="20.612" viewBox="0 0 33.951 20.612">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: none;
+        stroke: #fff;
+      }
+    </style>
+  </defs>
+  <g id="scroll_arrow" transform="translate(-170.179 -689.323)">
+    <g id="グループ_34" data-name="グループ 34" transform="translate(67.499 53.258)">
+      <line id="線_2" data-name="線 2" class="cls-1" x2="19.492" transform="translate(102.93 636.498) rotate(30)"/>
+      <line id="線_3" data-name="線 3" class="cls-1" x2="19.49" transform="translate(119.501 646.244) rotate(-30)"/>
+    </g>
+    <g id="グループ_35" data-name="グループ 35" transform="translate(67.499 63.258)">
+      <line id="線_2-2" data-name="線 2" class="cls-1" x2="19.492" transform="translate(102.93 636.498) rotate(30)"/>
+      <line id="線_3-2" data-name="線 3" class="cls-1" x2="19.492" transform="translate(119.501 646.244) rotate(-30)"/>
+    </g>
+  </g>
+</svg>

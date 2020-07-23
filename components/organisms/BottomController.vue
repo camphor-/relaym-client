@@ -26,8 +26,10 @@ import { Component, Emit, Vue } from 'vue-property-decorator'
 import { mapActions, mapState } from 'vuex'
 import { Session } from '@/api/v3/types'
 import { MessageType, SnackbarPayload } from '@/store/snackbar'
+import ActiveDeviceNotFoundDialog from '@/components/organisms/ActiveDeviceNotFoundDialog.vue'
 
 @Component({
+  components: { ActiveDeviceNotFoundDialog },
   methods: {
     ...mapActions('pages/sessions/detail', ['controlState']),
     ...mapActions('snackbar', ['showSnackbar'])
@@ -38,7 +40,7 @@ import { MessageType, SnackbarPayload } from '@/store/snackbar'
 })
 export default class extends Vue {
   private readonly session!: Session | null
-  private controlState!: (req: { state: 'PLAY' | 'PAUSE' }) => void
+  private controlState!: (req: { state: 'PLAY' | 'PAUSE' }) => Promise<void>
   private showController = true
   private showSnackbar!: (payload: SnackbarPayload) => void
 
@@ -69,13 +71,17 @@ export default class extends Vue {
     return `/sessions/${this.session?.id}/search`
   }
 
-  togglePlayback() {
+  async togglePlayback() {
     if (!this.session) return
 
-    if (this.session.playback.state.type === 'PLAY') {
-      this.controlState({ state: 'PAUSE' })
-    } else if (this.playable) {
-      this.controlState({ state: 'PLAY' })
+    try {
+      if (this.session.playback.state.type === 'PLAY') {
+        await this.controlState({ state: 'PAUSE' })
+      } else if (this.playable) {
+        await this.controlState({ state: 'PLAY' })
+      }
+    } catch (e) {
+      this.$emit('open-active-device-not-found-dialog')
     }
   }
 }

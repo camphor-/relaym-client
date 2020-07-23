@@ -1,40 +1,30 @@
 <template>
   <div>
-    <v-container>
-      <v-flex align-center column>
-        <toppage-logo />
+    <v-container d-flex align-center>
+      <v-flex>
+        <toppage-logo class="logo" />
 
         <h1 class="top-page-title">Relaym</h1>
-        <v-btn
-          round
-          outline
-          small
-          color="primary"
-          class="about-relaym-btn"
-          href="#"
-          >About Relaym</v-btn
-        >
-        <v-btn
-          v-if="isLoggedIn"
-          round
-          color="secondary"
-          class="new-session-btn"
-          @click="openNewSessionDialog"
-          >New Session</v-btn
-        >
+
+        <div class="action-button">
+          <!--  TODO: セッション参加者は、URLをもらう説明を書く    -->
+          <new-session-button v-if="isLoggedIn" @click="openNewSessionDialog" />
+          <login-button v-else />
+        </div>
       </v-flex>
-      <new-session-dialog
-        v-model="isNewSessionDialogOpen"
-        @create-session="createSession"
-      />
-      <ban-free-plan-dialog v-model="isBanDialogOpen" />
     </v-container>
     <img class="wave" src="../assets/images/wave.svg" alt="wave" />
-    <div class="login-button-wrapper">
-      <login-button v-if="!isLoggedIn" />
-
-      <!--  TODO: セッション参加者は、URLをもらう説明を書く    -->
+    <div class="scroll-guide">
+      <span class="scroll-text">Scroll</span>
+      <img src="../assets/images/scroll_arrow.svg" />
     </div>
+    <service-description />
+
+    <new-session-dialog
+      v-model="isNewSessionDialogOpen"
+      @create-session="createSession"
+    />
+    <ban-free-plan-dialog v-model="isBanDialogOpen" />
   </div>
 </template>
 
@@ -43,14 +33,18 @@ import { Component, Vue } from 'vue-property-decorator'
 import { mapActions, mapGetters, mapState } from 'vuex'
 import ToppageLogo from '@/components/molecules/ToppageLogo.vue'
 import NewSessionDialog from '@/components/organisms/NewSessionDialog.vue'
-import LoginButton from '@/components/organisms/LoginButton.vue'
+import LoginButton from '@/components/atoms/LoginButton.vue'
 import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
 import { createSession } from '@/api/v3/session'
 import { User } from '@/api/v3/types'
 import { MessageType, SnackbarPayload } from '@/store/snackbar'
+import NewSessionButton from '@/components/atoms/NewSessionButton.vue'
+import ServiceDescription from '@/components/organisms/ServiceDescription.vue'
 
 @Component({
   components: {
+    ServiceDescription,
+    NewSessionButton,
     ToppageLogo,
     NewSessionDialog,
     LoginButton,
@@ -108,8 +102,13 @@ export default class Index extends Vue {
 <style lang="scss" scoped>
 .container {
   margin: 0 auto;
-  min-height: 65vh;
+  height: unquote('min(70vh, 500px)');
   text-align: center;
+  padding: 16px 16px 0;
+}
+
+.logo {
+  margin: 0 auto 32px;
 }
 
 .top-page-title {
@@ -125,13 +124,8 @@ button {
   margin: auto;
 }
 
-.about-relaym-btn {
-  font-size: 12px;
-}
-
-.new-session-btn {
-  margin-top: 2rem;
-  font-size: 18px;
+.action-button {
+  margin-top: 32px;
 }
 
 .links {
@@ -144,8 +138,19 @@ button {
   height: 10vh;
 }
 
-.login-button-wrapper {
+.scroll-guide {
+  margin-top: -1px;
   background-color: $primary-color;
-  min-height: 25vh;
+  padding: 0 16px 16px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+}
+.scroll-text {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  margin-bottom: 8px;
 }
 </style>

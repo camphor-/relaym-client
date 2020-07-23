@@ -1,11 +1,9 @@
 <template>
   <v-container class="page-root">
     <v-layout row wrap>
-      <v-flex xs1>
-        <v-btn flat icon class="page-back-btn" @click="backToTrackList">
-          <v-icon large color="primary">chevron_left</v-icon>
-        </v-btn>
-      </v-flex>
+      <v-btn flat icon class="page-back-btn" @click="backToTrackList">
+        <v-icon large color="primary">chevron_left</v-icon>
+      </v-btn>
       <v-flex>
         <v-text-field
           v-model="q"
@@ -14,7 +12,7 @@
           prepend-icon="search"
           single-line
           clearable
-          placeholder="曲名, アルバム名, アーティスト名"
+          placeholder="曲名、アルバム名、アーティスト名"
         ></v-text-field>
       </v-flex>
     </v-layout>
@@ -110,6 +108,7 @@ export default class Search extends Vue {
 }
 
 .page-back-btn {
+  margin-right: 0;
 }
 
 .searchbox {

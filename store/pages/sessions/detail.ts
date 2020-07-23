@@ -234,15 +234,7 @@ export const actions: ActionTree<State, {}> = {
           )
           return
         case 403:
-          await dispatch(
-            'snackbar/showSnackbar',
-            {
-              messageType: MessageType.info,
-              message: 'Spotifyアプリをもう一度立ち上げてください。'
-            },
-            { root: true }
-          )
-          return
+          throw e
         case 404:
           await dispatch(
             'snackbar/showSnackbar',
