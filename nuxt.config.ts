@@ -29,8 +29,7 @@ const nuxtConfig: NuxtConfiguration = {
       },
       {
         property: 'og:image',
-        // 後でちゃんとしたがぞうに差し替える
-        content: 'https://relaym.camph.net/icons/apple-touch-icon.png'
+        content: 'https://relaym.camph.net/ogp.png'
       }
     ],
     link: [
