@@ -132,6 +132,7 @@ button {
 }
 
 .login-button-wrapper {
+  margin-top: -1px;
   background-color: $primary-color;
   min-height: 25vh;
 }
