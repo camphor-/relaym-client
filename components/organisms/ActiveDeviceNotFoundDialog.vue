@@ -12,8 +12,7 @@
           <img src="@/assets/images/ohno.svg" />
         </v-layout>
         <p class="description">
-          Spotifyアプリを開いて、適当な曲の再生を開始することで、デバイスをアクティブにしてください。<br />
-          その後、このページで再生ボタンを押してください。
+          Spotifyで適当な曲の再生を開始してください。
         </p>
         <v-card-actions>
           <v-spacer></v-spacer>
