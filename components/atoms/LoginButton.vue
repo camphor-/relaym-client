@@ -1,9 +1,10 @@
 <template>
   <div class="login-button-container">
-    <v-btn round color="white" @click="login">Login to Spotify</v-btn>
+    <v-btn large round outline @click="login">Login to Spotify</v-btn>
     <p class="terms-agreement">
-      ログインすることで、<nuxt-link to="/terms">利用規約</nuxt-link
-      >に同意したものとみなされます。
+      ログインすることで、<nuxt-link to="/terms">利用規約</nuxt-link>に<br
+        class="hidden-md-and-up"
+      />同意したものとみなされます。
     </p>
   </div>
 </template>
@@ -13,6 +14,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { getLoginUrl } from '@/api/v3/auth'
 
 @Component({
+  name: 'LoginButton',
   components: {}
 })
 export default class extends Vue {
@@ -25,16 +27,13 @@ export default class extends Vue {
 <style lang="scss" scoped>
 .login-button-container {
   text-align: center;
-  > button {
-    margin-bottom: 16px;
-  }
 }
 
 .terms-agreement {
-  color: white;
   font-size: 12px;
+  margin-top: 16px;
   a {
-    color: white;
+    color: inherit;
   }
 }
 </style>
