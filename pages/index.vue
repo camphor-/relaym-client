@@ -7,14 +7,16 @@
         <h1 class="top-page-title">Relaym</h1>
 
         <div class="action-button">
+          <!--  TODO: セッション参加者は、URLをもらう説明を書く    -->
           <new-session-button v-if="isLoggedIn" @click="openNewSessionDialog" />
           <login-button v-else />
         </div>
       </v-flex>
     </v-container>
     <img class="wave" src="../assets/images/wave.svg" alt="wave" />
-    <div class="login-button-wrapper">
-      <!--  TODO: セッション参加者は、URLをもらう説明を書く    -->
+    <div class="scroll-guide">
+      <span class="scroll-text">Scroll</span>
+      <img src="../assets/images/scroll_arrow.svg" />
     </div>
 
     <new-session-dialog
@@ -132,9 +134,19 @@ button {
   height: 10vh;
 }
 
-.login-button-wrapper {
+.scroll-guide {
   margin-top: -1px;
   background-color: $primary-color;
   height: unquote('min(15vh, 101px)');
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.scroll-text {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  margin-bottom: 8px;
 }
 </style>
