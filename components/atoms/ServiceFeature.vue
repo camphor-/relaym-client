@@ -34,7 +34,11 @@ export default class extends Vue {
   }
 }
 .feature-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
-  margin: 16px 0;
+  margin: 8px 0;
+  height: 3em;
 }
 </style>
