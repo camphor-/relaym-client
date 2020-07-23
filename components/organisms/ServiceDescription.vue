@@ -72,20 +72,32 @@
         </div>
       </div>
     </section>
+
+    <div class="login-button">
+      <login-button v-if="isShowLoginButton" />
+    </div>
   </v-layout>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'vue-property-decorator'
 import ServiceDescriptionHeader from '@/components/atoms/ServiceDescriptionHeader.vue'
 import ServiceFeature from '@/components/atoms/ServiceFeature.vue'
 import HowtoStepHeader from '@/components/atoms/HowtoStepHeader.vue'
+import LoginButton from '@/components/atoms/LoginButton.vue'
 
 @Component({
   name: 'ServiceDescription',
-  components: { HowtoStepHeader, ServiceFeature, ServiceDescriptionHeader }
+  components: {
+    HowtoStepHeader,
+    ServiceFeature,
+    ServiceDescriptionHeader,
+    LoginButton
+  }
 })
-export default class extends Vue {}
+export default class extends Vue {
+  @Prop({ default: true }) readonly isShowLoginButton!: boolean
+}
 </script>
 
 <style lang="scss" scoped>
@@ -144,5 +156,9 @@ export default class extends Vue {}
       flex-grow: 1;
     }
   }
+}
+
+.login-button {
+  margin: 32px 0;
 }
 </style>
