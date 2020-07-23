@@ -25,13 +25,11 @@ export default class extends Vue {
 <style lang="scss" scoped>
 .login-button-container {
   text-align: center;
-  > button {
-    margin-bottom: 16px;
-  }
 }
 
 .terms-agreement {
   font-size: 12px;
+  margin-top: 16px;
   a {
     color: inherit;
   }
