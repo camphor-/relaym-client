@@ -1,7 +1,7 @@
 <template>
   <div>
-    <v-container d-flex>
-      <v-flex align-center column>
+    <v-container d-flex align-center>
+      <v-flex>
         <toppage-logo class="logo" />
 
         <h1 class="top-page-title">Relaym</h1>
@@ -102,12 +102,13 @@ export default class Index extends Vue {
 <style lang="scss" scoped>
 .container {
   margin: 0 auto;
-  height: unquote('min(75vh, 600px)');
+  height: unquote('min(70vh, 500px)');
   text-align: center;
+  padding: 16px 16px 0;
 }
 
 .logo {
-  margin: 64px auto 32px;
+  margin: 0 auto 32px;
 }
 
 .top-page-title {
@@ -124,7 +125,7 @@ button {
 }
 
 .action-button {
-  margin-top: 64px;
+  margin-top: 32px;
 }
 
 .links {
@@ -140,12 +141,12 @@ button {
 .scroll-guide {
   margin-top: -1px;
   background-color: $primary-color;
-  height: unquote('min(15vh, 101px)');
+  padding: 0 16px 16px;
   color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: start;
 }
 .scroll-text {
   font-size: 0.8rem;

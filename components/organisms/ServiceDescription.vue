@@ -1,5 +1,5 @@
 <template>
-  <v-layout class="service-description" pa-4 column>
+  <v-layout class="service-description" column>
     <section>
       <service-description-header>Relaymとは</service-description-header>
       <p>
@@ -38,7 +38,13 @@ export default class extends Vue {}
 </script>
 
 <style lang="scss" scoped>
-.service-description section {
-  margin-bottom: 48px;
+.service-description {
+  max-width: 960px;
+  margin: 16px auto;
+  padding: 32px 24px;
+
+  > section {
+    margin-bottom: 48px;
+  }
 }
 </style>
