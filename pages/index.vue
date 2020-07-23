@@ -2,7 +2,7 @@
   <div>
     <v-container d-flex>
       <v-flex align-center column>
-        <toppage-logo />
+        <toppage-logo class="logo" />
 
         <h1 class="top-page-title">Relaym</h1>
 
@@ -105,6 +105,10 @@ export default class Index extends Vue {
   margin: 0 auto;
   height: unquote('min(75vh, 600px)');
   text-align: center;
+}
+
+.logo {
+  margin: 64px auto 32px;
 }
 
 .top-page-title {

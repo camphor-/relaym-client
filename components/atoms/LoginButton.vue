@@ -2,8 +2,9 @@
   <div class="login-button-container">
     <v-btn large round outline @click="login">Login to Spotify</v-btn>
     <p class="terms-agreement">
-      ログインすることで、<nuxt-link to="/terms">利用規約</nuxt-link
-      >に同意したものとみなされます。
+      ログインすることで、<nuxt-link to="/terms">利用規約</nuxt-link>に<br
+        class="hidden-md-and-up"
+      />同意したものとみなされます。
     </p>
   </div>
 </template>
