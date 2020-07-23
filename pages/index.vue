@@ -18,7 +18,7 @@
       <span class="scroll-text">Scroll</span>
       <img src="../assets/images/scroll_arrow.svg" />
     </div>
-    <service-description />
+    <service-description :is-show-login-button="!isLoggedIn" />
 
     <new-session-dialog
       v-model="isNewSessionDialogOpen"
