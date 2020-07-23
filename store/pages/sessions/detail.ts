@@ -212,7 +212,7 @@ export const actions: ActionTree<State, {}> = {
     dispatch('reconnectWebSocket')
   },
   controlState: async (
-    { state, dispatch },
+    { state, dispatch, rootState },
     req: { state: 'PLAY' | 'PAUSE' }
   ) => {
     if (!state.sessionId) return
@@ -234,7 +234,13 @@ export const actions: ActionTree<State, {}> = {
           )
           return
         case 403:
-          if (state.session) {
+          console.log(rootState.user)
+          console.log(state.session)
+          if (
+            state.session &&
+            // @ts-ignore
+            rootState.user.me.id === state.session.creator.id
+          ) {
             window.location.href =
               state.session.queue.tracks[state.session.queue.head].external_url
           } else {
