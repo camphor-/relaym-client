@@ -11,8 +11,9 @@
           <h2 class="dialog-headline">再生デバイスが<br />存在しません</h2>
           <img src="@/assets/images/ohno.svg" />
         </v-layout>
-        <p>
-          Spotifyアプリを一度開いてから、<br />再度このページを開いてください。
+        <p class="description">
+          Spotifyアプリを開いて、適当な曲の再生を開始することで、デバイスをアクティブにしてください。<br />
+          その後、このページを開いてください。
         </p>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -63,5 +64,9 @@ export default class extends Vue {
 
 img {
   max-width: 25%;
+}
+
+.description {
+  font-size: 0.9rem;
 }
 </style>
