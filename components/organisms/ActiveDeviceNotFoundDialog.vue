@@ -44,6 +44,7 @@ export default class extends Vue {
 
   openSpotify() {
     this.closeDialog()
+    this.$emit('open-spotify')
     window.location.href = 'spotify://'
   }
 }

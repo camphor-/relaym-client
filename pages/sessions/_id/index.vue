@@ -29,6 +29,7 @@
       <active-device-not-found-dialog
         :value="isActiveDeviceNotFoundDialogOpen"
         @input="closeActiveDeviceNotFoundDialog"
+        @open-spotify="openSpotify"
       ></active-device-not-found-dialog>
     </div>
   </div>
@@ -68,7 +69,8 @@ import ActiveDeviceNotFoundDialog from '@/components/organisms/ActiveDeviceNotFo
       'connectWebSocket',
       'disconnectWebSocket',
       'clearProgressTimer',
-      'setIsInterruptDetectedDialogOpen'
+      'setIsInterruptDetectedDialogOpen',
+      'controlState'
     ])
   }
 })
@@ -80,12 +82,14 @@ export default class extends Vue {
   private disconnectWebSocket!: () => void
   private clearProgressTimer!: () => void
   private setIsInterruptDetectedDialogOpen!: (isOpen: boolean) => void
+  private controlState!: (req: { state: 'PLAY' | 'PAUSE' }) => Promise<void>
 
   private isDeviceSelectDialogOpen: boolean = false
   private pageRoot: any
   private isShowSlideMenu: boolean = false
   private readonly isInterruptDetectedDialogOpen!: boolean
   private isActiveDeviceNotFoundDialogOpen: boolean = false
+  private isOpeningSpotify: boolean = false
 
   @Watch('$route.params.id', { immediate: true })
   async onPathIdChanged() {
@@ -133,6 +137,17 @@ export default class extends Vue {
     this.isActiveDeviceNotFoundDialogOpen = false
   }
 
+  openSpotify() {
+    this.isOpeningSpotify = true
+  }
+
+  async handleReturnFromSpotify() {
+    if (this.isOpeningSpotify) {
+      await this.controlState({ state: 'PLAY' })
+      this.isOpeningSpotify = false
+    }
+  }
+
   @Watch('isShowSlideMenu')
   onIsShowSliderMenuChanged(newValue: boolean) {
     if (newValue) {
@@ -142,11 +157,11 @@ export default class extends Vue {
     }
   }
 
-  onVisibilityChange() {
+  async onVisibilityChange() {
     if (document.hidden) {
       this.onChangeToHidden()
     } else {
-      this.onChangeToPassive()
+      await this.onChangeToPassive()
     }
   }
 
@@ -155,6 +170,7 @@ export default class extends Vue {
   }
 
   onChangeToPassive() {
+    this.handleReturnFromSpotify()
     this.fetchSession()
   }
 }
