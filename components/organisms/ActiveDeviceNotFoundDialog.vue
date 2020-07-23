@@ -43,7 +43,8 @@ export default class extends Vue {
   }
 
   openSpotify() {
-    window.location.href = 'https://open.spotify.com/browse/featured'
+    this.closeDialog()
+    window.location.href = 'spotify://'
   }
 }
 </script>
