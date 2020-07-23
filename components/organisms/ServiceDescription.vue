@@ -40,8 +40,8 @@ export default class extends Vue {}
 <style lang="scss" scoped>
 .service-description {
   max-width: 960px;
-  margin: 16px auto;
-  padding: 32px 24px;
+  margin: 0 auto;
+  padding: 48px 24px;
 
   > section {
     margin-bottom: 48px;
