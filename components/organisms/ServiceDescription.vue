@@ -73,8 +73,8 @@
       </div>
     </section>
 
-    <div class="login-button">
-      <login-button v-if="isShowLoginButton" />
+    <div v-if="isShowLoginButton" class="login-button">
+      <login-button />
     </div>
   </v-layout>
 </template>
