@@ -6,15 +6,6 @@
 
         <h1 class="top-page-title">Relaym</h1>
         <v-btn
-          round
-          outline
-          small
-          color="primary"
-          class="about-relaym-btn"
-          href="#"
-          >About Relaym</v-btn
-        >
-        <v-btn
           v-if="isLoggedIn"
           round
           color="secondary"
@@ -123,10 +114,6 @@ export default class Index extends Vue {
 button {
   display: block;
   margin: auto;
-}
-
-.about-relaym-btn {
-  font-size: 12px;
 }
 
 .new-session-btn {
