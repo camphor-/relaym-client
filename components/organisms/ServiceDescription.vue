@@ -9,7 +9,7 @@
 
     <section>
       <service-description-header>特徴</service-description-header>
-      <service-feature>
+      <service-feature :icon-src="require('~/assets/images/feature1.svg')">
         <template v-slot:header
           >Spotify Premiumユーザーが<br />
           1人いればOK</template
