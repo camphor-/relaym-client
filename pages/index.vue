@@ -5,14 +5,19 @@
         <toppage-logo />
 
         <h1 class="top-page-title">Relaym</h1>
-        <v-btn
-          v-if="isLoggedIn"
-          round
-          color="secondary"
-          class="new-session-btn"
-          @click="openNewSessionDialog"
-          >New Session</v-btn
-        >
+
+        <div class="action-button">
+          <v-btn
+            v-if="isLoggedIn"
+            class="new-session-btn"
+            round
+            large
+            color="secondary"
+            @click="openNewSessionDialog"
+            >New Session</v-btn
+          >
+          <login-button v-else />
+        </div>
       </v-flex>
       <new-session-dialog
         v-model="isNewSessionDialogOpen"
@@ -116,8 +121,10 @@ button {
   margin: auto;
 }
 
+.action-button {
+  margin-top: 64px;
+}
 .new-session-btn {
-  margin-top: 2rem;
   font-size: 18px;
 }
 

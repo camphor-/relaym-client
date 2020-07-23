@@ -1,6 +1,6 @@
 <template>
   <div class="login-button-container">
-    <v-btn round color="white" @click="login">Login to Spotify</v-btn>
+    <v-btn large round outline @click="login">Login to Spotify</v-btn>
     <p class="terms-agreement">
       ログインすることで、<nuxt-link to="/terms">利用規約</nuxt-link
       >に同意したものとみなされます。
@@ -31,10 +31,9 @@ export default class extends Vue {
 }
 
 .terms-agreement {
-  color: white;
   font-size: 12px;
   a {
-    color: white;
+    color: inherit;
   }
 }
 </style>
