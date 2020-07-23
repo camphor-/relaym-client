@@ -45,6 +45,33 @@
         </service-feature>
       </div>
     </section>
+
+    <section>
+      <service-description-header>使い方</service-description-header>
+
+      <div class="howto-steps">
+        <div>
+          <howto-step-header class="step-header" num="1"
+            >セッションに招待する</howto-step-header
+          >
+          <img src="~/assets/images/step1.png" />
+        </div>
+
+        <div>
+          <howto-step-header class="step-header" num="2"
+            >曲をキューに追加する</howto-step-header
+          >
+          <img src="~/assets/images/step2.png" />
+        </div>
+
+        <div>
+          <howto-step-header class="step-header" num="3"
+            >セッションを再生する</howto-step-header
+          >
+          <img src="~/assets/images/step3.png" />
+        </div>
+      </div>
+    </section>
   </v-layout>
 </template>
 
@@ -52,10 +79,11 @@
 import { Component, Vue } from 'vue-property-decorator'
 import ServiceDescriptionHeader from '@/components/atoms/ServiceDescriptionHeader.vue'
 import ServiceFeature from '@/components/atoms/ServiceFeature.vue'
+import HowtoStepHeader from '@/components/atoms/HowtoStepHeader.vue'
 
 @Component({
   name: 'ServiceDescription',
-  components: { ServiceFeature, ServiceDescriptionHeader }
+  components: { HowtoStepHeader, ServiceFeature, ServiceDescriptionHeader }
 })
 export default class extends Vue {}
 </script>
@@ -85,7 +113,36 @@ export default class extends Vue {}
     grid-template-rows: 1fr;
   }
 }
+
 .feature-description {
   margin-bottom: 0;
+}
+
+.howto-steps {
+  > div {
+    margin-bottom: 16px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  img {
+    margin-top: 8px;
+    max-width: 100%;
+  }
+
+  @media screen and (min-width: 960px) {
+    > div {
+      display: flex;
+      align-items: start;
+    }
+    img {
+      margin-top: 0;
+      max-width: 500px;
+    }
+    .step-header {
+      margin-top: 16px;
+      flex-grow: 1;
+    }
+  }
 }
 </style>
