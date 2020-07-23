@@ -14,6 +14,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { getLoginUrl } from '@/api/v3/auth'
 
 @Component({
+  name: 'LoginButton',
   components: {}
 })
 export default class extends Vue {

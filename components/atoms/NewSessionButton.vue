@@ -12,7 +12,9 @@
 <script lang="ts">
 import { Component, Emit, Vue } from 'vue-property-decorator'
 
-@Component({})
+@Component({
+  name: 'NewSessionButton'
+})
 export default class extends Vue {
   @Emit('click')
   handleClick(e: Event) {
