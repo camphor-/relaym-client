@@ -143,7 +143,11 @@ export default class extends Vue {
 
   async handleReturnFromSpotify() {
     if (this.isOpeningSpotify) {
-      await this.controlState({ state: 'PLAY' })
+      try {
+        await this.controlState({ state: 'PLAY' })
+      } catch (e) {
+        this.openActiveDeviceNotFoundDialog()
+      }
       this.isOpeningSpotify = false
     }
   }
