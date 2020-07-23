@@ -8,11 +8,11 @@
           justify-space-around
           class="headline-wrapper"
         >
-          <h2 class="dialog-headline">再生デバイスが<br />存在しません</h2>
+          <h2 class="dialog-headline">再生デバイスが存在しません</h2>
           <img src="@/assets/images/ohno.svg" />
         </v-layout>
         <p class="description">
-          Spotifyで適当な曲の再生を開始してください。
+          Spotifyで適当な曲の再生を開始し、<br />再度Relaymを開いてください。
         </p>
         <v-card-actions>
           <v-spacer></v-spacer>
