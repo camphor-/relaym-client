@@ -11,7 +11,10 @@
         <track-list-container />
       </div>
 
-      <bottom-controller @open-device-select-dialog="openDeviceSelectDialog" />
+      <bottom-controller
+        @open-device-select-dialog="openDeviceSelectDialog"
+        @active-device-not-found="openActiveDeviceNotFoundDialog"
+      />
 
       <interrupt-detected-dialog
         :value="isInterruptDetectedDialogOpen"
@@ -22,6 +25,11 @@
         v-model="isDeviceSelectDialogOpen"
         @select-device="onSelectDevice"
       />
+
+      <active-device-not-found-dialog
+        :value="isActiveDeviceNotFoundDialogOpen"
+        @input="closeActiveDeviceNotFoundDialog"
+      ></active-device-not-found-dialog>
     </div>
   </div>
 </template>
@@ -36,9 +44,11 @@ import DeviceSelectDialog from '@/components/organisms/DeviceSelectDialog.vue'
 import BottomController from '@/components/organisms/BottomController.vue'
 import InterruptDetectedDialog from '@/components/organisms/InterruptDetectedDialog.vue'
 import { Device } from '@/api/v3/types'
+import ActiveDeviceNotFoundDialog from '@/components/organisms/ActiveDeviceNotFoundDialog.vue'
 
 @Component({
   components: {
+    ActiveDeviceNotFoundDialog,
     DeviceSelectDialog,
     TrackListContainer,
     BottomController,
@@ -75,6 +85,7 @@ export default class extends Vue {
   private pageRoot: any
   private isShowSlideMenu: boolean = false
   private readonly isInterruptDetectedDialogOpen!: boolean
+  private isActiveDeviceNotFoundDialogOpen: boolean = false
 
   @Watch('$route.params.id', { immediate: true })
   async onPathIdChanged() {
@@ -112,6 +123,14 @@ export default class extends Vue {
 
   closeInterruptDetectedDialog() {
     this.setIsInterruptDetectedDialogOpen(false)
+  }
+
+  openActiveDeviceNotFoundDialog() {
+    this.isActiveDeviceNotFoundDialogOpen = true
+  }
+
+  closeActiveDeviceNotFoundDialog() {
+    this.isActiveDeviceNotFoundDialogOpen = false
   }
 
   @Watch('isShowSlideMenu')

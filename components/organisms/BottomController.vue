@@ -18,10 +18,6 @@
         </nuxt-link>
       </v-layout>
     </div>
-    <active-device-not-found-dialog
-      :value="isActiveDeviceNotFoundDialogOpen"
-      @input="closeActiveDeviceNotFoundDialog"
-    ></active-device-not-found-dialog>
   </div>
 </template>
 
@@ -47,7 +43,6 @@ export default class extends Vue {
   private controlState!: (req: { state: 'PLAY' | 'PAUSE' }) => Promise<void>
   private showController = true
   private showSnackbar!: (payload: SnackbarPayload) => void
-  private isActiveDeviceNotFoundDialogOpen: boolean = false
 
   @Emit()
   openDeviceSelectDialog() {}
@@ -86,12 +81,8 @@ export default class extends Vue {
         await this.controlState({ state: 'PLAY' })
       }
     } catch (e) {
-      this.isActiveDeviceNotFoundDialogOpen = true
+      this.$emit('active-device-not-found')
     }
-  }
-
-  closeActiveDeviceNotFoundDialog() {
-    this.isActiveDeviceNotFoundDialogOpen = false
   }
 }
 </script>
