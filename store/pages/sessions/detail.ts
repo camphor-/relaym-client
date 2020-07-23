@@ -234,8 +234,6 @@ export const actions: ActionTree<State, {}> = {
           )
           return
         case 403:
-          console.log(rootState.user)
-          console.log(state.session)
           if (
             state.session &&
             // @ts-ignore
