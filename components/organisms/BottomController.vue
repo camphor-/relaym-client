@@ -81,7 +81,7 @@ export default class extends Vue {
         await this.controlState({ state: 'PLAY' })
       }
     } catch (e) {
-      this.$emit('active-device-not-found')
+      this.$emit('open-active-device-not-found-dialog')
     }
   }
 }

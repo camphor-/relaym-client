@@ -13,7 +13,7 @@
 
       <bottom-controller
         @open-device-select-dialog="openDeviceSelectDialog"
-        @active-device-not-found="openActiveDeviceNotFoundDialog"
+        @open-active-device-not-found-dialog="openActiveDeviceNotFoundDialog"
       />
 
       <interrupt-detected-dialog
