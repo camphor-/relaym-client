@@ -7,15 +7,7 @@
         <h1 class="top-page-title">Relaym</h1>
 
         <div class="action-button">
-          <v-btn
-            v-if="isLoggedIn"
-            class="new-session-btn"
-            round
-            large
-            color="secondary"
-            @click="openNewSessionDialog"
-            >New Session</v-btn
-          >
+          <new-session-button v-if="isLoggedIn" @click="openNewSessionDialog" />
           <login-button v-else />
         </div>
       </v-flex>
@@ -43,9 +35,11 @@ import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
 import { createSession } from '@/api/v3/session'
 import { User } from '@/api/v3/types'
 import { MessageType, SnackbarPayload } from '@/store/snackbar'
+import NewSessionButton from '@/components/atoms/NewSessionButton.vue'
 
 @Component({
   components: {
+    NewSessionButton,
     ToppageLogo,
     NewSessionDialog,
     LoginButton,
@@ -126,9 +120,6 @@ button {
 
 .action-button {
   margin-top: 64px;
-}
-.new-session-btn {
-  font-size: 18px;
 }
 
 .links {
