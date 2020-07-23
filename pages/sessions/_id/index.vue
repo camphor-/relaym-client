@@ -11,7 +11,10 @@
         <track-list-container />
       </div>
 
-      <bottom-controller @open-device-select-dialog="openDeviceSelectDialog" />
+      <bottom-controller
+        @open-device-select-dialog="openDeviceSelectDialog"
+        @open-active-device-not-found-dialog="openActiveDeviceNotFoundDialog"
+      />
 
       <interrupt-detected-dialog
         :value="isInterruptDetectedDialogOpen"
@@ -22,6 +25,12 @@
         v-model="isDeviceSelectDialogOpen"
         @select-device="onSelectDevice"
       />
+
+      <active-device-not-found-dialog
+        :value="isActiveDeviceNotFoundDialogOpen"
+        @input="closeActiveDeviceNotFoundDialog"
+        @open-spotify="openSpotify"
+      ></active-device-not-found-dialog>
     </div>
   </div>
 </template>
@@ -36,9 +45,11 @@ import DeviceSelectDialog from '@/components/organisms/DeviceSelectDialog.vue'
 import BottomController from '@/components/organisms/BottomController.vue'
 import InterruptDetectedDialog from '@/components/organisms/InterruptDetectedDialog.vue'
 import { Device } from '@/api/v3/types'
+import ActiveDeviceNotFoundDialog from '@/components/organisms/ActiveDeviceNotFoundDialog.vue'
 
 @Component({
   components: {
+    ActiveDeviceNotFoundDialog,
     DeviceSelectDialog,
     TrackListContainer,
     BottomController,
@@ -58,7 +69,8 @@ import { Device } from '@/api/v3/types'
       'connectWebSocket',
       'disconnectWebSocket',
       'clearProgressTimer',
-      'setIsInterruptDetectedDialogOpen'
+      'setIsInterruptDetectedDialogOpen',
+      'controlState'
     ])
   }
 })
@@ -70,11 +82,14 @@ export default class extends Vue {
   private disconnectWebSocket!: () => void
   private clearProgressTimer!: () => void
   private setIsInterruptDetectedDialogOpen!: (isOpen: boolean) => void
+  private controlState!: (req: { state: 'PLAY' | 'PAUSE' }) => Promise<void>
 
   private isDeviceSelectDialogOpen: boolean = false
   private pageRoot: any
   private isShowSlideMenu: boolean = false
   private readonly isInterruptDetectedDialogOpen!: boolean
+  private isActiveDeviceNotFoundDialogOpen: boolean = false
+  private isOpeningSpotify: boolean = false
 
   @Watch('$route.params.id', { immediate: true })
   async onPathIdChanged() {
@@ -114,6 +129,29 @@ export default class extends Vue {
     this.setIsInterruptDetectedDialogOpen(false)
   }
 
+  openActiveDeviceNotFoundDialog() {
+    this.isActiveDeviceNotFoundDialogOpen = true
+  }
+
+  closeActiveDeviceNotFoundDialog() {
+    this.isActiveDeviceNotFoundDialogOpen = false
+  }
+
+  openSpotify() {
+    this.isOpeningSpotify = true
+  }
+
+  async handleReturnFromSpotify() {
+    if (this.isOpeningSpotify) {
+      try {
+        await this.controlState({ state: 'PLAY' })
+      } catch (e) {
+        this.openActiveDeviceNotFoundDialog()
+      }
+      this.isOpeningSpotify = false
+    }
+  }
+
   @Watch('isShowSlideMenu')
   onIsShowSliderMenuChanged(newValue: boolean) {
     if (newValue) {
@@ -123,11 +161,11 @@ export default class extends Vue {
     }
   }
 
-  onVisibilityChange() {
+  async onVisibilityChange() {
     if (document.hidden) {
       this.onChangeToHidden()
     } else {
-      this.onChangeToPassive()
+      await this.onChangeToPassive()
     }
   }
 
@@ -136,6 +174,7 @@ export default class extends Vue {
   }
 
   onChangeToPassive() {
+    this.handleReturnFromSpotify()
     this.fetchSession()
   }
 }
