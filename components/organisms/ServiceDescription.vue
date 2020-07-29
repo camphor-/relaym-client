@@ -80,6 +80,27 @@
     <section>
       <div class="share-text">＼このサービスをシェア／</div>
       <share-buttons />
+
+      <div class="github-buttons">
+        <v-btn
+          color="#333"
+          class="white--text"
+          href="https://github.com/camphor-/relaym-client"
+          round
+        >
+          <v-icon left dark>fab fa-github</v-icon>
+          relaym-client
+        </v-btn>
+        <v-btn
+          color="#333"
+          class="white--text"
+          href="https://github.com/camphor-/relaym-server"
+          round
+        >
+          <v-icon left dark>fab fa-github</v-icon>
+          relaym-server
+        </v-btn>
+      </div>
     </section>
   </v-layout>
 </template>
@@ -173,5 +194,13 @@ export default class extends Vue {
   margin-bottom: 8px;
   font-weight: bold;
   text-align: center;
+}
+
+.github-buttons {
+  margin: 16px auto 0;
+  text-align: center;
+  a {
+    text-transform: none;
+  }
 }
 </style>
