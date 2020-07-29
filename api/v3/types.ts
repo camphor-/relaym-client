@@ -6,6 +6,7 @@ export interface Session {
   creator: Creator
   playback: Playback
   queue: Queue
+  allow_to_control_by_others: boolean
 }
 
 export interface Creator {
