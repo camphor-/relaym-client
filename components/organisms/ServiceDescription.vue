@@ -199,8 +199,5 @@ export default class extends Vue {
 .github-buttons {
   margin: 16px auto 0;
   text-align: center;
-  a {
-    text-transform: none;
-  }
 }
 </style>
