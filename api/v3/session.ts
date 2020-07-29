@@ -36,8 +36,9 @@ export const controlState = async (
   await instance.put(`/sessions/${sessionId}/state`, req)
 }
 
+export type PlaybackStates = 'PLAY' | 'PAUSE' | 'STOP' | 'ARCHIVED'
 interface ControlStateRequest {
-  state: 'PLAY' | 'PAUSE' | 'ARCHIVED'
+  state: PlaybackStates
 }
 
 export const enqueue = async (id: string, req: EnqueueReq) => {

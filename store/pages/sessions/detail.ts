@@ -4,7 +4,8 @@ import {
   getDevices,
   controlState,
   getSession,
-  setDevice
+  setDevice,
+  PlaybackStates
 } from '@/api/v3/session'
 
 import { createWebSocket } from '@/api/v3/websocket'
@@ -227,10 +228,7 @@ export const actions: ActionTree<State, {}> = {
     commit('setWebSocket', null)
     dispatch('reconnectWebSocket')
   },
-  controlState: async (
-    { state, dispatch },
-    req: { state: 'PLAY' | 'PAUSE' }
-  ) => {
+  controlState: async ({ state, dispatch }, req: { state: PlaybackStates }) => {
     if (!state.sessionId) return
     try {
       await controlState(state.sessionId, req)
