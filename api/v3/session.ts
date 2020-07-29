@@ -2,12 +2,16 @@ import { Device, Session, Track } from '@/api/v3/types'
 import { instance } from '@/api/v3/index'
 
 export const createSession = async (req: CreateSessionRequest) => {
-  const res = await instance.post<Session>('/sessions', req)
+  const res = await instance.post<Session>('/sessions', {
+    name: req.name,
+    allow_to_control_by_others: req.allowToControlByOthers
+  })
   return res.data
 }
 
 interface CreateSessionRequest {
   name: string
+  allowToControlByOthers: boolean
 }
 
 export const getSession = async (id: string) => {
