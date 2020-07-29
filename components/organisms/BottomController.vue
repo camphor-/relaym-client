@@ -5,7 +5,7 @@
         <v-btn icon large @click="openDeviceSelectDialog">
           <v-icon>devices</v-icon>
         </v-btn>
-        <v-btn icon @click="togglePlayback">
+        <v-btn icon :disabled="!canControlPlayback" @click="togglePlayback">
           <v-icon v-if="paused" color="accent" x-large class="play-icon">
             play_arrow
           </v-icon>
@@ -23,7 +23,7 @@
 
 <script lang="ts">
 import { Component, Emit, Vue } from 'vue-property-decorator'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapState, mapGetters } from 'vuex'
 import { Session } from '@/api/v3/types'
 import { MessageType, SnackbarPayload } from '@/store/snackbar'
 import ActiveDeviceNotFoundDialog from '@/components/organisms/ActiveDeviceNotFoundDialog.vue'
@@ -35,11 +35,13 @@ import ActiveDeviceNotFoundDialog from '@/components/organisms/ActiveDeviceNotFo
     ...mapActions('snackbar', ['showSnackbar'])
   },
   computed: {
-    ...mapState('pages/sessions/detail', ['session'])
+    ...mapState('pages/sessions/detail', ['session']),
+    ...mapGetters('pages/sessions/detail', ['canControlPlayback'])
   }
 })
 export default class extends Vue {
   private readonly session!: Session | null
+  private readonly canControlPlayback!: boolean
   private controlState!: (req: { state: 'PLAY' | 'PAUSE' }) => Promise<void>
   private showController = true
   private showSnackbar!: (payload: SnackbarPayload) => void
