@@ -1,7 +1,7 @@
 {
   "name": "relaym",
   "version": "1.0.0",
-  "description": "Relaymを使えば、1つの端末でSpotifyの曲を再生しながら各々が自分の端末で好きな曲を追加できるようになります",
+  "description": "Relaym（リレイム）は、それぞれが聴きたいSpotifyの楽曲を1つのスピーカーで楽しめるWebアプリです。",
   "author": "CAMPHOR-",
   "private": true,
   "engines": {
