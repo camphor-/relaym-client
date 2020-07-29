@@ -151,7 +151,8 @@ const nuxtConfig: NuxtConfiguration = {
       secondary: '#14213D',
       accent: '#707070',
       error: '#333333'
-    }
+    },
+    treeShake: true
   },
 
   manifest: {
