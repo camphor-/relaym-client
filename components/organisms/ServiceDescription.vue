@@ -73,9 +73,14 @@
       </div>
     </section>
 
-    <div v-if="isShowLoginButton" class="login-button">
+    <section v-if="isShowLoginButton" class="login-button">
       <login-button />
-    </div>
+    </section>
+
+    <section>
+      <div class="share-text">＼このサービスをシェア／</div>
+      <share-buttons />
+    </section>
   </v-layout>
 </template>
 
@@ -85,10 +90,12 @@ import ServiceDescriptionHeader from '@/components/atoms/ServiceDescriptionHeade
 import ServiceFeature from '@/components/atoms/ServiceFeature.vue'
 import HowtoStepHeader from '@/components/atoms/HowtoStepHeader.vue'
 import LoginButton from '@/components/atoms/LoginButton.vue'
+import ShareButtons from '@/components/atoms/ShareButtons.vue'
 
 @Component({
   name: 'ServiceDescription',
   components: {
+    ShareButtons,
     HowtoStepHeader,
     ServiceFeature,
     ServiceDescriptionHeader,
@@ -160,5 +167,11 @@ export default class extends Vue {
 
 .login-button {
   margin: 32px 0;
+}
+
+.share-text {
+  margin-bottom: 8px;
+  font-weight: bold;
+  text-align: center;
 }
 </style>
