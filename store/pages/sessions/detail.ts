@@ -21,6 +21,7 @@ interface State {
   webSocketRetryInterval: number
   progressTimer: number | null
   isInterruptDetectedDialogOpen: boolean
+  isChangingState: boolean
 }
 
 export const state = (): State => ({
@@ -30,7 +31,8 @@ export const state = (): State => ({
   webSocket: null,
   webSocketRetryInterval: DEFAULT_WEBSOCKET_RETRY_INTERVAL,
   progressTimer: null,
-  isInterruptDetectedDialogOpen: false
+  isInterruptDetectedDialogOpen: false,
+  isChangingState: false
 })
 
 export const getters = {
@@ -46,6 +48,7 @@ export const getters = {
   },
   canControlPlayback(state: State, getters): boolean {
     if (getters.isSessionArchived) return false
+    if (state.isChangingState) return false
     return (
       getters.isMyOwnSession ||
       // eslint-disable-next-line camelcase
@@ -96,6 +99,9 @@ export const mutations: MutationTree<State> = {
   },
   setWebSocketRetryInterval(state: State, webSocketRetryInterval: number) {
     state.webSocketRetryInterval = webSocketRetryInterval
+  },
+  setIsChangingState(state: State, isChangingState: boolean) {
+    state.isChangingState = isChangingState
   }
 }
 
@@ -228,8 +234,12 @@ export const actions: ActionTree<State, {}> = {
     commit('setWebSocket', null)
     dispatch('reconnectWebSocket')
   },
-  controlState: async ({ state, dispatch }, req: { state: PlaybackStates }) => {
+  controlState: async (
+    { state, commit, dispatch },
+    req: { state: PlaybackStates }
+  ) => {
     if (!state.sessionId) return
+    commit('setIsChangingState', true)
     try {
       await controlState(state.sessionId, req)
     } catch (e) {
@@ -263,6 +273,7 @@ export const actions: ActionTree<State, {}> = {
       console.error(e)
       await dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
+    commit('setIsChangingState', false)
   },
   setProgressTimer: async ({ state, commit, dispatch }) => {
     if (state.progressTimer) await dispatch('clearProgressTimer')
