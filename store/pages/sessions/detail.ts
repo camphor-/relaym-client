@@ -46,14 +46,16 @@ export const getters = {
     if (!state.session) return false
     return state.session.creator.id === rootState.user.me?.id
   },
-  canControlPlayback(state: State, getters): boolean {
+  hasPermissionToControlPlayback(state: State, getters): boolean {
     if (getters.isSessionArchived) return false
-    if (state.isChangingState) return false
     return (
       getters.isMyOwnSession ||
       // eslint-disable-next-line camelcase
       (state.session?.allow_to_control_by_others ?? false)
     )
+  },
+  canControlState(state: State, getters): boolean {
+    return getters.hasPermissionToControlPlayback && !state.isChangingState
   },
   isSessionArchived(state: State): boolean {
     if (!state.session) return false

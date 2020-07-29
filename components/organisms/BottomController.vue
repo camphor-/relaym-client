@@ -5,12 +5,12 @@
         <v-btn
           icon
           large
-          :disabled="isSessionArchived || !canControlPlayback"
+          :disabled="!hasPermissionToControlPlayback"
           @click="openDeviceSelectDialog"
         >
           <v-icon>devices</v-icon>
         </v-btn>
-        <v-btn icon :disabled="!canControlPlayback" @click="togglePlayback">
+        <v-btn icon :disabled="!canControlState" @click="togglePlayback">
           <v-icon v-if="paused" color="accent" x-large class="play-icon">
             play_arrow
           </v-icon>
@@ -46,7 +46,8 @@ import ActiveDeviceNotFoundDialog from '@/components/organisms/ActiveDeviceNotFo
   computed: {
     ...mapState('pages/sessions/detail', ['session']),
     ...mapGetters('pages/sessions/detail', [
-      'canControlPlayback',
+      'hasPermissionToControlPlayback',
+      'canControlState',
       'isSessionArchived'
     ])
   }
