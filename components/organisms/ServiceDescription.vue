@@ -5,6 +5,22 @@
       <p>
         Relaym（リレイム）は、それぞれが聴きたいSpotifyの楽曲を1つのスピーカーで楽しめるWebアプリです。
       </p>
+
+      <h3 class="usecase-header">こんな時にRelaym!</h3>
+      <div class="usecases">
+        <div>
+          <div class="usecase-icon">
+            <v-icon color="white" x-large>drive_eta</v-icon>
+          </div>
+          友人同士でドライブに行くとき
+        </div>
+        <div>
+          <div class="usecase-icon">
+            <v-icon color="white" x-large>headset</v-icon>
+          </div>
+          SNS上で作業用BGMを募集したいとき
+        </div>
+      </div>
     </section>
 
     <section>
@@ -73,9 +89,35 @@
       </div>
     </section>
 
-    <div v-if="isShowLoginButton" class="login-button">
+    <section v-if="isShowLoginButton" class="login-button">
       <login-button />
-    </div>
+    </section>
+
+    <section>
+      <div class="share-text">＼このサービスをシェア／</div>
+      <share-buttons />
+
+      <div class="github-buttons">
+        <v-btn
+          color="#333"
+          class="white--text"
+          href="https://github.com/camphor-/relaym-client"
+          round
+        >
+          <v-icon left dark>fab fa-github</v-icon>
+          relaym-client
+        </v-btn>
+        <v-btn
+          color="#333"
+          class="white--text"
+          href="https://github.com/camphor-/relaym-server"
+          round
+        >
+          <v-icon left dark>fab fa-github</v-icon>
+          relaym-server
+        </v-btn>
+      </div>
+    </section>
   </v-layout>
 </template>
 
@@ -85,10 +127,12 @@ import ServiceDescriptionHeader from '@/components/atoms/ServiceDescriptionHeade
 import ServiceFeature from '@/components/atoms/ServiceFeature.vue'
 import HowtoStepHeader from '@/components/atoms/HowtoStepHeader.vue'
 import LoginButton from '@/components/atoms/LoginButton.vue'
+import ShareButtons from '@/components/atoms/ShareButtons.vue'
 
 @Component({
   name: 'ServiceDescription',
   components: {
+    ShareButtons,
     HowtoStepHeader,
     ServiceFeature,
     ServiceDescriptionHeader,
@@ -112,6 +156,48 @@ export default class extends Vue {
       margin-bottom: 0;
     }
   }
+}
+
+.usecase-header {
+  display: flex;
+  align-items: center;
+  margin: 32px 0 16px;
+
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    border-top: 1px solid #ccc;
+    flex-grow: 1;
+  }
+}
+.usecases {
+  display: grid;
+  grid-gap: 16px;
+  grid-template-rows: auto auto;
+  grid-template-columns: auto;
+  > div {
+    display: flex;
+    align-items: center;
+  }
+
+  @media screen and (min-width: 960px) {
+    grid-template-rows: auto;
+    grid-template-columns: auto auto;
+    margin: 0 32px;
+  }
+}
+.usecase-icon {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  margin-right: 16px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #616161;
+  user-select: none;
 }
 
 .features {
@@ -145,7 +231,7 @@ export default class extends Vue {
   @media screen and (min-width: 960px) {
     > div {
       display: flex;
-      align-items: start;
+      align-items: flex-start;
     }
     img {
       margin-top: 0;
@@ -160,5 +246,16 @@ export default class extends Vue {
 
 .login-button {
   margin: 32px 0;
+}
+
+.share-text {
+  margin-bottom: 8px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.github-buttons {
+  margin: 16px auto 0;
+  text-align: center;
 }
 </style>

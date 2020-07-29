@@ -11,7 +11,7 @@
         :playback="playback"
         :playing-track="playingTrack"
       />
-      <div v-if="waitingTracks.length > 0">
+      <div v-if="waitingTracks.length > 0" class="waiting-tracks">
         <v-subheader>Up Next…</v-subheader>
         <template v-for="(item, index) in waitingTracks">
           <track-list-item :key="`third-${index}`" :track="item" />
@@ -71,12 +71,18 @@ export default class extends Vue {
   background-color: $bg-color;
 }
 #windowWrapper {
-  min-height: calc(100vh - 56px);
+  // 56px: Toolbar
+  // 12px: 再生中の曲の上margin
+  min-height: calc(100vh - 56px - 12px);
 }
 
 .v-subheader {
   font-size: 1.5rem;
   color: #333333;
   padding-top: 8px;
+}
+
+.waiting-tracks {
+  margin-bottom: 72px;
 }
 </style>

@@ -4,7 +4,8 @@ import {
   getDevices,
   controlState,
   getSession,
-  setDevice
+  setDevice,
+  PlaybackStates
 } from '@/api/v3/session'
 
 import { createWebSocket } from '@/api/v3/websocket'
@@ -38,6 +39,22 @@ export const getters = {
   },
   playableDevices(state: State): Device[] {
     return state.devices.filter((d) => !d.is_restricted)
+  },
+  isMyOwnSession(state: State, _getters, rootState): boolean {
+    if (!state.session) return false
+    return state.session.creator.id === rootState.user.me?.id
+  },
+  canControlPlayback(state: State, getters): boolean {
+    if (getters.isSessionArchived) return false
+    return (
+      getters.isMyOwnSession ||
+      // eslint-disable-next-line camelcase
+      (state.session?.allow_to_control_by_others ?? false)
+    )
+  },
+  isSessionArchived(state: State): boolean {
+    if (!state.session) return false
+    return state.session.playback.state.type === 'ARCHIVED'
   }
 }
 
@@ -211,10 +228,7 @@ export const actions: ActionTree<State, {}> = {
     commit('setWebSocket', null)
     dispatch('reconnectWebSocket')
   },
-  controlState: async (
-    { state, dispatch },
-    req: { state: 'PLAY' | 'PAUSE' }
-  ) => {
+  controlState: async ({ state, dispatch }, req: { state: PlaybackStates }) => {
     if (!state.sessionId) return
     try {
       await controlState(state.sessionId, req)

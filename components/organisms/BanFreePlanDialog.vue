@@ -2,17 +2,26 @@
   <v-dialog :value="value" width="600" @input="input">
     <v-card>
       <v-card-text>
-        <img src="@/assets/images/banfreelogo.svg" />
+        <v-layout
+          row
+          align-center
+          justify-space-around
+          class="headline-wrapper"
+        >
+          <h2 class="dialog-headline">
+            Spotifyプレミアムが必要です
+          </h2>
+          <img src="@/assets/images/ohno.svg" />
+        </v-layout>
         <p>
-          Spotify Free Plan can not start/resume playback. Need to upgrade
-          Spotify Premium to start/pause playtrack.
+          無料プランではRelaymを使うことが出来ません。プレミアムプランにアップグレードする必要があります。
         </p>
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="primary" flat @click="jumpToSpotifyWebsite"
-            >Upgrade</v-btn
+            >アップグレード</v-btn
           >
-          <v-btn color="primary" flat @click="closeDialog">Dismiss</v-btn>
+          <v-btn color="primary" flat @click="closeDialog">閉じる</v-btn>
         </v-card-actions>
       </v-card-text>
     </v-card>
@@ -22,9 +31,7 @@
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 
-@Component({
-  components: {}
-})
+@Component({ components: {} })
 export default class extends Vue {
   @Prop({ default: false }) readonly value!: boolean
 
@@ -46,7 +53,17 @@ export default class extends Vue {
 
 <style lang="scss" scoped>
 img {
-  width: 100%;
-  text-align: center;
+  max-width: 25%;
+}
+
+.dialog-headline {
+  color: $primary-color;
+  font-weight: bold;
+  font-size: 1.5rem;
+}
+
+.headline-wrapper {
+  margin-top: 16px;
+  margin-bottom: 16px;
 }
 </style>

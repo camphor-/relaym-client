@@ -78,11 +78,12 @@ export default class Index extends Vue {
     this.isNewSessionDialogOpen = true
   }
 
-  async createSession(payload: { name: string }) {
+  async createSession(payload: {
+    name: string
+    allowToControlByOthers: boolean
+  }) {
     try {
-      const newSession = await createSession({
-        name: payload.name
-      })
+      const newSession = await createSession(payload)
       this.$router.push({ path: `/sessions/${newSession.id}` })
     } catch (e) {
       if (e.response?.status === 400) {

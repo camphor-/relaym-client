@@ -23,7 +23,7 @@ export default class extends Vue {
 
 <style lang="scss" scoped>
 .session-toolbar {
-  z-index: 1;
+  z-index: 10;
   position: fixed;
   width: 100vw;
   display: flex;

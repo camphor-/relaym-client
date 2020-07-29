@@ -13,7 +13,31 @@
             <v-list-tile-title>Home</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <invite-link-box class="invite-link-box" :session-id="sessionId" />
+
+        <template v-if="isMyOwnSession">
+          <v-list-tile v-if="isSessionArchived" @click="unarchiveSession">
+            <v-list-tile-avatar>
+              <v-icon>unarchive</v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>Unarchive</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile v-else @click="archiveSession">
+            <v-list-tile-avatar>
+              <v-icon>archive</v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>Archive</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
+
+        <invite-link-box
+          class="invite-link-box"
+          :session-id="sessionId"
+          :is-show-share-warning="allowToControlByOthers"
+        />
       </v-list>
     </v-navigation-drawer>
   </div>
@@ -21,22 +45,49 @@
 
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
-import { mapState } from 'vuex'
+import { mapState, mapActions, mapGetters } from 'vuex'
 import InviteLinkBox from '@/components/molecules/InviteLinkBox.vue'
+import { Session } from '@/api/v3/types'
+import { PlaybackStates } from '@/api/v3/session'
 
 @Component({
   components: { InviteLinkBox },
   computed: {
-    ...mapState('pages/sessions/detail', ['sessionId'])
+    ...mapState('pages/sessions/detail', ['sessionId', 'session']),
+    ...mapGetters('pages/sessions/detail', [
+      'isMyOwnSession',
+      'isSessionArchived'
+    ])
+  },
+  methods: {
+    ...mapActions('pages/sessions/detail', ['controlState'])
   }
 })
 export default class extends Vue {
   @Prop({ default: false }) readonly value!: boolean
   private readonly sessionid!: string | null
+  private readonly session!: Session | null
+  private readonly isMyOwnSession!: boolean
+  private readonly isSessionArchived!: boolean
+
+  private controlState!: (req: { state: PlaybackStates }) => Promise<void>
 
   @Emit()
   input(isOpen: boolean) {
     return isOpen
+  }
+
+  get allowToControlByOthers(): boolean {
+    // eslint-disable-next-line camelcase
+    return this.session?.allow_to_control_by_others ?? true
+  }
+
+  archiveSession() {
+    this.controlState({ state: 'ARCHIVED' })
+  }
+
+  unarchiveSession() {
+    this.controlState({ state: 'STOP' })
   }
 }
 </script>

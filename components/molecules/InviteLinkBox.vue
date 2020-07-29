@@ -6,12 +6,16 @@
       <v-btn flat icon color="#00B900" @click="handleClickLineShare">
         <v-icon>fab fa-line</v-icon>
       </v-btn>
-      <v-btn flat icon @click="handleClickWebShare">
+      <v-btn v-if="canShare" flat icon @click="handleClickWebShare">
         <v-icon>fas fa-share-alt</v-icon>
       </v-btn>
       <v-btn depressed @click="handleClickCopy">コピー</v-btn>
     </v-layout>
-    <v-layout align-start class="attention accent--text">
+    <v-layout
+      v-if="isShowShareWarning"
+      align-start
+      class="attention accent--text"
+    >
       <v-icon color="accent">warning</v-icon>
       <span>このリンクは不特定多数の人に共有しないでください</span>
     </v-layout>
@@ -34,11 +38,16 @@ import { MessageType, SnackbarPayload } from '@/store/snackbar'
 })
 export default class extends Vue {
   @Prop({ required: true }) readonly sessionId!: string | null
+  @Prop({ default: true }) readonly isShowShareWarning!: boolean
   private showSnackbar!: (payload: SnackbarPayload) => void
 
   get inviteUrl() {
     if (!this.sessionId) return ''
     return `${location.origin}/sessions/${this.sessionId}`
+  }
+
+  get canShare(): boolean {
+    return !!navigator.share
   }
 
   handleClickLineShare() {
@@ -54,14 +63,7 @@ export default class extends Vue {
       text: 'Relaymで一緒にセッションを楽しもう！',
       url: this.inviteUrl
     }
-    try {
-      await navigator.share(shareData)
-    } catch (e) {
-      this.showSnackbar({
-        message: 'シェアに失敗しました',
-        messageType: MessageType.error
-      })
-    }
+    await navigator.share(shareData)
   }
 
   handleClickCopy() {

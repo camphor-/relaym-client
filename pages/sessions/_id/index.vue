@@ -8,6 +8,10 @@
       />
 
       <div class="list-container">
+        <session-archived-header
+          v-if="isSessionArchived"
+          class="archived-header"
+        />
         <track-list-container />
       </div>
 
@@ -46,9 +50,11 @@ import BottomController from '@/components/organisms/BottomController.vue'
 import InterruptDetectedDialog from '@/components/organisms/InterruptDetectedDialog.vue'
 import { Device } from '@/api/v3/types'
 import ActiveDeviceNotFoundDialog from '@/components/organisms/ActiveDeviceNotFoundDialog.vue'
+import SessionArchivedHeader from '@/components/atoms/SessionArchivedHeader.vue'
 
 @Component({
   components: {
+    SessionArchivedHeader,
     ActiveDeviceNotFoundDialog,
     DeviceSelectDialog,
     TrackListContainer,
@@ -59,7 +65,7 @@ import ActiveDeviceNotFoundDialog from '@/components/organisms/ActiveDeviceNotFo
   },
   computed: {
     ...mapState('pages/sessions/detail', ['isInterruptDetectedDialogOpen']),
-    ...mapGetters('pages/sessions/detail', ['sessionName'])
+    ...mapGetters('pages/sessions/detail', ['sessionName', 'isSessionArchived'])
   },
   methods: {
     ...mapActions('pages/sessions/detail', [
@@ -180,4 +186,16 @@ export default class extends Vue {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.list-container {
+  padding-top: 56px;
+  position: relative;
+}
+
+.archived-header {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 1;
+}
+</style>
