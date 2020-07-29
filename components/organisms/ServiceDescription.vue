@@ -152,7 +152,7 @@ export default class extends Vue {
   @media screen and (min-width: 960px) {
     > div {
       display: flex;
-      align-items: start;
+      align-items: flex-start;
     }
     img {
       margin-top: 0;
