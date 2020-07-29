@@ -73,9 +73,35 @@
       </div>
     </section>
 
-    <div v-if="isShowLoginButton" class="login-button">
+    <section v-if="isShowLoginButton" class="login-button">
       <login-button />
-    </div>
+    </section>
+
+    <section>
+      <div class="share-text">＼このサービスをシェア／</div>
+      <share-buttons />
+
+      <div class="github-buttons">
+        <v-btn
+          color="#333"
+          class="white--text"
+          href="https://github.com/camphor-/relaym-client"
+          round
+        >
+          <v-icon left dark>fab fa-github</v-icon>
+          relaym-client
+        </v-btn>
+        <v-btn
+          color="#333"
+          class="white--text"
+          href="https://github.com/camphor-/relaym-server"
+          round
+        >
+          <v-icon left dark>fab fa-github</v-icon>
+          relaym-server
+        </v-btn>
+      </div>
+    </section>
   </v-layout>
 </template>
 
@@ -85,10 +111,12 @@ import ServiceDescriptionHeader from '@/components/atoms/ServiceDescriptionHeade
 import ServiceFeature from '@/components/atoms/ServiceFeature.vue'
 import HowtoStepHeader from '@/components/atoms/HowtoStepHeader.vue'
 import LoginButton from '@/components/atoms/LoginButton.vue'
+import ShareButtons from '@/components/atoms/ShareButtons.vue'
 
 @Component({
   name: 'ServiceDescription',
   components: {
+    ShareButtons,
     HowtoStepHeader,
     ServiceFeature,
     ServiceDescriptionHeader,
@@ -145,7 +173,7 @@ export default class extends Vue {
   @media screen and (min-width: 960px) {
     > div {
       display: flex;
-      align-items: start;
+      align-items: flex-start;
     }
     img {
       margin-top: 0;
@@ -160,5 +188,16 @@ export default class extends Vue {
 
 .login-button {
   margin: 32px 0;
+}
+
+.share-text {
+  margin-bottom: 8px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.github-buttons {
+  margin: 16px auto 0;
+  text-align: center;
 }
 </style>
