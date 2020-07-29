@@ -29,11 +29,10 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 
-const TWITTER_ID = 'CamphorKyoto'
 function getTwitterUrl(title: string, url: string): string {
-  return `https://twitter.com/share?url=${encodeURI(
-    url
-  )}&related=${TWITTER_ID}&text=${encodeURI(title)}`
+  return `https://twitter.com/share?url=${encodeURI(url)}&text=${encodeURI(
+    title
+  )}`
 }
 function getFacebookUrl(url: string): string {
   return `http://www.facebook.com/share.php?u=${encodeURI(url)}`
