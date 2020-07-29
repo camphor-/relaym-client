@@ -274,8 +274,9 @@ export const actions: ActionTree<State, {}> = {
       }
       console.error(e)
       await dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
+    } finally {
+      commit('setIsChangingState', false)
     }
-    commit('setIsChangingState', false)
   },
   setProgressTimer: async ({ state, commit, dispatch }) => {
     if (state.progressTimer) await dispatch('clearProgressTimer')
