@@ -11,7 +11,11 @@
       </v-btn>
       <v-btn depressed @click="handleClickCopy">コピー</v-btn>
     </v-layout>
-    <v-layout align-start class="attention accent--text">
+    <v-layout
+      v-if="isShowShareWarning"
+      align-start
+      class="attention accent--text"
+    >
       <v-icon color="accent">warning</v-icon>
       <span>このリンクは不特定多数の人に共有しないでください</span>
     </v-layout>
@@ -34,6 +38,7 @@ import { MessageType, SnackbarPayload } from '@/store/snackbar'
 })
 export default class extends Vue {
   @Prop({ required: true }) readonly sessionId!: string | null
+  @Prop({ default: true }) readonly isShowShareWarning!: boolean
   private showSnackbar!: (payload: SnackbarPayload) => void
 
   get inviteUrl() {
