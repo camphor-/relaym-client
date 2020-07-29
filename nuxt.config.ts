@@ -152,7 +152,7 @@ const nuxtConfig: NuxtConfiguration = {
       accent: '#707070',
       error: '#333333'
     },
-    treeShake: true
+    treeShake: process.env.NODE_ENV === 'production'
   },
 
   manifest: {
