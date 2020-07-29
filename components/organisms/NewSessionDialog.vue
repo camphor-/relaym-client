@@ -6,7 +6,7 @@
         <v-text-field v-model="sessionName" label="セッション名" />
         <v-switch
           v-model="allowToControlByOthers"
-          label="他の人に再生/一時停止を許可"
+          label="共有相手に再生/一時停止を許可"
         />
 
         <v-layout
