@@ -6,7 +6,7 @@
       <v-btn flat icon color="#00B900" @click="handleClickLineShare">
         <v-icon>fab fa-line</v-icon>
       </v-btn>
-      <v-btn flat icon @click="handleClickWebShare">
+      <v-btn v-if="canShare" flat icon @click="handleClickWebShare">
         <v-icon>fas fa-share-alt</v-icon>
       </v-btn>
       <v-btn depressed @click="handleClickCopy">コピー</v-btn>
@@ -39,6 +39,10 @@ export default class extends Vue {
   get inviteUrl() {
     if (!this.sessionId) return ''
     return `${location.origin}/sessions/${this.sessionId}`
+  }
+
+  get canShare(): boolean {
+    return !!navigator.share
   }
 
   handleClickLineShare() {
