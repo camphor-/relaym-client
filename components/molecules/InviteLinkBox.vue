@@ -6,7 +6,7 @@
       <v-btn flat icon color="#00B900" @click="handleClickLineShare">
         <v-icon>fab fa-line</v-icon>
       </v-btn>
-      <v-btn flat icon @click="handleClickWebShare">
+      <v-btn v-if="canShare" flat icon @click="handleClickWebShare">
         <v-icon>fas fa-share-alt</v-icon>
       </v-btn>
       <v-btn depressed @click="handleClickCopy">コピー</v-btn>
@@ -41,6 +41,10 @@ export default class extends Vue {
     return `${location.origin}/sessions/${this.sessionId}`
   }
 
+  get canShare(): boolean {
+    return !!navigator.share
+  }
+
   handleClickLineShare() {
     const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${encodeURI(
       this.inviteUrl
@@ -54,14 +58,7 @@ export default class extends Vue {
       text: 'Relaymで一緒にセッションを楽しもう！',
       url: this.inviteUrl
     }
-    try {
-      await navigator.share(shareData)
-    } catch (e) {
-      this.showSnackbar({
-        message: 'シェアに失敗しました',
-        messageType: MessageType.error
-      })
-    }
+    await navigator.share(shareData)
   }
 
   handleClickCopy() {
