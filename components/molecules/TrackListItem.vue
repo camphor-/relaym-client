@@ -5,8 +5,9 @@
     </v-list-tile-avatar>
     <v-list-tile-content>
       <v-list-tile-title>{{ track.name }}</v-list-tile-title>
-      <v-list-tile-sub-title
-        >{{ track.album.name }} - {{ track.artists[0].name }}
+      <v-list-tile-sub-title>
+        {{ track.artists.map((artist) => artist.name).join(', ') }} -
+        {{ track.album.name }}
       </v-list-tile-sub-title>
     </v-list-tile-content>
   </v-list-tile>

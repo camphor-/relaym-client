@@ -14,7 +14,8 @@
         <v-list-tile-content>
           <v-list-tile-title>{{ item.name }}</v-list-tile-title>
           <v-list-tile-sub-title>
-            {{ item.album.name }} - {{ item.artists[0].name }}
+            {{ item.artists.map((artist) => artist.name).join(', ') }} -
+            {{ item.album.name }}
           </v-list-tile-sub-title>
         </v-list-tile-content>
         <v-list-tile-action>
