@@ -58,14 +58,7 @@ export default class extends Vue {
       text: 'Relaymで一緒にセッションを楽しもう！',
       url: this.inviteUrl
     }
-    try {
-      await navigator.share(shareData)
-    } catch (e) {
-      this.showSnackbar({
-        message: 'シェアに失敗しました',
-        messageType: MessageType.error
-      })
-    }
+    await navigator.share(shareData)
   }
 
   handleClickCopy() {
