@@ -11,7 +11,7 @@
         :playback="playback"
         :playing-track="playingTrack"
       />
-      <div v-if="waitingTracks.length > 0">
+      <div v-if="waitingTracks.length > 0" class="waiting-tracks">
         <v-subheader>Up Next…</v-subheader>
         <template v-for="(item, index) in waitingTracks">
           <track-list-item :key="`third-${index}`" :track="item" />
@@ -78,5 +78,9 @@ export default class extends Vue {
   font-size: 1.5rem;
   color: #333333;
   padding-top: 8px;
+}
+
+.waiting-tracks {
+  margin-bottom: 72px;
 }
 </style>
