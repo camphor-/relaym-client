@@ -5,6 +5,22 @@
       <p>
         Relaym（リレイム）は、それぞれが聴きたいSpotifyの楽曲を1つのスピーカーで楽しめるWebアプリです。
       </p>
+
+      <h3 class="usecase-header">こんな時にRelaym!</h3>
+      <div class="usecases">
+        <div>
+          <div class="usecase-icon">
+            <v-icon color="white" x-large>drive_eta</v-icon>
+          </div>
+          友人同士でドライブに行くとき
+        </div>
+        <div>
+          <div class="usecase-icon">
+            <v-icon color="white" x-large>headset</v-icon>
+          </div>
+          SNS上で作業用BGMを募集したいとき
+        </div>
+      </div>
     </section>
 
     <section>
@@ -140,6 +156,48 @@ export default class extends Vue {
       margin-bottom: 0;
     }
   }
+}
+
+.usecase-header {
+  display: flex;
+  align-items: center;
+  margin: 32px 0 16px;
+
+  &::before,
+  &::after {
+    content: '';
+    display: block;
+    border-top: 1px solid #ccc;
+    flex-grow: 1;
+  }
+}
+.usecases {
+  display: grid;
+  grid-gap: 16px;
+  grid-template-rows: auto auto;
+  grid-template-columns: auto;
+  > div {
+    display: flex;
+    align-items: center;
+  }
+
+  @media screen and (min-width: 960px) {
+    grid-template-rows: auto;
+    grid-template-columns: auto auto;
+    margin: 0 32px;
+  }
+}
+.usecase-icon {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  margin-right: 16px;
+  border-radius: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #616161;
+  user-select: none;
 }
 
 .features {
