@@ -2,7 +2,12 @@
   <div class="bottom-controller-wrapper">
     <div v-if="showController" class="bottom-controller elevation-5">
       <v-layout align-center justify-space-around>
-        <v-btn icon large @click="openDeviceSelectDialog">
+        <v-btn
+          icon
+          large
+          :disabled="isSessionArchived || !canControlPlayback"
+          @click="openDeviceSelectDialog"
+        >
           <v-icon>devices</v-icon>
         </v-btn>
         <v-btn icon :disabled="!canControlPlayback" @click="togglePlayback">
@@ -11,11 +16,15 @@
           </v-icon>
           <v-icon v-else color="accent" x-large>pause</v-icon>
         </v-btn>
-        <nuxt-link :to="searchPageUrl">
-          <v-btn icon large>
-            <v-icon>playlist_add</v-icon>
-          </v-btn>
-        </nuxt-link>
+        <v-btn
+          icon
+          large
+          nuxt
+          :to="searchPageUrl"
+          :disabled="isSessionArchived"
+        >
+          <v-icon>playlist_add</v-icon>
+        </v-btn>
       </v-layout>
     </div>
   </div>
@@ -36,7 +45,10 @@ import ActiveDeviceNotFoundDialog from '@/components/organisms/ActiveDeviceNotFo
   },
   computed: {
     ...mapState('pages/sessions/detail', ['session']),
-    ...mapGetters('pages/sessions/detail', ['canControlPlayback'])
+    ...mapGetters('pages/sessions/detail', [
+      'canControlPlayback',
+      'isSessionArchived'
+    ])
   }
 })
 export default class extends Vue {
