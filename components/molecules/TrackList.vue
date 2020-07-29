@@ -71,7 +71,9 @@ export default class extends Vue {
   background-color: $bg-color;
 }
 #windowWrapper {
-  min-height: calc(100vh - 56px);
+  // 56px: Toolbar
+  // 12px: 再生中の曲の上margin
+  min-height: calc(100vh - 56px - 12px);
 }
 
 .v-subheader {
