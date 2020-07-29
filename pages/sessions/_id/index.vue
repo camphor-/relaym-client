@@ -196,5 +196,6 @@ export default class extends Vue {
   position: fixed;
   left: 0;
   right: 0;
+  z-index: 1;
 }
 </style>
