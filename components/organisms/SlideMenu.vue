@@ -13,22 +13,25 @@
             <v-list-tile-title>Home</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
-        <v-list-tile v-if="isSessionArchived" @click="unarchiveSession">
-          <v-list-tile-avatar>
-            <v-icon>unarchive</v-icon>
-          </v-list-tile-avatar>
-          <v-list-tile-content>
-            <v-list-tile-title>Unarchive</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile v-else @click="archiveSession">
-          <v-list-tile-avatar>
-            <v-icon>archive</v-icon>
-          </v-list-tile-avatar>
-          <v-list-tile-content>
-            <v-list-tile-title>Archive</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+
+        <template v-if="isMyOwnSession">
+          <v-list-tile v-if="isSessionArchived" @click="unarchiveSession">
+            <v-list-tile-avatar>
+              <v-icon>unarchive</v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>Unarchive</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+          <v-list-tile v-else @click="archiveSession">
+            <v-list-tile-avatar>
+              <v-icon>archive</v-icon>
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>Archive</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
 
         <invite-link-box
           class="invite-link-box"
@@ -51,7 +54,10 @@ import { PlaybackStates } from '@/api/v3/session'
   components: { InviteLinkBox },
   computed: {
     ...mapState('pages/sessions/detail', ['sessionId', 'session']),
-    ...mapGetters('pages/sessions/detail', ['isSessionArchived'])
+    ...mapGetters('pages/sessions/detail', [
+      'isMyOwnSession',
+      'isSessionArchived'
+    ])
   },
   methods: {
     ...mapActions('pages/sessions/detail', ['controlState'])
@@ -61,6 +67,7 @@ export default class extends Vue {
   @Prop({ default: false }) readonly value!: boolean
   private readonly sessionid!: string | null
   private readonly session!: Session | null
+  private readonly isMyOwnSession!: boolean
   private readonly isSessionArchived!: boolean
 
   private controlState!: (req: { state: PlaybackStates }) => Promise<void>
