@@ -8,6 +8,17 @@
           v-model="allowToControlByOthers"
           label="他の人に再生/一時停止を許可"
         />
+
+        <v-layout
+          v-if="allowToControlByOthers"
+          align-start
+          class="attention accent--text"
+        >
+          <v-icon color="accent">warning</v-icon>
+          <span
+            >操作の乗っ取りを防ぐため、<br />リンクを不特定多数に共有しないでください</span
+          >
+        </v-layout>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -55,4 +66,12 @@ export default class extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.attention {
+  font-size: 0.8rem;
+
+  span {
+    margin-left: 8px;
+  }
+}
+</style>
