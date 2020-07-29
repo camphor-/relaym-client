@@ -156,8 +156,8 @@ const nuxtConfig: NuxtConfiguration = {
   },
 
   manifest: {
-    name: 'Here Songs',
-    short_name: 'Here Songs',
+    name: 'Relaym',
+    short_name: 'Relaym',
     description: '',
     start_url: '/',
     display: 'standalone',
