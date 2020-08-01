@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue, Watch } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'nuxt-property-decorator'
 import { mapActions, mapState, mapGetters } from 'vuex'
 import SlideMenu from '@/components/organisms/SlideMenu.vue'
 import SessionToolbar from '@/components/molecules/SessionToolbar.vue'
@@ -89,6 +89,7 @@ export default class extends Vue {
   private clearProgressTimer!: () => void
   private setIsInterruptDetectedDialogOpen!: (isOpen: boolean) => void
   private controlState!: (req: { state: 'PLAY' | 'PAUSE' }) => Promise<void>
+  private sessionName!: string
 
   private isDeviceSelectDialogOpen: boolean = false
   private pageRoot: any
@@ -182,6 +183,12 @@ export default class extends Vue {
   onChangeToPassive() {
     this.handleReturnFromSpotify()
     this.fetchSession()
+  }
+
+  head() {
+    return {
+      title: this.sessionName
+    }
   }
 }
 </script>

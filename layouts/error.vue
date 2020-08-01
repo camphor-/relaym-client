@@ -18,6 +18,11 @@ import ToppageLogo from '@/components/molecules/ToppageLogo.vue'
 @Component({
   components: {
     ToppageLogo
+  },
+  head() {
+    return {
+      title: 'Error'
+    }
   }
 })
 export default class Error extends Vue {
