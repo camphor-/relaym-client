@@ -3,6 +3,15 @@
     <div class="invite_description">リンクを共有して楽しもう🎧</div>
     <qr-code :content="inviteUrl" />
     <v-layout row align-center justify-center>
+      <v-btn
+        v-if="isAllowPublicShare"
+        flat
+        icon
+        color="#1da1f2"
+        @click="handleClickTwitterShare"
+      >
+        <v-icon>fab fa-twitter</v-icon>
+      </v-btn>
       <v-btn flat icon color="#00B900" @click="handleClickLineShare">
         <v-icon>fab fa-line</v-icon>
       </v-btn>
@@ -12,7 +21,7 @@
       <v-btn depressed @click="handleClickCopy">コピー</v-btn>
     </v-layout>
     <v-layout
-      v-if="isShowShareWarning"
+      v-if="!isAllowPublicShare"
       align-start
       class="attention accent--text"
     >
@@ -25,9 +34,10 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { mapActions } from 'vuex'
-import * as copy from 'copy-to-clipboard'
+import copy from 'copy-to-clipboard'
 import QrCode from '@/components/atoms/QrCode.vue'
 import { MessageType, SnackbarPayload } from '@/store/snackbar'
+import { getLineUrl, getTwitterUrl } from '@/lib/share'
 
 @Component({
   name: 'InviteLinkBox',
@@ -38,7 +48,8 @@ import { MessageType, SnackbarPayload } from '@/store/snackbar'
 })
 export default class extends Vue {
   @Prop({ required: true }) readonly sessionId!: string | null
-  @Prop({ default: true }) readonly isShowShareWarning!: boolean
+  @Prop({ required: true }) readonly sessionName!: string
+  @Prop({ default: false }) readonly isAllowPublicShare!: boolean
   private showSnackbar!: (payload: SnackbarPayload) => void
 
   get inviteUrl() {
@@ -46,21 +57,28 @@ export default class extends Vue {
     return `${location.origin}/sessions/${this.sessionId}`
   }
 
+  get inviteText() {
+    return `セッション「${this.sessionName}」に招待しています。Relaymで一緒にセッションを楽しもう！`
+  }
+
   get canShare(): boolean {
     return !!navigator.share
   }
 
+  handleClickTwitterShare() {
+    const twitterShareUrl = getTwitterUrl(this.inviteText, this.inviteUrl)
+    window.open(twitterShareUrl)
+  }
+
   handleClickLineShare() {
-    const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${encodeURI(
-      this.inviteUrl
-    )}`
+    const lineShareUrl = getLineUrl(this.inviteUrl)
     window.open(lineShareUrl)
   }
 
   async handleClickWebShare() {
     const shareData: ShareData = {
       title: 'Relaym',
-      text: 'Relaymで一緒にセッションを楽しもう！',
+      text: this.inviteText,
       url: this.inviteUrl
     }
     await navigator.share(shareData)

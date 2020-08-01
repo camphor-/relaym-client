@@ -27,7 +27,9 @@
       <service-description-header>特徴</service-description-header>
 
       <div class="features">
-        <service-feature :icon-src="require('~/assets/images/feature1.svg')">
+        <service-feature
+          :icon-src="require('~/assets/images/spotify_premium.svg')"
+        >
           <template v-slot:header
             >Spotify Premiumユーザーが<br />
             1人いればOK</template
@@ -40,8 +42,7 @@
           >
         </service-feature>
 
-        <!-- TODO: 画像を差し替える-->
-        <service-feature :icon-src="require('~/assets/images/feature1.svg')">
+        <service-feature :icon-src="require('~/assets/images/add.svg')">
           <template v-slot:header>曲の追加が自分のスマホで完結</template>
           <template v-slot:body
             ><p class="feature-description">
@@ -50,8 +51,7 @@
           >
         </service-feature>
 
-        <!-- TODO: 画像を差し替える-->
-        <service-feature :icon-src="require('~/assets/images/feature1.svg')">
+        <service-feature :icon-src="require('~/assets/images/share.svg')">
           <template v-slot:header>QRコードやURLで<br />らくらくシェア</template>
           <template v-slot:body
             ><p class="feature-description">

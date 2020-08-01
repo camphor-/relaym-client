@@ -12,7 +12,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 @Component({
   name: 'Seekbar',
   filters: {
-    timeFormat(val) {
+    timeFormat(val: number) {
       const lengthSec = Math.round(val / 1000)
       const min = Math.floor(lengthSec / 60)
       const sec = lengthSec % 60

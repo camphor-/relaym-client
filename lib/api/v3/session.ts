@@ -1,5 +1,5 @@
-import { Device, Session, Track } from '@/api/v3/types'
-import { instance } from '@/api/v3/index'
+import { Device, Session, Track } from '@/lib/api/v3/types'
+import { instance } from '@/lib/api/v3/index'
 
 export const createSession = async (req: CreateSessionRequest) => {
   const res = await instance.post<Session>('/sessions', {

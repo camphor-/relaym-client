@@ -29,14 +29,14 @@
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'nuxt-property-decorator'
 import { mapActions, mapGetters, mapState } from 'vuex'
 import ToppageLogo from '@/components/molecules/ToppageLogo.vue'
 import NewSessionDialog from '@/components/organisms/NewSessionDialog.vue'
 import LoginButton from '@/components/atoms/LoginButton.vue'
 import BanFreePlanDialog from '@/components/organisms/BanFreePlanDialog.vue'
-import { createSession } from '@/api/v3/session'
-import { User } from '@/api/v3/types'
+import { createSession } from '@/lib/api/v3/session'
+import { User } from '@/lib/api/v3/types'
 import { MessageType, SnackbarPayload } from '@/store/snackbar'
 import NewSessionButton from '@/components/atoms/NewSessionButton.vue'
 import ServiceDescription from '@/components/organisms/ServiceDescription.vue'
@@ -97,6 +97,13 @@ export default class Index extends Vue {
       this.showServerErrorSnackbar()
     }
   }
+
+  head() {
+    return {
+      titleTemplate:
+        'Relaym - Spotifyの楽曲を1つのスピーカーで楽しめるWebアプリ'
+    }
+  }
 }
 </script>
 
@@ -147,7 +154,7 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: start;
+  justify-content: flex-start;
 }
 .scroll-text {
   font-size: 0.8rem;

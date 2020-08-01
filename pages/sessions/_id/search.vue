@@ -22,10 +22,10 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import { mapActions, mapState } from 'vuex'
+import { mapActions, mapGetters, mapState } from 'vuex'
 import SearchResultList from '@/components/molecules/SearchResultList.vue'
 import Snackbar from '@/components/organisms/Snackbar.vue'
-import { Track } from '@/api/v3/types'
+import { Track } from '@/lib/api/v3/types'
 import { MessageType, SnackbarPayload } from '@/store/snackbar'
 
 const SEARCH_INTERVAL = 1000
@@ -33,7 +33,8 @@ const SEARCH_INTERVAL = 1000
 @Component({
   components: { SearchResultList, Snackbar },
   computed: {
-    ...mapState('pages/sessions/search', ['result'])
+    ...mapState('pages/sessions/search', ['result']),
+    ...mapGetters('pages/sessions/detail', ['sessionName'])
   },
   methods: {
     ...mapActions('pages/sessions/search', [
@@ -51,6 +52,7 @@ export default class Search extends Vue {
   private q: string = ''
   private lastSearchTime = Date.now()
   private showSnackbar!: (payload: SnackbarPayload) => void
+  private sessionName!: string
 
   private searchTimeoutId: number | null = null
 
@@ -97,6 +99,12 @@ export default class Search extends Vue {
   beforeDestroy() {
     if (typeof this.searchTimeoutId === 'number') {
       clearTimeout(this.searchTimeoutId)
+    }
+  }
+
+  head() {
+    return {
+      title: this.sessionName
     }
   }
 }
