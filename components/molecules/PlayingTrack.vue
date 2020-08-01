@@ -5,7 +5,7 @@
       <div class="track-info">
         <v-list-tile-title>{{ playingTrack.name }}</v-list-tile-title>
         <v-list-tile-sub-title
-          >{{ playingTrack.artists.map((artist) => artist.name).join(', ') }} -
+          >{{ artistNames }} -
           {{ playingTrack.album.name }}
         </v-list-tile-sub-title>
       </div>
@@ -23,6 +23,7 @@
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import Seekbar from '@/components/atoms/Seekbar.vue'
 import { Playback, Track } from '@/lib/api/v3/types'
+import { getArtistNames } from '@/lib/artist'
 
 @Component({
   name: 'PlayingTrack',
@@ -31,6 +32,10 @@ import { Playback, Track } from '@/lib/api/v3/types'
 export default class extends Vue {
   @Prop({ required: true }) readonly playback!: Playback
   @Prop({ required: true }) readonly playingTrack!: Track
+
+  get artistNames() {
+    return getArtistNames(this.playingTrack.artists)
+  }
 }
 </script>
 
