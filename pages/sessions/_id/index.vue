@@ -81,7 +81,7 @@ import SessionArchivedHeader from '@/components/atoms/SessionArchivedHeader.vue'
   }
 })
 export default class extends Vue {
-  private setSessionId!: (id: string) => Promise<void>
+  private setSessionId!: (id: string) => void
   private fetchSession!: () => Promise<void>
   private setDevice!: (deviceId: string) => void
   private connectWebSocket!: () => void
@@ -99,9 +99,9 @@ export default class extends Vue {
   private isOpeningSpotify: boolean = false
 
   @Watch('$route.params.id', { immediate: true })
-  async onPathIdChanged() {
+  onPathIdChanged() {
     try {
-      await this.setSessionId(this.$route.params.id)
+      this.setSessionId(this.$route.params.id)
     } catch (e) {
       this.$router.push({ name: 'error' })
     }

@@ -100,9 +100,8 @@ export const mutations: MutationTree<State> = {
 }
 
 export const actions: ActionTree<State, {}> = {
-  async setSessionId({ commit, dispatch }, id: string) {
+  setSessionId({ commit }, id: string) {
     commit('setSessionId', id)
-    await dispatch('fetchSession')
   },
   async fetchSession({ state, commit, dispatch }) {
     if (!state.sessionId) return
@@ -168,6 +167,7 @@ export const actions: ActionTree<State, {}> = {
     try {
       const socket = createWebSocket(state.sessionId)
       socket.onopen = () => {
+        dispatch('fetchSession')
         commit('setWebSocketRetryInterval', DEFAULT_WEBSOCKET_RETRY_INTERVAL)
       }
       socket.onmessage = (ev) =>
@@ -213,7 +213,6 @@ export const actions: ActionTree<State, {}> = {
       { root: true }
     )
     await dispatch('connectWebSocket')
-    await dispatch('fetchSession')
   },
   handleWebSocketMessage: ({ dispatch, commit }, message: SocketMessage) => {
     console.log(message)
