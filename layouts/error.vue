@@ -22,7 +22,6 @@ import ToppageLogo from '@/components/molecules/ToppageLogo.vue'
 })
 export default class Error extends Vue {
   @Prop({ default: {} }) readonly error!: any
-  private message = '404'
 
   head() {
     return {
