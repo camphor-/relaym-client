@@ -28,6 +28,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import { getTwitterUrl, getFacebookUrl, getLineUrl } from '@/lib/share'
 
 @Component({
   name: 'ShareButtons'

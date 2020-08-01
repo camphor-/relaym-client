@@ -28,6 +28,7 @@ import { mapActions } from 'vuex'
 import * as copy from 'copy-to-clipboard'
 import QrCode from '@/components/atoms/QrCode.vue'
 import { MessageType, SnackbarPayload } from '@/store/snackbar'
+import { getLineUrl } from '@/lib/share'
 
 @Component({
   name: 'InviteLinkBox',
@@ -51,9 +52,7 @@ export default class extends Vue {
   }
 
   handleClickLineShare() {
-    const lineShareUrl = `https://social-plugins.line.me/lineit/share?url=${encodeURI(
-      this.inviteUrl
-    )}`
+    const lineShareUrl = getLineUrl(this.inviteUrl)
     window.open(lineShareUrl)
   }
 
