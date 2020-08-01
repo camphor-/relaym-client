@@ -3,6 +3,15 @@
     <div class="invite_description">リンクを共有して楽しもう🎧</div>
     <qr-code :content="inviteUrl" />
     <v-layout row align-center justify-center>
+      <v-btn
+        v-if="isAllowPublicShare"
+        flat
+        icon
+        color="#1da1f2"
+        @click="handleClickTwitterShare"
+      >
+        <v-icon>fab fa-twitter</v-icon>
+      </v-btn>
       <v-btn flat icon color="#00B900" @click="handleClickLineShare">
         <v-icon>fab fa-line</v-icon>
       </v-btn>
@@ -12,7 +21,7 @@
       <v-btn depressed @click="handleClickCopy">コピー</v-btn>
     </v-layout>
     <v-layout
-      v-if="isShowShareWarning"
+      v-if="isAllowPublicShare"
       align-start
       class="attention accent--text"
     >
@@ -28,7 +37,7 @@ import { mapActions } from 'vuex'
 import * as copy from 'copy-to-clipboard'
 import QrCode from '@/components/atoms/QrCode.vue'
 import { MessageType, SnackbarPayload } from '@/store/snackbar'
-import { getLineUrl } from '@/lib/share'
+import { getLineUrl, getTwitterUrl } from '@/lib/share'
 
 @Component({
   name: 'InviteLinkBox',
@@ -39,7 +48,7 @@ import { getLineUrl } from '@/lib/share'
 })
 export default class extends Vue {
   @Prop({ required: true }) readonly sessionId!: string | null
-  @Prop({ default: true }) readonly isShowShareWarning!: boolean
+  @Prop({ default: false }) readonly isAllowPublicShare!: boolean
   private showSnackbar!: (payload: SnackbarPayload) => void
 
   get inviteUrl() {
@@ -49,6 +58,14 @@ export default class extends Vue {
 
   get canShare(): boolean {
     return !!navigator.share
+  }
+
+  handleClickTwitterShare() {
+    const twitterShareUrl = getTwitterUrl(
+      'Relaymで一緒にセッションを楽しもう！',
+      this.inviteUrl
+    )
+    window.open(twitterShareUrl)
   }
 
   handleClickLineShare() {

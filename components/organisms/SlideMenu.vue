@@ -36,7 +36,7 @@
         <invite-link-box
           class="invite-link-box"
           :session-id="sessionId"
-          :is-show-share-warning="allowToControlByOthers"
+          :is-allow-public-share="allowToControlByOthers"
         />
       </v-list>
     </v-navigation-drawer>
