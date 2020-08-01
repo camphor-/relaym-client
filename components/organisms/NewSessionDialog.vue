@@ -1,7 +1,7 @@
 <template>
   <v-dialog :value="value" width="500" @input="input">
     <v-card>
-      <v-card-title>New Session</v-card-title>
+      <v-card-title>新規セッション</v-card-title>
       <v-card-text>
         <v-text-field v-model="sessionName" label="セッション名" />
         <v-switch

@@ -8,7 +8,7 @@ const nuxtConfig: NuxtConfiguration = {
    ** Headers of the page
    */
   head: {
-    title: 'Relaym',
+    title: 'Relaym | Spotifyの楽曲を1つのスピーカーで楽しめるWebアプリ',
     htmlAttrs: {
       lang: 'ja'
     },
@@ -156,8 +156,8 @@ const nuxtConfig: NuxtConfiguration = {
   },
 
   manifest: {
-    name: 'Here Songs',
-    short_name: 'Here Songs',
+    name: 'Relaym',
+    short_name: 'Relaym',
     description: '',
     start_url: '/',
     display: 'standalone',
