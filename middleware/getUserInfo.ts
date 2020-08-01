@@ -1,10 +1,10 @@
-import { Plugin } from '@nuxt/types'
+import { Context, Middleware } from '@nuxt/types'
 
 const disabledPathes = ['/terms']
-const plugin: Plugin = (ctx) => {
+const middleware: Middleware = (ctx: Context) => {
   if (disabledPathes.includes(ctx.route.path)) {
   }
   ctx.store.dispatch('user/fetchMyUserInfo')
 }
 
-export default plugin
+export default middleware
