@@ -19,8 +19,8 @@
           </v-list-tile-sub-title>
         </v-list-tile-content>
         <v-list-tile-action>
-          <v-btn icon @click="clickItem(item)">
-            <v-icon color="primary">add_circle</v-icon>
+          <v-btn icon large @click="clickItem(item)">
+            <v-icon color="primary" size="28">add_circle</v-icon>
           </v-btn>
         </v-list-tile-action>
       </v-list-tile>
