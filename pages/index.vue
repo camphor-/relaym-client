@@ -8,7 +8,12 @@
 
         <div class="action-button">
           <!--  TODO: セッション参加者は、URLをもらう説明を書く    -->
-          <div v-if="isLoading" class="placeholder"></div>
+          <v-progress-circular
+            v-if="loadingState === 'loading'"
+            indeterminate
+            color="primary"
+            class="placeholder"
+          ></v-progress-circular>
           <template v-else>
             <new-session-button
               v-if="isLoggedIn"
@@ -46,6 +51,7 @@ import { User } from '@/lib/api/v3/types'
 import { MessageType, SnackbarPayload } from '@/store/snackbar'
 import NewSessionButton from '@/components/atoms/NewSessionButton.vue'
 import ServiceDescription from '@/components/organisms/ServiceDescription.vue'
+import { LoadingState } from '~/store/user'
 
 @Component({
   components: {
@@ -58,7 +64,7 @@ import ServiceDescription from '@/components/organisms/ServiceDescription.vue'
   },
   layout: 'toppage',
   computed: {
-    ...mapState('user', ['me', 'isLoading']),
+    ...mapState('user', ['me', 'loadingState']),
     ...mapGetters('user', ['isLoggedIn'])
   },
   methods: {
@@ -67,7 +73,7 @@ import ServiceDescription from '@/components/organisms/ServiceDescription.vue'
 })
 export default class Index extends Vue {
   private readonly me!: User | null
-  private readonly isLoading!: boolean
+  private readonly loadingState!: LoadingState
 
   private isLoggedIn!: () => boolean
 

@@ -2,12 +2,14 @@ import { ActionTree } from 'vuex'
 import { getMyUserInfo } from '@/lib/api/v3/user'
 import { User } from '@/lib/api/v3/types'
 
+export type LoadingState = 'loading' | 'loaded' | 'error'
+
 export interface State {
-  isLoading: boolean
+  loadingState: LoadingState
   me: User | null
 }
 export const state = (): State => ({
-  isLoading: true,
+  loadingState: 'loading',
   me: null
 })
 
@@ -21,15 +23,15 @@ export const mutations = {
   setMyUserInfo: (state: State, newUser: User) => {
     state.me = newUser
   },
-  setIsLoading: (state: State, isLoading: boolean) => {
-    state.isLoading = isLoading
+  setLoadingState: (state: State, loadingState: LoadingState) => {
+    state.loadingState = loadingState
   }
 }
 
 export const actions: ActionTree<State, {}> = {
   async fetchMyUserInfo({ dispatch, commit }) {
     try {
-      commit('setIsLoading', true)
+      commit('setLoadingState', 'loading')
       const res = await getMyUserInfo()
       commit('setMyUserInfo', res)
     } catch (e) {
@@ -40,7 +42,7 @@ export const actions: ActionTree<State, {}> = {
       }
       commit('setMyUserInfo', null)
     } finally {
-      commit('setIsLoading', false)
+      commit('setLoadingState', 'loaded')
     }
   }
 }
