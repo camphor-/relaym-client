@@ -1,4 +1,4 @@
-import { MutationTree, ActionTree } from 'vuex'
+import { GetterTree, MutationTree, ActionTree } from 'vuex'
 import { Session, SocketMessage, Device } from '@/lib/api/v3/types'
 import {
   getDevices,
@@ -10,6 +10,7 @@ import {
 
 import { createWebSocket } from '@/lib/api/v3/websocket'
 import { MessageType } from '@/store/snackbar'
+import { RootState } from '~/store/-type'
 
 const DEFAULT_WEBSOCKET_RETRY_INTERVAL = 500
 
@@ -33,7 +34,7 @@ export const state = (): State => ({
   isInterruptDetectedDialogOpen: false
 })
 
-export const getters = {
+export const getters: GetterTree<State, RootState> = {
   sessionName(state: State): string {
     return state.session?.name ?? ''
   },
@@ -99,7 +100,7 @@ export const mutations: MutationTree<State> = {
   }
 }
 
-export const actions: ActionTree<State, {}> = {
+export const actions: ActionTree<State, RootState> = {
   async setSessionId({ commit, dispatch }, id: string) {
     commit('setSessionId', id)
     await dispatch('fetchSession')

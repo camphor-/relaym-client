@@ -2,6 +2,7 @@ import { MutationTree, ActionTree } from 'vuex'
 import { enqueue, search } from '@/lib/api/v3/session'
 import { Track } from '@/lib/api/v3/types'
 import { MessageType } from '@/store/snackbar'
+import { RootState } from '~/store/-type'
 
 interface State {
   sessionId: string | null
@@ -21,7 +22,7 @@ export const mutations: MutationTree<State> = {
   }
 }
 
-export const actions: ActionTree<State, {}> = {
+export const actions: ActionTree<State, RootState> = {
   setSessionId({ commit }, sessionId: string) {
     commit('setSessionId', sessionId)
   },

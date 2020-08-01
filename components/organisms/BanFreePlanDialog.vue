@@ -36,7 +36,7 @@ export default class extends Vue {
   @Prop({ default: false }) readonly value!: boolean
 
   @Emit()
-  input(newValue) {
+  input(newValue: boolean) {
     return newValue
   }
 
