@@ -1,7 +1,8 @@
+import { ActionTree } from 'vuex'
 import { getMyUserInfo } from '@/lib/api/v3/user'
 import { User } from '@/lib/api/v3/types'
 
-interface State {
+export interface State {
   isLoading: boolean
   me: User | null
 }
@@ -25,7 +26,7 @@ export const mutations = {
   }
 }
 
-export const actions = {
+export const actions: ActionTree<State, {}> = {
   async fetchMyUserInfo({ dispatch, commit }) {
     try {
       commit('setIsLoading', true)

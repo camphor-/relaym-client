@@ -1,4 +1,7 @@
-interface State {
+import { ActionTree } from 'vuex'
+import { RootState } from '~/store/-type'
+
+export interface State {
   isOpen: boolean
   message: string
   messageType: MessageType
@@ -35,7 +38,7 @@ export const mutations = {
   }
 }
 
-export const actions = {
+export const actions: ActionTree<State, RootState> = {
   showSnackbar({ commit, state }, payload: SnackbarPayload) {
     commit('setMessage', payload.message)
     commit('setMessageType', payload.messageType)

@@ -1,7 +1,7 @@
-import NuxtConfiguration from '@nuxt/config'
+import { NuxtConfig } from '@nuxt/types'
 const pkg = require('./package')
 
-const nuxtConfig: NuxtConfiguration = {
+const nuxtConfig: NuxtConfig = {
   mode: 'spa',
 
   /*
@@ -136,6 +136,7 @@ const nuxtConfig: NuxtConfiguration = {
   },
 
   buildModules: [
+    '@nuxt/typescript-build',
     [
       '@nuxtjs/google-analytics',
       {
