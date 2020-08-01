@@ -8,7 +8,8 @@ const nuxtConfig: NuxtConfiguration = {
    ** Headers of the page
    */
   head: {
-    title: 'Relaym | Spotifyの楽曲を1つのスピーカーで楽しめるWebアプリ',
+    titleTemplate:
+      '%s | Relaym - Spotifyの楽曲を1つのスピーカーで楽しめるWebアプリ',
     htmlAttrs: {
       lang: 'ja'
     },
@@ -114,9 +115,11 @@ const nuxtConfig: NuxtConfiguration = {
    ** Build configuration
    */
   build: {
-    /*
-     ** You can extend webpack config here
-     */
+    babel: {
+      presets() {
+        return [['@nuxt/babel-preset-app', { loose: true }]]
+      }
+    },
     extend(config, ctx) {
       // Run ESLint on save
       if (ctx.isDev && ctx.isClient) {

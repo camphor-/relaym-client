@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import ToppageLogo from '@/components/molecules/ToppageLogo.vue'
 
 @Component({
@@ -22,7 +22,12 @@ import ToppageLogo from '@/components/molecules/ToppageLogo.vue'
 })
 export default class Error extends Vue {
   @Prop({ default: {} }) readonly error!: any
-  private message = '404'
+
+  head() {
+    return {
+      title: 'Error'
+    }
+  }
 }
 </script>
 
