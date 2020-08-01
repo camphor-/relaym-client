@@ -1,7 +1,8 @@
+import { ActionTree } from 'vuex'
 import { getMyUserInfo } from '@/lib/api/v3/user'
 import { User } from '@/lib/api/v3/types'
 
-interface State {
+export interface State {
   me: User | null
 }
 export const state = (): State => ({
@@ -20,7 +21,7 @@ export const mutations = {
   }
 }
 
-export const actions = {
+export const actions: ActionTree<State, {}> = {
   async fetchMyUserInfo({ dispatch, commit }) {
     try {
       const res = await getMyUserInfo()

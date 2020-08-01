@@ -34,7 +34,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { mapActions } from 'vuex'
-import * as copy from 'copy-to-clipboard'
+import copy from 'copy-to-clipboard'
 import QrCode from '@/components/atoms/QrCode.vue'
 import { MessageType, SnackbarPayload } from '@/store/snackbar'
 import { getLineUrl, getTwitterUrl } from '@/lib/share'
