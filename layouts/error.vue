@@ -19,6 +19,7 @@ import ToppageLogo from '@/components/molecules/ToppageLogo.vue'
   components: {
     ToppageLogo
   },
+  // nuxt-property-decoratorを使うと、謎のVuexの型エラーが出るので使っていない
   head() {
     return {
       title: 'Error'
