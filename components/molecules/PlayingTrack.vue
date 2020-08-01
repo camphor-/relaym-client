@@ -5,8 +5,8 @@
       <div class="track-info">
         <v-list-tile-title>{{ playingTrack.name }}</v-list-tile-title>
         <v-list-tile-sub-title
-          >{{ playingTrack.album.name }} -
-          {{ playingTrack.artists[0].name }}
+          >{{ playingTrack.artists.map((artist) => artist.name).join(', ') }} -
+          {{ playingTrack.album.name }}
         </v-list-tile-sub-title>
       </div>
     </div>
