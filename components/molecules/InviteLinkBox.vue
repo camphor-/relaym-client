@@ -21,7 +21,7 @@
       <v-btn depressed @click="handleClickCopy">コピー</v-btn>
     </v-layout>
     <v-layout
-      v-if="isAllowPublicShare"
+      v-if="!isAllowPublicShare"
       align-start
       class="attention accent--text"
     >

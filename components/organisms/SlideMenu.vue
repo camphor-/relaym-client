@@ -36,7 +36,7 @@
         <invite-link-box
           class="invite-link-box"
           :session-id="sessionId"
-          :is-allow-public-share="allowToControlByOthers"
+          :is-allow-public-share="!allowToControlByOthers"
         />
       </v-list>
     </v-navigation-drawer>
@@ -79,7 +79,7 @@ export default class extends Vue {
 
   get allowToControlByOthers(): boolean {
     // eslint-disable-next-line camelcase
-    return this.session?.allow_to_control_by_others ?? true
+    return this.session?.allow_to_control_by_others ?? false
   }
 
   archiveSession() {
