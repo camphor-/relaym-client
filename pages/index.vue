@@ -8,8 +8,14 @@
 
         <div class="action-button">
           <!--  TODO: セッション参加者は、URLをもらう説明を書く    -->
-          <new-session-button v-if="isLoggedIn" @click="openNewSessionDialog" />
-          <login-button v-else />
+          <template v-if="!isLoading">
+            <new-session-button
+              v-if="isLoggedIn"
+              @click="openNewSessionDialog"
+            />
+            <login-button v-else />
+          </template>
+          <div v-else class="placeholder"></div>
         </div>
       </v-flex>
     </v-container>
@@ -52,7 +58,7 @@ import ServiceDescription from '@/components/organisms/ServiceDescription.vue'
   },
   layout: 'toppage',
   computed: {
-    ...mapState('user', ['me']),
+    ...mapState('user', ['me', 'isLoading']),
     ...mapGetters('user', ['isLoggedIn'])
   },
   methods: {
@@ -61,6 +67,7 @@ import ServiceDescription from '@/components/organisms/ServiceDescription.vue'
 })
 export default class Index extends Vue {
   private readonly me!: User | null
+  private readonly isLoading!: boolean
 
   private isLoggedIn!: () => boolean
 
@@ -160,5 +167,9 @@ button {
   font-size: 0.8rem;
   text-transform: uppercase;
   margin-bottom: 8px;
+}
+
+.placeholder {
+  height: 44px;
 }
 </style>
