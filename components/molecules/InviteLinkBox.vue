@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <div class="invite_description">リンクを共有して楽しもう🎧</div>
+    <div class="invite_description">リンクを共有して友達を招待🎧</div>
     <qr-code :content="inviteUrl" />
     <v-layout row align-center justify-center>
       <v-btn
@@ -58,7 +58,7 @@ export default class extends Vue {
   }
 
   get inviteText() {
-    return `セッション「${this.sessionName}」に招待しています。Relaymで一緒にセッションを楽しもう！`
+    return `セッション「${this.sessionName}」で一緒に音楽を楽しみませんか？`
   }
 
   get canShare(): boolean {
