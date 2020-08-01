@@ -101,10 +101,11 @@ const nuxtConfig: NuxtConfiguration = {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [
-    { src: '~/plugins/getUserInfo.ts' },
-    { src: '~/plugins/loadFontAwesome.ts' }
-  ],
+  plugins: [{ src: '~/plugins/loadFontAwesome.ts' }],
+
+  router: {
+    middleware: 'getUserInfo'
+  },
 
   /*
    ** Nuxt.js modules
