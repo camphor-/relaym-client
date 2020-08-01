@@ -1,5 +1,5 @@
-import { getMyUserInfo } from '@/api/v3/user'
-import { User } from '@/api/v3/types'
+import { getMyUserInfo } from '@/lib/api/v3/user'
+import { User } from '@/lib/api/v3/types'
 
 interface State {
   me: User | null

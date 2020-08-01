@@ -14,7 +14,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import { mapState } from 'vuex'
 import TrackListPlaceHolder from '@/components/molecules/TrackListPlaceHolder.vue'
 import TrackList from '@/components/molecules/TrackList.vue'
-import { Playback, Session, Queue } from '@/api/v3/types'
+import { Playback, Session, Queue } from '@/lib/api/v3/types'
 
 @Component({
   components: { TrackList, TrackListPlaceHolder },

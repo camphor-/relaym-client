@@ -48,7 +48,7 @@ import TrackListContainer from '@/components/organisms/TrackListContainer.vue'
 import DeviceSelectDialog from '@/components/organisms/DeviceSelectDialog.vue'
 import BottomController from '@/components/organisms/BottomController.vue'
 import InterruptDetectedDialog from '@/components/organisms/InterruptDetectedDialog.vue'
-import { Device } from '@/api/v3/types'
+import { Device } from '@/lib/api/v3/types'
 import ActiveDeviceNotFoundDialog from '@/components/organisms/ActiveDeviceNotFoundDialog.vue'
 import SessionArchivedHeader from '@/components/atoms/SessionArchivedHeader.vue'
 

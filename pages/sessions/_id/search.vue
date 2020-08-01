@@ -25,7 +25,7 @@ import { Component, Vue, Watch } from 'vue-property-decorator'
 import { mapActions, mapGetters, mapState } from 'vuex'
 import SearchResultList from '@/components/molecules/SearchResultList.vue'
 import Snackbar from '@/components/organisms/Snackbar.vue'
-import { Track } from '@/api/v3/types'
+import { Track } from '@/lib/api/v3/types'
 import { MessageType, SnackbarPayload } from '@/store/snackbar'
 
 const SEARCH_INTERVAL = 1000

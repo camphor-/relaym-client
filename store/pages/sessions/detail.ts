@@ -1,14 +1,14 @@
 import { MutationTree, ActionTree } from 'vuex'
-import { Session, SocketMessage, Device } from '@/api/v3/types'
+import { Session, SocketMessage, Device } from '@/lib/api/v3/types'
 import {
   getDevices,
   controlState,
   getSession,
   setDevice,
   PlaybackStates
-} from '@/api/v3/session'
+} from '@/lib/api/v3/session'
 
-import { createWebSocket } from '@/api/v3/websocket'
+import { createWebSocket } from '@/lib/api/v3/websocket'
 import { MessageType } from '@/store/snackbar'
 
 const DEFAULT_WEBSOCKET_RETRY_INTERVAL = 500

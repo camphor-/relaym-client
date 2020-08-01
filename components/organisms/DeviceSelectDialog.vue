@@ -25,7 +25,7 @@
 import { Component, Emit, Prop, Vue, Watch } from 'vue-property-decorator'
 import { mapActions, mapGetters, mapState } from 'vuex'
 import DeviceList from '@/components/molecules/DeviceList.vue'
-import { Device, Session } from '@/api/v3/types'
+import { Device, Session } from '@/lib/api/v3/types'
 
 @Component({
   components: { DeviceList },

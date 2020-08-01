@@ -11,7 +11,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import { getLoginUrl } from '@/api/v3/auth'
+import { getLoginUrl } from '@/lib/api/v3/auth'
 
 @Component({
   name: 'LoginButton',

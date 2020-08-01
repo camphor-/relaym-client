@@ -1,6 +1,6 @@
 import { MutationTree, ActionTree } from 'vuex'
-import { enqueue, search } from '@/api/v3/session'
-import { Track } from '@/api/v3/types'
+import { enqueue, search } from '@/lib/api/v3/session'
+import { Track } from '@/lib/api/v3/types'
 import { MessageType } from '@/store/snackbar'
 
 interface State {
