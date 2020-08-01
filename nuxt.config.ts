@@ -103,10 +103,6 @@ const nuxtConfig: NuxtConfig = {
    */
   plugins: [{ src: '~/plugins/loadFontAwesome.ts' }],
 
-  router: {
-    middleware: 'getUserInfo'
-  },
-
   /*
    ** Nuxt.js modules
    */

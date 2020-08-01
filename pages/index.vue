@@ -71,12 +71,14 @@ import { LoadingState } from '~/store/user'
     ...mapGetters('user', ['isLoggedIn'])
   },
   methods: {
-    ...mapActions('snackbar', ['showServerErrorSnackbar', 'showSnackbar'])
+    ...mapActions('snackbar', ['showServerErrorSnackbar', 'showSnackbar']),
+    ...mapActions('user', ['fetchMyUserInfo'])
   }
 })
 export default class Index extends Vue {
   private readonly me!: User | null
   private readonly loadingState!: LoadingState
+  private fetchMyUserInfo!: () => Promise<void>
 
   private isLoggedIn!: () => boolean
 
@@ -85,6 +87,10 @@ export default class Index extends Vue {
 
   private isBanDialogOpen: boolean = false
   private isNewSessionDialogOpen: boolean = false
+
+  async mounted() {
+    await this.fetchMyUserInfo()
+  }
 
   openNewSessionDialog() {
     if (this.me && !this.me.is_premium) {
