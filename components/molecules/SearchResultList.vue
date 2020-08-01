@@ -46,7 +46,7 @@ export default class extends Vue {
   }
 
   getArtistNames(artists: Artist[]) {
-    getArtistNames(artists)
+    return getArtistNames(artists)
   }
 }
 </script>
