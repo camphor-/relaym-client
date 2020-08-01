@@ -37,7 +37,10 @@ export default class extends Vue {
   private shareUrl: string = location.origin
 
   get twitterUrl() {
-    return getTwitterUrl('Relaym', this.shareUrl)
+    return getTwitterUrl(
+      'Relaym - Spotifyの楽曲を1つのスピーカーで楽しめるWebアプリ',
+      this.shareUrl
+    )
   }
 
   get facebookUrl() {
