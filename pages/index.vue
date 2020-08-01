@@ -14,13 +14,16 @@
             color="primary"
             class="placeholder"
           ></v-progress-circular>
-          <template v-else>
+          <template v-if="loadingState === 'loaded'">
             <new-session-button
               v-if="isLoggedIn"
               @click="openNewSessionDialog"
             />
             <login-button v-else />
           </template>
+          <p v-if="loadingState === 'error'">
+            エラーが発生しました。<br />しばらく経ってから再度お試しください。
+          </p>
         </div>
       </v-flex>
     </v-container>
