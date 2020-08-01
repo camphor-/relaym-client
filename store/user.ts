@@ -36,14 +36,18 @@ export const actions: ActionTree<State, {}> = {
       commit('setMyUserInfo', res)
       commit('setLoadingState', 'loaded')
     } catch (e) {
-      // 未認証時に401が返ってくるのは正常なので、エラー表示しない
-      if (e.response?.status !== 401) {
-        console.error(e)
-        dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
-        commit('setLoadingState', 'error')
-      }
       commit('setMyUserInfo', null)
-      commit('setLoadingState', 'loaded')
+
+      // 未認証時に401が返ってくるのは正常なので、エラー表示しない
+      if (e.response?.status === 401) {
+        commit('setLoadingState', 'loaded')
+        return
+      }
+
+      // 401以外のエラーは例外処理
+      console.error(e)
+      dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
+      commit('setLoadingState', 'error')
     }
   }
 }
