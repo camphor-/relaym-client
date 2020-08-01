@@ -4,7 +4,7 @@
       <v-flex>
         <toppage-logo class="logo" />
 
-        <h1 class="top-page-title">Relaym</h1>
+        <img class="text-logo" src="~assets/images/text_logo.svg" />
 
         <div class="action-button">
           <!--  TODO: セッション参加者は、URLをもらう説明を書く    -->
@@ -140,13 +140,9 @@ export default class Index extends Vue {
 .logo {
   margin: 0 auto 32px;
 }
-
-.top-page-title {
-  font-family: Roboto, 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
-  font-size: 48px;
-  color: $primary-color;
-  font-weight: normal;
+.text-logo {
+  width: auto;
+  height: 48px;
 }
 
 button {
