@@ -1,5 +1,5 @@
 <template>
-  <img :src="qrSvg" />
+  <img class="qrcode" :src="qrSvg" />
 </template>
 
 <script lang="ts">
@@ -25,4 +25,8 @@ export default class extends Vue {
 }
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.qrcode {
+  max-height: 40vh;
+}
+</style>
