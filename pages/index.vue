@@ -8,8 +8,22 @@
 
         <div class="action-button">
           <!--  TODO: セッション参加者は、URLをもらう説明を書く    -->
-          <new-session-button v-if="isLoggedIn" @click="openNewSessionDialog" />
-          <login-button v-else />
+          <div v-if="loadingState === 'loading'">
+            <v-progress-circular
+              indeterminate
+              color="primary"
+            ></v-progress-circular>
+          </div>
+          <template v-if="loadingState === 'loaded'">
+            <new-session-button
+              v-if="isLoggedIn"
+              @click="openNewSessionDialog"
+            />
+            <login-button v-else />
+          </template>
+          <p v-if="loadingState === 'error'">
+            エラーが発生しました。<br />しばらく経ってから再度お試しください。
+          </p>
         </div>
       </v-flex>
     </v-container>
@@ -40,6 +54,7 @@ import { User } from '@/lib/api/v3/types'
 import { MessageType, SnackbarPayload } from '@/store/snackbar'
 import NewSessionButton from '@/components/atoms/NewSessionButton.vue'
 import ServiceDescription from '@/components/organisms/ServiceDescription.vue'
+import { LoadingState } from '~/store/user'
 
 @Component({
   components: {
@@ -52,15 +67,18 @@ import ServiceDescription from '@/components/organisms/ServiceDescription.vue'
   },
   layout: 'toppage',
   computed: {
-    ...mapState('user', ['me']),
+    ...mapState('user', ['me', 'loadingState']),
     ...mapGetters('user', ['isLoggedIn'])
   },
   methods: {
-    ...mapActions('snackbar', ['showServerErrorSnackbar', 'showSnackbar'])
+    ...mapActions('snackbar', ['showServerErrorSnackbar', 'showSnackbar']),
+    ...mapActions('user', ['fetchMyUserInfo'])
   }
 })
 export default class Index extends Vue {
   private readonly me!: User | null
+  private readonly loadingState!: LoadingState
+  private fetchMyUserInfo!: () => Promise<void>
 
   private isLoggedIn!: () => boolean
 
@@ -69,6 +87,10 @@ export default class Index extends Vue {
 
   private isBanDialogOpen: boolean = false
   private isNewSessionDialogOpen: boolean = false
+
+  async mounted() {
+    await this.fetchMyUserInfo()
+  }
 
   openNewSessionDialog() {
     if (this.me && !this.me.is_premium) {
@@ -134,6 +156,7 @@ button {
 
 .action-button {
   margin-top: 32px;
+  height: 108px;
 }
 
 .links {
