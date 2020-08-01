@@ -8,14 +8,14 @@
 
         <div class="action-button">
           <!--  TODO: セッション参加者は、URLをもらう説明を書く    -->
-          <template v-if="!isLoading">
+          <div v-if="isLoading" class="placeholder"></div>
+          <template v-else>
             <new-session-button
               v-if="isLoggedIn"
               @click="openNewSessionDialog"
             />
             <login-button v-else />
           </template>
-          <div v-else class="placeholder"></div>
         </div>
       </v-flex>
     </v-container>
