@@ -1,9 +1,7 @@
 <template>
   <div>
     <v-navigation-drawer :value="value" fixed temporary @input="input">
-      <div id="logo">
-        <nuxt-link to="/">Relaym</nuxt-link>
-      </div>
+      <img class="text-logo" src="~assets/images/text_logo.svg" />
       <v-list>
         <v-list-tile to="/" nuxt>
           <v-list-tile-avatar>
@@ -103,10 +101,10 @@ a {
   text-decoration: none;
   color: $primary-color;
 }
-#logo {
-  text-align: center;
-  margin: 1rem 0;
-  font-size: 2rem;
+.text-logo {
+  height: 2rem;
+  display: block;
+  margin: 16px auto;
 }
 .invite-link-box {
   position: absolute;
