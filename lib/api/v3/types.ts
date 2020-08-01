@@ -64,7 +64,7 @@ export interface Track {
   album: Album
 }
 
-interface Artist {
+export interface Artist {
   name: string
 }
 

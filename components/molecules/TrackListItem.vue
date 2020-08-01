@@ -6,7 +6,7 @@
     <v-list-tile-content>
       <v-list-tile-title>{{ track.name }}</v-list-tile-title>
       <v-list-tile-sub-title>
-        {{ track.artists.map((artist) => artist.name).join(', ') }} -
+        {{ artistNames }} -
         {{ track.album.name }}
       </v-list-tile-sub-title>
     </v-list-tile-content>
@@ -16,6 +16,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import { Track } from '@/lib/api/v3/types'
+import { getArtistNames } from '~/lib/artist'
 
 @Component({
   name: 'TrackListItem',
@@ -23,6 +24,10 @@ import { Track } from '@/lib/api/v3/types'
 })
 export default class extends Vue {
   @Prop({ required: true }) readonly track!: Track
+
+  get artistNames() {
+    return getArtistNames(this.track.artists)
+  }
 }
 </script>
 
