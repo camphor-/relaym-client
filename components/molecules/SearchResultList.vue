@@ -14,13 +14,13 @@
         <v-list-tile-content>
           <v-list-tile-title>{{ item.name }}</v-list-tile-title>
           <v-list-tile-sub-title>
-            {{ item.artists.map((artist) => artist.name).join(', ') }} -
+            {{ getArtistNames(item.artists) }} -
             {{ item.album.name }}
           </v-list-tile-sub-title>
         </v-list-tile-content>
         <v-list-tile-action>
-          <v-btn icon @click="clickItem(item)">
-            <v-icon color="primary">add_circle</v-icon>
+          <v-btn icon large @click="clickItem(item)">
+            <v-icon color="primary" size="28">add_circle</v-icon>
           </v-btn>
         </v-list-tile-action>
       </v-list-tile>
@@ -31,7 +31,8 @@
 
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
-import { Track } from '@/lib/api/v3/types'
+import { Artist, Track } from '@/lib/api/v3/types'
+import { getArtistNames } from '@/lib/artist'
 
 @Component({
   components: {}
@@ -42,6 +43,10 @@ export default class extends Vue {
   @Emit()
   clickItem(track: Track) {
     return track
+  }
+
+  getArtistNames(artists: Artist[]) {
+    return getArtistNames(artists)
   }
 }
 </script>
