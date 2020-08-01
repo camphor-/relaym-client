@@ -48,6 +48,7 @@ import { getLineUrl, getTwitterUrl } from '@/lib/share'
 })
 export default class extends Vue {
   @Prop({ required: true }) readonly sessionId!: string | null
+  @Prop({ required: true }) readonly sessionName!: string
   @Prop({ default: false }) readonly isAllowPublicShare!: boolean
   private showSnackbar!: (payload: SnackbarPayload) => void
 
@@ -56,15 +57,16 @@ export default class extends Vue {
     return `${location.origin}/sessions/${this.sessionId}`
   }
 
+  get inviteText() {
+    return `セッション「${this.sessionName}」に招待しています。Relaymで一緒にセッションを楽しもう！`
+  }
+
   get canShare(): boolean {
     return !!navigator.share
   }
 
   handleClickTwitterShare() {
-    const twitterShareUrl = getTwitterUrl(
-      'Relaymで一緒にセッションを楽しもう！',
-      this.inviteUrl
-    )
+    const twitterShareUrl = getTwitterUrl(this.inviteText, this.inviteUrl)
     window.open(twitterShareUrl)
   }
 
@@ -76,7 +78,7 @@ export default class extends Vue {
   async handleClickWebShare() {
     const shareData: ShareData = {
       title: 'Relaym',
-      text: 'Relaymで一緒にセッションを楽しもう！',
+      text: this.inviteText,
       url: this.inviteUrl
     }
     await navigator.share(shareData)
