@@ -12,23 +12,23 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator'
+import { Component, Prop, Vue } from 'nuxt-property-decorator'
 import ToppageLogo from '@/components/molecules/ToppageLogo.vue'
 
 @Component({
   components: {
     ToppageLogo
-  },
-  // nuxt-property-decoratorを使うと、謎のVuexの型エラーが出るので使っていない
-  head() {
-    return {
-      title: 'Error'
-    }
   }
 })
 export default class Error extends Vue {
   @Prop({ default: {} }) readonly error!: any
   private message = '404'
+
+  head() {
+    return {
+      title: 'Error'
+    }
+  }
 }
 </script>
 
