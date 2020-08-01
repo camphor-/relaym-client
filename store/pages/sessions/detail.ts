@@ -169,7 +169,6 @@ export const actions: ActionTree<State, {}> = {
       const socket = createWebSocket(state.sessionId)
       socket.onopen = () => {
         commit('setWebSocketRetryInterval', DEFAULT_WEBSOCKET_RETRY_INTERVAL)
-        dispatch('fetchSession')
       }
       socket.onmessage = (ev) =>
         dispatch('handleWebSocketMessage', JSON.parse(ev.data))
@@ -214,6 +213,7 @@ export const actions: ActionTree<State, {}> = {
       { root: true }
     )
     await dispatch('connectWebSocket')
+    await dispatch('fetchSession')
   },
   handleWebSocketMessage: ({ dispatch, commit }, message: SocketMessage) => {
     console.log(message)
