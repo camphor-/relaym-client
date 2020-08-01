@@ -1,4 +1,4 @@
-import { MutationTree, ActionTree } from 'vuex'
+import { GetterTree, MutationTree, ActionTree } from 'vuex'
 import { Session, SocketMessage, Device } from '@/lib/api/v3/types'
 import {
   getDevices,
@@ -10,6 +10,7 @@ import {
 
 import { createWebSocket } from '@/lib/api/v3/websocket'
 import { MessageType } from '@/store/snackbar'
+import { RootState } from '~/store/-type'
 
 const DEFAULT_WEBSOCKET_RETRY_INTERVAL = 500
 
@@ -21,6 +22,7 @@ interface State {
   webSocketRetryInterval: number
   progressTimer: number | null
   isInterruptDetectedDialogOpen: boolean
+  isChangingState: boolean
 }
 
 export const state = (): State => ({
@@ -30,10 +32,11 @@ export const state = (): State => ({
   webSocket: null,
   webSocketRetryInterval: DEFAULT_WEBSOCKET_RETRY_INTERVAL,
   progressTimer: null,
-  isInterruptDetectedDialogOpen: false
+  isInterruptDetectedDialogOpen: false,
+  isChangingState: false
 })
 
-export const getters = {
+export const getters: GetterTree<State, RootState> = {
   sessionName(state: State): string {
     return state.session?.name ?? ''
   },
@@ -44,13 +47,16 @@ export const getters = {
     if (!state.session) return false
     return state.session.creator.id === rootState.user.me?.id
   },
-  canControlPlayback(state: State, getters): boolean {
+  hasPermissionToControlPlayback(state: State, getters): boolean {
     if (getters.isSessionArchived) return false
     return (
       getters.isMyOwnSession ||
       // eslint-disable-next-line camelcase
       (state.session?.allow_to_control_by_others ?? false)
     )
+  },
+  canControlState(state: State, getters): boolean {
+    return getters.hasPermissionToControlPlayback && !state.isChangingState
   },
   isSessionArchived(state: State): boolean {
     if (!state.session) return false
@@ -96,11 +102,14 @@ export const mutations: MutationTree<State> = {
   },
   setWebSocketRetryInterval(state: State, webSocketRetryInterval: number) {
     state.webSocketRetryInterval = webSocketRetryInterval
+  },
+  setIsChangingState(state: State, isChangingState: boolean) {
+    state.isChangingState = isChangingState
   }
 }
 
-export const actions: ActionTree<State, {}> = {
-  setSessionId({ commit }, id: string) {
+export const actions: ActionTree<State, RootState> = {
+  async setSessionId({ commit }, id: string) {
     commit('setSessionId', id)
   },
   async fetchSession({ state, commit, dispatch }) {
@@ -227,8 +236,12 @@ export const actions: ActionTree<State, {}> = {
     commit('setWebSocket', null)
     dispatch('reconnectWebSocket')
   },
-  controlState: async ({ state, dispatch }, req: { state: PlaybackStates }) => {
+  controlState: async (
+    { state, commit, dispatch },
+    req: { state: PlaybackStates }
+  ) => {
     if (!state.sessionId) return
+    commit('setIsChangingState', true)
     try {
       await controlState(state.sessionId, req)
     } catch (e) {
@@ -261,6 +274,8 @@ export const actions: ActionTree<State, {}> = {
       }
       console.error(e)
       await dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
+    } finally {
+      commit('setIsChangingState', false)
     }
   },
   setProgressTimer: async ({ state, commit, dispatch }) => {

@@ -36,6 +36,7 @@
         <invite-link-box
           class="invite-link-box"
           :session-id="sessionId"
+          :session-name="sessionName"
           :is-allow-public-share="!allowToControlByOthers"
         />
       </v-list>
@@ -55,6 +56,7 @@ import { PlaybackStates } from '@/lib/api/v3/session'
   computed: {
     ...mapState('pages/sessions/detail', ['sessionId', 'session']),
     ...mapGetters('pages/sessions/detail', [
+      'sessionName',
       'isMyOwnSession',
       'isSessionArchived'
     ])
@@ -65,8 +67,9 @@ import { PlaybackStates } from '@/lib/api/v3/session'
 })
 export default class extends Vue {
   @Prop({ default: false }) readonly value!: boolean
-  private readonly sessionid!: string | null
+  private readonly sessionId!: string | null
   private readonly session!: Session | null
+  private readonly sessionName!: string
   private readonly isMyOwnSession!: boolean
   private readonly isSessionArchived!: boolean
 
