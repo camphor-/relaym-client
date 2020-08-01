@@ -77,7 +77,8 @@ import SessionArchivedHeader from '@/components/atoms/SessionArchivedHeader.vue'
       'clearProgressTimer',
       'setIsInterruptDetectedDialogOpen',
       'controlState'
-    ])
+    ]),
+    ...mapActions('user', ['fetchMyUserInfo'])
   }
 })
 export default class extends Vue {
@@ -90,6 +91,8 @@ export default class extends Vue {
   private setIsInterruptDetectedDialogOpen!: (isOpen: boolean) => void
   private controlState!: (req: { state: 'PLAY' | 'PAUSE' }) => Promise<void>
   private sessionName!: string
+
+  private fetchMyUserInfo!: () => Promise<void>
 
   private isDeviceSelectDialogOpen: boolean = false
   private pageRoot: any
@@ -108,10 +111,12 @@ export default class extends Vue {
     this.connectWebSocket()
   }
 
-  mounted() {
+  async mounted() {
     this.pageRoot = document.getElementsByClassName('page-root')[0]
     this.pageRoot.style.transition = '0.2s cubic-bezier(0.4, 0, 0.2, 1)'
     document.addEventListener('visibilitychange', this.onVisibilityChange)
+
+    await this.fetchMyUserInfo()
   }
 
   destroyed() {
