@@ -8,12 +8,12 @@
 
         <div class="action-button">
           <!--  TODO: セッション参加者は、URLをもらう説明を書く    -->
-          <v-progress-circular
-            v-if="loadingState === 'loading'"
-            indeterminate
-            color="primary"
-            class="placeholder"
-          ></v-progress-circular>
+          <div v-if="loadingState === 'loading'">
+            <v-progress-circular
+              indeterminate
+              color="primary"
+            ></v-progress-circular>
+          </div>
           <template v-if="loadingState === 'loaded'">
             <new-session-button
               v-if="isLoggedIn"
@@ -150,6 +150,7 @@ button {
 
 .action-button {
   margin-top: 32px;
+  height: 108px;
 }
 
 .links {
@@ -176,9 +177,5 @@ button {
   font-size: 0.8rem;
   text-transform: uppercase;
   margin-bottom: 8px;
-}
-
-.placeholder {
-  height: 44px;
 }
 </style>
