@@ -47,8 +47,8 @@
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 import { mapState, mapActions, mapGetters } from 'vuex'
 import InviteLinkBox from '@/components/molecules/InviteLinkBox.vue'
-import { Session } from '@/api/v3/types'
-import { PlaybackStates } from '@/api/v3/session'
+import { Session } from '@/lib/api/v3/types'
+import { PlaybackStates } from '@/lib/api/v3/session'
 
 @Component({
   components: { InviteLinkBox },

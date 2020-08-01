@@ -33,7 +33,7 @@
 <script lang="ts">
 import { Component, Emit, Vue } from 'vue-property-decorator'
 import { mapActions, mapState, mapGetters } from 'vuex'
-import { Session } from '@/api/v3/types'
+import { Session } from '@/lib/api/v3/types'
 import { MessageType, SnackbarPayload } from '@/store/snackbar'
 import ActiveDeviceNotFoundDialog from '@/components/organisms/ActiveDeviceNotFoundDialog.vue'
 

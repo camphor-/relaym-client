@@ -22,7 +22,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
 import Seekbar from '@/components/atoms/Seekbar.vue'
-import { Playback, Track } from '@/api/v3/types'
+import { Playback, Track } from '@/lib/api/v3/types'
 
 @Component({
   name: 'PlayingTrack',

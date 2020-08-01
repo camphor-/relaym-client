@@ -26,7 +26,7 @@
 import { Component, Prop, Vue, Watch } from 'vue-property-decorator'
 import TrackListItem from './TrackListItem.vue'
 import PlayingTrack from './PlayingTrack.vue'
-import { Queue, Track, Playback } from '@/api/v3/types'
+import { Queue, Track, Playback } from '@/lib/api/v3/types'
 
 @Component({
   components: { TrackListItem, PlayingTrack }

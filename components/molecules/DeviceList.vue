@@ -19,7 +19,7 @@
 
 <script lang="ts">
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
-import { Device } from '@/api/v3/types'
+import { Device } from '@/lib/api/v3/types'
 
 @Component({
   components: {}

@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from 'vue-property-decorator'
-import { Track } from '@/api/v3/types'
+import { Track } from '@/lib/api/v3/types'
 
 @Component({
   name: 'TrackListItem',
