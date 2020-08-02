@@ -4,6 +4,21 @@ RelaymのWebフロントエンドを管理するリポジトリです。
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/48cac00b-bc6f-4706-ac06-20b5a6564a56/deploy-status)](https://app.netlify.com/sites/relaym/deploys)
 
+## 開発にあたって
+
+### サービス内容について知る
+
+- [Relaym PRD (プロダクト要求仕様書)](https://github.com/camphor-/relaym-server/blob/master/docs/prd.md)
+- [各種単語の定義](https://github.com/camphor-/relaym-server/blob/master/docs/definition.md)
+
+### サーバーサイドが提供するAPI仕様について知る
+
+- [API仕様書](https://github.com/camphor-/relaym-server/blob/master/docs/api.md)
+
+### フロントエンドの開発ポリシーを知る
+
+- [アプリケーションアーキテクチャ](docs/architecture.md)
+
 ## 開発
 
 ### 必要な環境
