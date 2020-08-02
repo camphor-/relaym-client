@@ -15,13 +15,18 @@ RelaymのWebフロントエンドを管理するリポジトリです。
 
 ### ローカル開発環境のセットアップ
 
-1. 依存関係をインストールする
+1. APIサーバーの立ち上げ
+
+フロントエンドでの各種動作を確認するには、APIサーバーの起動が必要です。  
+[APIサーバーのローカルでの環境構築手順](https://github.com/camphor-/relaym-server/blob/master/docs/development.md)をもとに、APIサーバーも起動しておきましょう。
+
+2. 依存関係をインストールする
 
 ``` bash
 $ yarn install
 ```
 
-2. `/etc/hosts` ファイルを編集する
+3. `/etc/hosts` ファイルを編集する
 
 `localhost` ではクッキーを使えないので、別名を割り当てる必要があります。
 
@@ -31,7 +36,7 @@ $ sudo vim /etc/hosts
 ::1 relaym.local # これを追加
  ```
 
-3. 開発サーバーを立ち上げる
+4. 開発サーバーを立ち上げる
 
 ```
 $ yarn run dev
