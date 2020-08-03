@@ -4,7 +4,11 @@
       <v-flex>
         <toppage-logo class="logo" />
 
-        <img class="text-logo" src="~assets/images/text_logo.svg" />
+        <img
+          class="text-logo"
+          src="~assets/images/text_logo.svg"
+          alt="Relaym"
+        />
 
         <div class="action-button">
           <!--  TODO: セッション参加者は、URLをもらう説明を書く    -->
@@ -30,7 +34,7 @@
     <img class="wave" src="../assets/images/wave.svg" alt="wave" />
     <div class="scroll-guide">
       <span class="scroll-text">Scroll</span>
-      <img src="../assets/images/scroll_arrow.svg" />
+      <img src="../assets/images/scroll_arrow.svg" alt="" />
     </div>
     <service-description :is-show-login-button="!isLoggedIn" />
 
