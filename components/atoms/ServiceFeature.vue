@@ -1,7 +1,7 @@
 <template>
   <div class="service-feature">
     <div class="feature-icon">
-      <img :src="iconSrc" />
+      <img :src="iconSrc" alt="" />
     </div>
     <h3 class="feature-header"><slot name="header" /></h3>
     <div class="feature-body"><slot name="body" /></div>

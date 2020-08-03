@@ -70,21 +70,30 @@
           <howto-step-header class="step-header" num="1"
             >セッションに招待する</howto-step-header
           >
-          <img src="~/assets/images/step1.png" />
+          <img
+            src="~/assets/images/step1.png"
+            alt="サイドメニューを開くと、セッションのQRコードやURLを共有することができます。"
+          />
         </div>
 
         <div>
           <howto-step-header class="step-header" num="2"
             >曲をキューに追加する</howto-step-header
           >
-          <img src="~/assets/images/step2.png" />
+          <img
+            src="~/assets/images/step2.png"
+            alt="セッションページ下部の＋ボタンを押すと、検索画面に移ります。曲名やアーティスト名などを入力して、追加したい曲の横にある＋ボタンをタップしましょう。"
+          />
         </div>
 
         <div>
           <howto-step-header class="step-header" num="3"
             >セッションを再生する</howto-step-header
           >
-          <img src="~/assets/images/step3.png" />
+          <img
+            src="~/assets/images/step3.png"
+            alt="セッションページ下部の再生ボタンを押すと、再生が始まります。"
+          />
         </div>
       </div>
     </section>

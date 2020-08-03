@@ -19,7 +19,7 @@
           </v-list-tile-sub-title>
         </v-list-tile-content>
         <v-list-tile-action>
-          <v-btn icon large @click="clickItem(item)">
+          <v-btn icon large aria-label="曲を追加" @click="clickItem(item)">
             <v-icon color="primary" size="28">add_circle</v-icon>
           </v-btn>
         </v-list-tile-action>
