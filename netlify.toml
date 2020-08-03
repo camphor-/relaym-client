@@ -12,11 +12,6 @@
   environment = { BASE_URL = "https://relaym-server-dev.camph.net", BASE_WEBSOCKET_URL = "wss://relaym-server-dev.camph.net" }
 
 [[headers]]
-  for = "*"
+  for = "/_nuxt/*"
   [headers.values]
     Cache-Control = "public, max-age=86400"
-
-[[headers]]
-  for = "/"
-  [headers.values]
-    Cache-Control = "public, max=age=0"
