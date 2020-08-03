@@ -6,11 +6,17 @@
           icon
           large
           :disabled="!hasPermissionToControlPlayback"
+          aria-label="デバイスを指定"
           @click="openDeviceSelectDialog"
         >
           <v-icon>devices</v-icon>
         </v-btn>
-        <v-btn icon :disabled="!canControlState" @click="togglePlayback">
+        <v-btn
+          icon
+          :disabled="!canControlState"
+          :aria-label="paused ? '再生' : '一時停止'"
+          @click="togglePlayback"
+        >
           <v-icon v-if="paused" color="accent" x-large class="play-icon">
             play_arrow
           </v-icon>
@@ -22,6 +28,7 @@
           nuxt
           :to="searchPageUrl"
           :disabled="isSessionArchived"
+          aria-label="曲を追加"
         >
           <v-icon>playlist_add</v-icon>
         </v-btn>
