@@ -1,5 +1,5 @@
 <template>
-  <img class="qrcode" :src="qrSvg" />
+  <img class="qrcode" alt="QRコード" :src="qrSvg" />
 </template>
 
 <script lang="ts">

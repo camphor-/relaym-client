@@ -1,7 +1,7 @@
 <template>
   <v-list-tile class="list-item">
     <v-list-tile-avatar tile>
-      <img :src="track.album.images[1].url" />
+      <img :src="track.album.images[1].url" alt="カバー画像" />
     </v-list-tile-avatar>
     <v-list-tile-content>
       <v-list-tile-title>{{ track.name }}</v-list-tile-title>
