@@ -2,7 +2,7 @@
   <div class="service-description-header">
     <h2><slot /></h2>
     <span class="dots" />
-    <img class="note-icon" src="../../assets/images/note_icon.svg" />
+    <img class="note-icon" src="../../assets/images/note_icon.svg" alt="" />
   </div>
 </template>
 

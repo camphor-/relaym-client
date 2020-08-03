@@ -1,6 +1,6 @@
 <template>
   <div class="session-toolbar">
-    <v-btn icon @click="openSliderMenu">
+    <v-btn icon aria-label="サイドメニュー" @click="openSliderMenu">
       <v-icon color="white">menu</v-icon>
     </v-btn>
     <span class="session-name">{{ sessionName }}</span>

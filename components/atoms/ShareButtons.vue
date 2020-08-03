@@ -7,6 +7,7 @@
       icon
       color="#1da1f2"
       :href="twitterUrl"
+      aria-label="Twitterでシェア"
     >
       <v-icon>fab fa-twitter</v-icon>
     </v-btn>
@@ -17,10 +18,19 @@
       icon
       color="#1877f2"
       :href="facebookUrl"
+      aria-label="Facebookでシェア"
     >
       <v-icon>fab fa-facebook-f</v-icon>
     </v-btn>
-    <v-btn class="fa-icon-button" fab dark icon color="#00B900" :href="lineUrl">
+    <v-btn
+      class="fa-icon-button"
+      fab
+      dark
+      icon
+      color="#00B900"
+      :href="lineUrl"
+      aria-label="LINEでシェア"
+    >
       <v-icon>fab fa-line</v-icon>
     </v-btn>
   </div>

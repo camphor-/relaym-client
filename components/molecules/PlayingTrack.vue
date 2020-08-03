@@ -1,7 +1,7 @@
 <template>
   <div class="playing">
     <div class="track-container">
-      <img :src="playingTrack.album.images[1].url" />
+      <img :src="playingTrack.album.images[1].url" alt="カバー画像" />
       <div class="track-info">
         <v-list-tile-title>{{ playingTrack.name }}</v-list-tile-title>
         <v-list-tile-sub-title

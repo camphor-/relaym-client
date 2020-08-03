@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-navigation-drawer :value="value" fixed temporary @input="input">
-      <img class="text-logo" src="~assets/images/text_logo.svg" />
+      <img class="text-logo" src="~assets/images/text_logo.svg" alt="Relaym" />
       <v-list>
         <v-list-tile to="/" nuxt>
           <v-list-tile-avatar>

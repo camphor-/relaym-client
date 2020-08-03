@@ -8,14 +8,27 @@
         flat
         icon
         color="#1da1f2"
+        aria-label="Twitterで招待"
         @click="handleClickTwitterShare"
       >
         <v-icon>fab fa-twitter</v-icon>
       </v-btn>
-      <v-btn flat icon color="#00B900" @click="handleClickLineShare">
+      <v-btn
+        flat
+        icon
+        color="#00B900"
+        aria-label="LINEで招待"
+        @click="handleClickLineShare"
+      >
         <v-icon>fab fa-line</v-icon>
       </v-btn>
-      <v-btn v-if="canShare" flat icon @click="handleClickWebShare">
+      <v-btn
+        v-if="canShare"
+        flat
+        icon
+        aria-label="URLを共有"
+        @click="handleClickWebShare"
+      >
         <v-icon>fas fa-share-alt</v-icon>
       </v-btn>
       <v-btn depressed @click="handleClickCopy">コピー</v-btn>
