@@ -113,7 +113,7 @@
           href="https://github.com/camphor-/relaym-client"
           round
         >
-          <v-icon left dark>fab fa-github</v-icon>
+          <v-font-awesome :icon="['fab', 'github']" left />
           relaym-client
         </v-btn>
         <v-btn
@@ -122,7 +122,7 @@
           href="https://github.com/camphor-/relaym-server"
           round
         >
-          <v-icon left dark>fab fa-github</v-icon>
+          <v-font-awesome :icon="['fab', 'github']" left />
           relaym-server
         </v-btn>
       </div>
@@ -137,10 +137,12 @@ import ServiceFeature from '@/components/atoms/ServiceFeature.vue'
 import HowtoStepHeader from '@/components/atoms/HowtoStepHeader.vue'
 import LoginButton from '@/components/atoms/LoginButton.vue'
 import ShareButtons from '@/components/atoms/ShareButtons.vue'
+import VFontAwesome from '~/components/atoms/VFontAwesome.vue'
 
 @Component({
   name: 'ServiceDescription',
   components: {
+    VFontAwesome,
     ShareButtons,
     HowtoStepHeader,
     ServiceFeature,

@@ -11,7 +11,7 @@
         aria-label="Twitterで招待"
         @click="handleClickTwitterShare"
       >
-        <v-icon>fab fa-twitter</v-icon>
+        <v-font-awesome :icon="['fab', 'twitter']" />
       </v-btn>
       <v-btn
         flat
@@ -20,7 +20,7 @@
         aria-label="LINEで招待"
         @click="handleClickLineShare"
       >
-        <v-icon>fab fa-line</v-icon>
+        <v-font-awesome :icon="['fab', 'line']" />
       </v-btn>
       <v-btn
         v-if="canShare"
@@ -29,7 +29,7 @@
         aria-label="URLを共有"
         @click="handleClickWebShare"
       >
-        <v-icon>fas fa-share-alt</v-icon>
+        <v-icon>share</v-icon>
       </v-btn>
       <v-btn depressed @click="handleClickCopy">コピー</v-btn>
     </v-layout>
@@ -49,12 +49,13 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
 import { mapActions } from 'vuex'
 import copy from 'copy-to-clipboard'
 import QrCode from '@/components/atoms/QrCode.vue'
+import VFontAwesome from '@/components/atoms/VFontAwesome.vue'
 import { MessageType, SnackbarPayload } from '@/store/snackbar'
 import { getLineUrl, getTwitterUrl } from '@/lib/share'
 
 @Component({
   name: 'InviteLinkBox',
-  components: { QrCode },
+  components: { QrCode, VFontAwesome },
   methods: {
     ...mapActions('snackbar', ['showSnackbar'])
   }
