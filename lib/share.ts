@@ -1,7 +1,11 @@
-export function getTwitterUrl(title: string, url: string): string {
+export function getTwitterUrl(
+  text: string,
+  url: string,
+  hashtags?: string[]
+): string {
   return `https://twitter.com/share?url=${encodeURI(url)}&text=${encodeURI(
-    title
-  )}`
+    text
+  )}&hashtags=${hashtags?.join(',') ?? ''}`
 }
 
 export function getFacebookUrl(url: string): string {

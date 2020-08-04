@@ -49,7 +49,8 @@ export default class extends Vue {
   get twitterUrl() {
     return getTwitterUrl(
       'Relaym - Spotifyの楽曲を1つのスピーカーで楽しめるWebアプリ',
-      this.shareUrl
+      this.shareUrl,
+      ['Relaym']
     )
   }
 
