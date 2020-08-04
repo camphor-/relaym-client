@@ -13,6 +13,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator'
   name: 'VFontAwesome'
 })
 export default class extends Vue {
+  // クラス付与時に !== false としているのは、<v-font-awesome left ... />と書くと、left=""となるため
   @Prop({ default: false }) readonly left!: boolean
   @Prop({ default: false }) readonly right!: boolean
   @Prop({ required: true }) readonly icon!: string | string[]
