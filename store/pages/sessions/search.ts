@@ -4,7 +4,7 @@ import { Track } from '@/lib/api/v3/types'
 import { MessageType } from '@/store/snackbar'
 import { RootState } from '~/store/-type'
 
-export type EnqueuedTracks = { [trackUri in string]: boolean }
+export type EnqueuedTracks = { [trackUri: string]: boolean }
 interface State {
   sessionId: string | null
   result: Track[]
@@ -13,7 +13,7 @@ interface State {
 export const state = (): State => ({
   sessionId: null,
   result: [],
-  enqueuedTracks: { 1: true }
+  enqueuedTracks: {}
 })
 
 export const mutations: MutationTree<State> = {
