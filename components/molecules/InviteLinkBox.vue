@@ -79,7 +79,9 @@ export default class extends Vue {
   }
 
   handleClickTwitterShare() {
-    const twitterShareUrl = getTwitterUrl(this.inviteText, this.inviteUrl)
+    const twitterShareUrl = getTwitterUrl(this.inviteText, this.inviteUrl, [
+      'Relaym'
+    ])
     window.open(twitterShareUrl)
   }
 
