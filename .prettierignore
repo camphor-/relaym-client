@@ -1,0 +1,4 @@
+# Compiled Outputs
+.nuxt/
+dist/
+static/sw.js
