@@ -16,7 +16,11 @@
         ></v-text-field>
       </v-flex>
     </v-layout>
-    <search-result-list :items="result" @click-item="selectTrack" />
+    <search-result-list
+      :items="result"
+      :enqueued-tracks="enqueuedTracks"
+      @click-item="selectTrack"
+    />
   </v-container>
 </template>
 
@@ -33,14 +37,15 @@ const SEARCH_INTERVAL = 1000
 @Component({
   components: { SearchResultList, Snackbar },
   computed: {
-    ...mapState('pages/sessions/search', ['result']),
+    ...mapState('pages/sessions/search', ['result', 'enqueuedTracks']),
     ...mapGetters('pages/sessions/detail', ['sessionName'])
   },
   methods: {
     ...mapActions('pages/sessions/search', [
       'setSessionId',
       'fetchSearchResult',
-      'enqueueTrack'
+      'enqueueTrack',
+      'clearEnqueuedTracks'
     ]),
     ...mapActions('snackbar', ['showSnackbar'])
   }
@@ -49,6 +54,7 @@ export default class Search extends Vue {
   private setSessionId!: (payload: string) => void
   private fetchSearchResult!: (payload: string) => void
   private enqueueTrack!: (payload: string) => void
+  private clearEnqueuedTracks!: () => void
   private q: string = ''
   private lastSearchTime = Date.now()
   private showSnackbar!: (payload: SnackbarPayload) => void
@@ -100,6 +106,7 @@ export default class Search extends Vue {
     if (typeof this.searchTimeoutId === 'number') {
       clearTimeout(this.searchTimeoutId)
     }
+    this.clearEnqueuedTracks()
   }
 
   head() {

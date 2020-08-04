@@ -19,7 +19,13 @@
           </v-list-tile-sub-title>
         </v-list-tile-content>
         <v-list-tile-action>
-          <v-btn icon large aria-label="曲を追加" @click="clickItem(item)">
+          <v-btn
+            icon
+            large
+            aria-label="曲を追加"
+            :disabled="item.uri in enqueuedTracks"
+            @click="clickItem(item)"
+          >
             <v-icon color="primary" size="28">add_circle</v-icon>
           </v-btn>
         </v-list-tile-action>
@@ -33,12 +39,14 @@
 import { Component, Emit, Prop, Vue } from 'vue-property-decorator'
 import { Artist, Track } from '@/lib/api/v3/types'
 import { getArtistNames } from '@/lib/artist'
+import { EnqueuedTracks } from '@/store/pages/sessions/search'
 
 @Component({
   components: {}
 })
 export default class extends Vue {
   @Prop({ default: null }) readonly items!: Track[] | null
+  @Prop({ default: {} }) readonly enqueuedTracks!: EnqueuedTracks
 
   @Emit()
   clickItem(track: Track) {

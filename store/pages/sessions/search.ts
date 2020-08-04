@@ -4,13 +4,16 @@ import { Track } from '@/lib/api/v3/types'
 import { MessageType } from '@/store/snackbar'
 import { RootState } from '~/store/-type'
 
+export type EnqueuedTracks = { [trackUri in string]: boolean }
 interface State {
   sessionId: string | null
   result: Track[]
+  enqueuedTracks: EnqueuedTracks
 }
 export const state = (): State => ({
   sessionId: null,
-  result: []
+  result: [],
+  enqueuedTracks: { 1: true }
 })
 
 export const mutations: MutationTree<State> = {
@@ -19,6 +22,14 @@ export const mutations: MutationTree<State> = {
   },
   setResult(state, items: Track[]) {
     state.result = items
+  },
+  setEnqueuedTracks(state, newEnqueuedTracks: EnqueuedTracks) {
+    state.enqueuedTracks = newEnqueuedTracks
+  },
+  addEnqueuedTrack(state, trackUri: string) {
+    const newObj = { ...state.enqueuedTracks }
+    newObj[trackUri] = true
+    state.enqueuedTracks = newObj
   }
 }
 
@@ -46,10 +57,11 @@ export const actions: ActionTree<State, RootState> = {
       dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
   },
-  async enqueueTrack({ state, dispatch }, uri: string) {
+  async enqueueTrack({ state, commit, dispatch }, uri: string) {
     if (!state.sessionId) return
     try {
       await enqueue(state.sessionId, { uri })
+      commit('addEnqueuedTrack', uri)
     } catch (e) {
       switch (e.response?.status) {
         case 400:
@@ -76,5 +88,8 @@ export const actions: ActionTree<State, RootState> = {
       console.error(e)
       dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
+  },
+  clearEnqueuedTracks({ commit }) {
+    commit('setEnqueuedTracks', {})
   }
 }
