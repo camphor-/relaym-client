@@ -1,7 +1,6 @@
 <template>
   <div class="share-buttons">
     <v-btn
-      class="fa-icon-button"
       fab
       dark
       icon
@@ -9,10 +8,9 @@
       :href="twitterUrl"
       aria-label="Twitterでシェア"
     >
-      <v-icon>fab fa-twitter</v-icon>
+      <v-font-awesome :icon="['fab', 'twitter']" />
     </v-btn>
     <v-btn
-      class="fa-icon-button"
       fab
       dark
       icon
@@ -20,10 +18,9 @@
       :href="facebookUrl"
       aria-label="Facebookでシェア"
     >
-      <v-icon>fab fa-facebook-f</v-icon>
+      <v-font-awesome :icon="['fab', 'facebook']" />
     </v-btn>
     <v-btn
-      class="fa-icon-button"
       fab
       dark
       icon
@@ -31,7 +28,7 @@
       :href="lineUrl"
       aria-label="LINEでシェア"
     >
-      <v-icon>fab fa-line</v-icon>
+      <v-font-awesome :icon="['fab', 'line']" />
     </v-btn>
   </div>
 </template>
@@ -39,9 +36,11 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import { getTwitterUrl, getFacebookUrl, getLineUrl } from '@/lib/share'
+import VFontAwesome from '~/components/atoms/VFontAwesome.vue'
 
 @Component({
-  name: 'ShareButtons'
+  name: 'ShareButtons',
+  components: { VFontAwesome }
 })
 export default class extends Vue {
   private shareUrl: string = location.origin
@@ -69,8 +68,5 @@ export default class extends Vue {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.fa-icon-button i {
-  display: flex;
 }
 </style>
