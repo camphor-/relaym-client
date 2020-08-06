@@ -11,6 +11,17 @@
             <v-list-tile-title>Home</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+        <v-list-tile
+          v-if="hasPermissionToControlPlayback"
+          @click="openDeviceSelectDialog"
+        >
+          <v-list-tile-avatar>
+            <v-icon>devices</v-icon>
+          </v-list-tile-avatar>
+          <v-list-tile-content>
+            <v-list-tile-title>Select Devices</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
 
         <template v-if="isMyOwnSession">
           <v-list-tile v-if="isSessionArchived" @click="unarchiveSession">
@@ -56,7 +67,8 @@ import { PlaybackStates } from '@/lib/api/v3/session'
     ...mapGetters('pages/sessions/detail', [
       'sessionName',
       'isMyOwnSession',
-      'isSessionArchived'
+      'isSessionArchived',
+      'hasPermissionToControlPlayback'
     ])
   },
   methods: {
@@ -90,6 +102,9 @@ export default class extends Vue {
   unarchiveSession() {
     this.controlState({ state: 'STOP' })
   }
+
+  @Emit()
+  openDeviceSelectDialog() {}
 }
 </script>
 

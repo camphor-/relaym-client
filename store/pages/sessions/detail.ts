@@ -5,7 +5,8 @@ import {
   controlState,
   getSession,
   setDevice,
-  PlaybackStates
+  PlaybackStates,
+  skipTrack
 } from '@/lib/api/v3/session'
 
 import { createWebSocket } from '@/lib/api/v3/websocket'
@@ -277,6 +278,42 @@ export const actions: ActionTree<State, RootState> = {
       await dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     } finally {
       commit('setIsChangingState', false)
+    }
+  },
+  skipTrack: async ({ state, dispatch }) => {
+    if (!state.sessionId) return
+    try {
+      await skipTrack(state.sessionId)
+    } catch (e) {
+      switch (e.response?.status) {
+        case 400:
+          if (e.response.data.message !== 'next queue track not found') {
+            break
+          }
+          await dispatch(
+            'snackbar/showSnackbar',
+            {
+              messageType: MessageType.info,
+              message: '次の曲がありません。曲を追加してください。'
+            },
+            { root: true }
+          )
+          return
+        case 403:
+          throw e
+        case 404:
+          await dispatch(
+            'snackbar/showSnackbar',
+            {
+              messageType: MessageType.info,
+              message: 'このセッションは存在しません。'
+            },
+            { root: true }
+          )
+          return
+      }
+      console.error(e)
+      await dispatch('snackbar/showServerErrorSnackbar', null, { root: true })
     }
   },
   setProgressTimer: async ({ state, commit, dispatch }) => {
