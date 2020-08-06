@@ -12,8 +12,7 @@
     "build": "nuxt-ts build",
     "start": "nuxt-ts start",
     "generate": "nuxt-ts generate",
-    "lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore .",
-    "precommit": "npm run lint"
+    "lint": "eslint --ext .js,.ts,.vue --ignore-path .gitignore ."
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.30",
@@ -43,6 +42,8 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-loader": "^4.0.2",
     "eslint-plugin-prettier": "3.1.4",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
     "node-sass": "^4.14.1",
     "nodemon": "^2.0.4",
     "prettier": "2.0.5",
