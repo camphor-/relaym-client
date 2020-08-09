@@ -33,7 +33,7 @@
     "vuetify": "^1.5.16"
   },
   "devDependencies": {
-    "@nuxt/types": "^2.14.0",
+    "@nuxt/types": "^2.14.1",
     "@nuxt/typescript-build": "^2.0.2",
     "@nuxtjs/eslint-config-typescript": "^2.0.0",
     "@types/qrcode-svg": "^1.1.0",
