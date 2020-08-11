@@ -1,6 +1,9 @@
 <template>
   <div class="hide-overflow">
-    <slide-menu v-model="isShowSlideMenu" />
+    <slide-menu
+      v-model="isShowSlideMenu"
+      @open-device-select-dialog="openDeviceSelectDialog"
+    />
     <div class="page-root hide-overflow">
       <session-toolbar
         :session-name="sessionName"
@@ -16,7 +19,6 @@
       </div>
 
       <bottom-controller
-        @open-device-select-dialog="openDeviceSelectDialog"
         @open-active-device-not-found-dialog="openActiveDeviceNotFoundDialog"
       />
 

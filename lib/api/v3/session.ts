@@ -77,3 +77,7 @@ export const getDevices = async (sessionId: string) => {
 export interface GetDevicesResponse {
   devices: Device[]
 }
+
+export const skipTrack = async (id: string) => {
+  await instance.put(`/sessions/${id}/next`)
+}

@@ -5,11 +5,12 @@
         <v-btn
           icon
           large
-          :disabled="!hasPermissionToControlPlayback"
-          aria-label="デバイスを指定"
-          @click="openDeviceSelectDialog"
+          nuxt
+          :to="searchPageUrl"
+          :disabled="isSessionArchived"
+          aria-label="曲を追加"
         >
-          <v-icon>devices</v-icon>
+          <v-icon>playlist_add</v-icon>
         </v-btn>
         <v-btn
           icon
@@ -25,12 +26,11 @@
         <v-btn
           icon
           large
-          nuxt
-          :to="searchPageUrl"
-          :disabled="isSessionArchived"
-          aria-label="曲を追加"
+          :disabled="!hasPermissionToControlPlayback"
+          aria-label="スキップ"
+          @click="handleClickSkipTrack"
         >
-          <v-icon>playlist_add</v-icon>
+          <v-icon>skip_next</v-icon>
         </v-btn>
       </v-layout>
     </div>
@@ -38,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import { Component, Emit, Vue } from 'vue-property-decorator'
+import { Component, Vue } from 'vue-property-decorator'
 import { mapActions, mapState, mapGetters } from 'vuex'
 import { Session } from '@/lib/api/v3/types'
 import { MessageType, SnackbarPayload } from '@/store/snackbar'
@@ -47,7 +47,7 @@ import ActiveDeviceNotFoundDialog from '@/components/organisms/ActiveDeviceNotFo
 @Component({
   components: { ActiveDeviceNotFoundDialog },
   methods: {
-    ...mapActions('pages/sessions/detail', ['controlState']),
+    ...mapActions('pages/sessions/detail', ['controlState', 'skipTrack']),
     ...mapActions('snackbar', ['showSnackbar'])
   },
   computed: {
@@ -61,13 +61,11 @@ import ActiveDeviceNotFoundDialog from '@/components/organisms/ActiveDeviceNotFo
 })
 export default class extends Vue {
   private readonly session!: Session | null
-  private readonly canControlPlayback!: boolean
+  private readonly canControlState!: boolean
   private controlState!: (req: { state: 'PLAY' | 'PAUSE' }) => Promise<void>
+  private skipTrack!: () => Promise<void>
   private showController = true
   private showSnackbar!: (payload: SnackbarPayload) => void
-
-  @Emit()
-  openDeviceSelectDialog() {}
 
   get playable(): boolean {
     if (!this.session) return false
@@ -102,6 +100,14 @@ export default class extends Vue {
       } else if (this.playable) {
         await this.controlState({ state: 'PLAY' })
       }
+    } catch (e) {
+      this.$emit('open-active-device-not-found-dialog')
+    }
+  }
+
+  async handleClickSkipTrack() {
+    try {
+      await this.skipTrack()
     } catch (e) {
       this.$emit('open-active-device-not-found-dialog')
     }

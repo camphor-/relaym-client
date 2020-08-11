@@ -1,8 +1,8 @@
 <template>
   <v-layout class="list-placeholder" justify-center>
     <h3 class="guidance">
+      <v-icon color="secondary">south_west</v-icon>
       曲を追加しよう！
-      <v-icon color="secondary">south_east</v-icon>
     </h3>
   </v-layout>
 </template>
