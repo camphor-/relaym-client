@@ -106,7 +106,12 @@ const nuxtConfig: NuxtConfig = {
   /*
    ** Nuxt.js modules
    */
-  modules: ['@nuxtjs/style-resources', '@nuxtjs/vuetify', '@nuxtjs/pwa'],
+  modules: [
+    '@nuxtjs/style-resources',
+    '@nuxtjs/vuetify',
+    '@nuxtjs/pwa',
+    ...(process.env.NODE_ENV === 'development' ? ['@nuxtjs/proxy'] : [])
+  ],
 
   /*
    ** Build configuration
@@ -225,9 +230,14 @@ const nuxtConfig: NuxtConfig = {
   },
 
   env: {
-    BASE_URL: process.env.BASE_URL || 'http://relaym.local:8080',
+    BASE_URL: process.env.BASE_URL || 'http://relaym.local:3000',
     BASE_WEBSOCKET_URL:
-      process.env.BASE_WEBSOCKET_URL || 'ws://relaym.local:8080'
+      process.env.BASE_WEBSOCKET_URL || 'ws://relaym.local:3000'
+  },
+
+  proxy: {
+    // Simple proxy
+    '/api': 'http://relaym.local:8080'
   }
 }
 
