@@ -4,6 +4,9 @@ const pkg = require('./package')
 const nuxtConfig: NuxtConfig = {
   mode: 'universal',
   target: 'static',
+  generate: {
+    fallback: true
+  },
 
   /*
    ** Headers of the page
