@@ -2,7 +2,8 @@ import { NuxtConfig } from '@nuxt/types'
 const pkg = require('./package')
 
 const nuxtConfig: NuxtConfig = {
-  mode: 'spa',
+  mode: 'universal',
+  target: 'static',
 
   /*
    ** Headers of the page

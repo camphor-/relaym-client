@@ -1,6 +1,6 @@
 [build]
   publish = "dist/"
-  command = "yarn run build"
+  command = "yarn run generate"
 
 [context.production]
   environment = { BASE_URL = "https://relaym-api.camph.net", BASE_WEBSOCKET_URL = "wss://relaym-api.camph.net" }
