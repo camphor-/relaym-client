@@ -44,7 +44,7 @@ import VFontAwesome from '~/components/atoms/VFontAwesome.vue'
 })
 export default class extends Vue {
   private shareUrl: string = process.server
-    ? (process.env.BASE_URL as string)
+    ? process.env.BASE_URL
     : location.origin
 
   get twitterUrl() {
