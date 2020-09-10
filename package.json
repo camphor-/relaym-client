@@ -35,7 +35,7 @@
   },
   "devDependencies": {
     "@nuxt/types": "^2.14.4",
-    "@nuxt/typescript-build": "^2.0.2",
+    "@nuxt/typescript-build": "^2.0.3",
     "@nuxtjs/eslint-config-typescript": "^2.0.0",
     "@types/qrcode-svg": "^1.1.0",
     "babel-eslint": "^10.1.0",
