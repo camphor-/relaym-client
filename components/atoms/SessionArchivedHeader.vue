@@ -1,7 +1,5 @@
 <template>
-  <div class="session-archived-header">
-    このセッションはアーカイブ済みです
-  </div>
+  <div class="session-archived-header">このセッションはアーカイブ済みです</div>
 </template>
 
 <script lang="ts">

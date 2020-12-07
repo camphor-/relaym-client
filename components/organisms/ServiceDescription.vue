@@ -30,11 +30,11 @@
         <service-feature
           :icon-src="require('~/assets/images/spotify_premium.svg')"
         >
-          <template v-slot:header
+          <template #header
             >Spotify Premiumユーザーが<br />
             1人いればOK</template
           >
-          <template v-slot:body
+          <template #body
             ><p class="feature-description">
               再生する人だけがSpotify
               Premiumに加入していれば大丈夫。その他の参加者は、登録もログインも一切不要です。
@@ -43,8 +43,8 @@
         </service-feature>
 
         <service-feature :icon-src="require('~/assets/images/add.svg')">
-          <template v-slot:header>曲の追加が自分のスマホで完結</template>
-          <template v-slot:body
+          <template #header>曲の追加が自分のスマホで完結</template>
+          <template #body
             ><p class="feature-description">
               「あの曲が聴きたいな…」と思ったとき、もう再生する人に頼む必要はありません。自分のスマホから、いつでも好きな曲を追加できます。
             </p></template
@@ -52,8 +52,8 @@
         </service-feature>
 
         <service-feature :icon-src="require('~/assets/images/share.svg')">
-          <template v-slot:header>QRコードやURLで<br />らくらくシェア</template>
-          <template v-slot:body
+          <template #header>QRコードやURLで<br />らくらくシェア</template>
+          <template #body
             ><p class="feature-description">
               Relaymはブラウザで動くので、面倒なインストールは一切不要。URLをシェアすれば、誰でもすぐ使い始めることができます。
             </p></template

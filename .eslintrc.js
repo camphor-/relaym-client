@@ -10,6 +10,8 @@ module.exports = {
   rules: {
     'no-unused-vars': 'off',
     '@typescript-eslint/no-unused-vars': 'error',
+    'no-use-before-define': 'off',
+    '@typescript-eslint/no-use-before-define': ['error'],
     'no-undef': 'off',
     'no-console': 'warn',
     // cf) http://fpg.hateblo.jp/entry/2019/04/14/155041
