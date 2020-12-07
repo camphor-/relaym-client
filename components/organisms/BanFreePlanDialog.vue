@@ -8,9 +8,7 @@
           justify-space-around
           class="headline-wrapper"
         >
-          <h2 class="dialog-headline">
-            Spotifyプレミアムが必要です
-          </h2>
+          <h2 class="dialog-headline">Spotifyプレミアムが必要です</h2>
           <img src="@/assets/images/ohno.svg" />
         </v-layout>
         <p>

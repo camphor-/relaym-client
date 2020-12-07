@@ -7,9 +7,7 @@
     @input="setIsOpen"
   >
     {{ message }}
-    <v-btn color="white" flat @click="closeSnackbar">
-      Close
-    </v-btn>
+    <v-btn color="white" flat @click="closeSnackbar">Close</v-btn>
   </v-snackbar>
 </template>
 <script lang="ts">
