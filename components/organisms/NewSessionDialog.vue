@@ -29,9 +29,7 @@
           @click="createSession()"
           >作成
         </v-btn>
-        <v-btn flat color="primary" @click="closeDialog()">
-          キャンセル
-        </v-btn>
+        <v-btn flat color="primary" @click="closeDialog()">キャンセル</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
