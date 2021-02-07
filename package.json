@@ -52,6 +52,6 @@
     "stylus-loader": "^3.0.2",
     "trim-right": "^1.0.1",
     "typesync": "^0.8.0",
-    "vuetify-loader": "^1.6.0"
+    "vuetify-loader": "^1.7.2"
   }
 }
