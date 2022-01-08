@@ -2,10 +2,10 @@ import { NuxtConfig } from '@nuxt/types'
 const pkg = require('./package')
 
 const nuxtConfig: NuxtConfig = {
-  mode: 'universal',
+  ssr: false,
   target: 'static',
   generate: {
-    fallback: true
+    fallback: '200.html'
   },
 
   /*
