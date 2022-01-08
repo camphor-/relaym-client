@@ -5,7 +5,7 @@
   "author": "CAMPHOR-",
   "private": true,
   "engines": {
-    "node": "12.x"
+    "node": "14.x"
   },
   "scripts": {
     "dev": "NUXT_HOST=0.0.0.0 nuxt-ts",
